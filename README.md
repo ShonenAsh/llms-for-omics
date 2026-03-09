@@ -1,2 +1,2 @@
 # llms-for-omics
-Repository for LLM applications for omics workflows and research.
+Repository for LLM applications in omics workflows and research.
