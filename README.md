@@ -11,5 +11,5 @@ Currently the test-suite include the following.
 
 | Library  | Tests |    Details     |
 |----------|-------|----------------|
-| Tinygrad |       | Basic matrix operations to advanced function stacking and Neural Net architecture tests |
+| Tinygrad |   63  | Basic matrix operations to advanced function stacking and Neural Net architecture tests |
 
