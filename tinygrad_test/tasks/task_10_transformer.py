@@ -4,14 +4,16 @@ TASK 10: Transformer Block & Mini Language Model
 Assemble a complete Transformer decoder and a small language model.
 
 Transformer block (pre-norm style):
-  x → LayerNorm → CausalMultiHeadAttention → + residual
-    → LayerNorm → FFN (Linear → GELU → Linear) → + residual
+  x -> LayerNorm -> CausalMultiHeadAttention -> + residual
+    -> LayerNorm -> FFN (Linear -> GELU -> Linear) -> + residual
 
 Language model:
-  token ids → Embedding + positional Embedding
-            → N × TransformerBlock
-            → LayerNorm
-            → Linear(d_model, vocab_size)
+  token ids -> Embedding + positional Embedding
+            -> N × TransformerBlock
+            -> LayerNorm
+            -> Linear(d_model, vocab_size)
+
+Type hints for each function are provided as strings, replace them with real types.
 """
 # Import only necessary packages.
 
@@ -44,7 +46,7 @@ class CausalMHA:
 
 
 class FFN:
-    """Feed-forward sub-layer: Linear(d → 4d) → GELU → Linear(4d → d)."""
+    """Feed-forward sub-layer: Linear(d -> 4d) -> GELU -> Linear(4d -> d)."""
     def __init__(self, d_model: int):
         pass
 

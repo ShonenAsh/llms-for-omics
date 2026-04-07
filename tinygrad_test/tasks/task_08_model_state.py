@@ -3,8 +3,10 @@ TASK 08: Model Serialization
 
 Use tinygrad's nn.state utilities to inspect, save, load, and selectively
 freeze model weights.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 # Provided — do not modify.

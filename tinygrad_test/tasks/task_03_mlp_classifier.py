@@ -4,11 +4,13 @@ TASK 03: Multi-Layer Perceptron (MLP) Classifier
 Build a 3-layer MLP for multi-class classification using tinygrad's nn module.
 
 Architecture:
-  Linear(in_features → hidden) → ReLU → Dropout(p)
-  → Linear(hidden → hidden) → ReLU
-  → Linear(hidden → num_classes)
+  Linear(in_features -> hidden) -> ReLU -> Dropout(p)
+  -> Linear(hidden -> hidden) -> ReLU
+  -> Linear(hidden -> num_classes)
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 class MLP:

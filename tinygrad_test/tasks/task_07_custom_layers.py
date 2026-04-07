@@ -3,8 +3,11 @@ TASK 07: Custom Layers
 
 Implement neural-network building blocks not provided by tinygrad.nn,
 using raw Tensor operations.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+
+# Import only necessary packages here.
 
 
 class LayerNorm:

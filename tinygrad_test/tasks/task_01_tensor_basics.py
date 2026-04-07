@@ -3,8 +3,11 @@ TASK 01: Tensor Basics
 
 Practice creating and manipulating tinygrad Tensors.
 Implement each function below. Do not change signatures.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
+
 
 
 def ones_times_five() -> "Tensor":

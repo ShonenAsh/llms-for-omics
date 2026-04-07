@@ -5,9 +5,11 @@ Implement the core transformer attention mechanism from scratch using only
 tinygrad Tensor operations.
 
 Reference: Attention(Q, K, V) = softmax(Q K^T / sqrt(d_k)) V
-  — "Attention is All You Need", Vaswani et al. 2017
+  - "Attention is All You Need", Vaswani et al. 2017
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 def scaled_dot_product_attention(Q: "Tensor", K: "Tensor", V: "Tensor") -> tuple["Tensor", "Tensor"]:

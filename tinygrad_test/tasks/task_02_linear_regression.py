@@ -1,9 +1,11 @@
 """
 TASK 02: Linear Regression from Scratch
 
-Implement linear regression using tinygrad's autograd — no optimizer classes.
+Implement linear regression using tinygrad's autograd, no optimizer classes.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 def init_params(in_features: int) -> tuple["Tensor", "Tensor"]:

@@ -3,11 +3,13 @@ TASK 04: Convolutional Neural Network (CNN)
 
 Build a small CNN for image classification with the following architecture:
 
-  Block 1: Conv2d(in_ch → 32, 3×3, padding=1) → BatchNorm(32) → ReLU → MaxPool(2×2)
-  Block 2: Conv2d(32 → 64, 3×3, padding=1)    → BatchNorm(64) → ReLU → MaxPool(2×2)
-  Classifier: flatten → Linear(64 * (H//4) * (W//4) → 128) → ReLU → Linear(128 → num_classes)
+  Block 1: Conv2d(in_ch -> 32, 3×3, padding=1) -> BatchNorm(32) -> ReLU -> MaxPool(2×2)
+  Block 2: Conv2d(32 -> 64, 3×3, padding=1)    -> BatchNorm(64) -> ReLU -> MaxPool(2×2)
+  Classifier: flatten -> Linear(64 * (H//4) * (W//4) -> 128) -> ReLU -> Linear(128 -> num_classes)
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 class SmallCNN:

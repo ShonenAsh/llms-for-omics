@@ -4,8 +4,10 @@ TASK 06: JIT-Compiled Training Loop
 In production tinygrad, training steps are compiled with TinyJit to eliminate
 Python overhead. Implement a JIT-wrapped training step, a cosine LR schedule,
 and a full training loop that applies it.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 # Provided — do not modify.

@@ -2,8 +2,10 @@
 TASK 09: Custom Loss Functions
 
 Implement three loss functions using tinygrad Tensor primitives.
+
+Type hints for each function are provided as strings, replace them with real types.
 """
-# Import only necessary packages.
+# Import only necessary packages here.
 
 
 def focal_loss(logits: "Tensor", targets: "Tensor", alpha: float = 0.25, gamma: float = 2.0) -> "Tensor":
