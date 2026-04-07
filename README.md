@@ -1,9 +1,9 @@
-# LLMs Evaluation Research for Omics
+# LLM Evaluation Research for Omics
 
 We are testing how LLMs perform given a variety of coding related workflows.
 Work in progress, more tests will be added in the future.
 
-# LLM Coding Benchmark
+### LLM Coding Benchmark
 
 Evaluates LLM coding ability using a mixture of popular and obscure python libraries.
 
