@@ -1,0 +1,10 @@
+FROM tinygrad-bench:base
+
+ARG EXPERIMENT=exp_2a
+ARG LEVEL=level_1
+
+COPY ${EXPERIMENT}/${LEVEL}/ /workspace/docs/
+COPY ${EXPERIMENT}/Prompt.md /workspace/Prompt.md
+
+ENV EXPERIMENT=${EXPERIMENT}
+ENV LEVEL=${LEVEL}

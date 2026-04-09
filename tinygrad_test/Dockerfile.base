@@ -1,0 +1,25 @@
+FROM python:3.13-slim
+
+WORKDIR /workspace
+
+# Install dependencies
+RUN pip install --no-cache-dir \
+    "tinygrad>=0.12.0" \
+    "numpy>=2.4.4" \
+    "pytest>=9.0.2" \
+    "litellm>=1.40.0" \
+    "instructor>=1.7.0"
+
+# Copy task stubs, test suite, and generation script
+COPY tasks/ tasks/
+COPY tests/ tests/
+COPY generate.py .
+COPY run.sh .
+RUN chmod +x run.sh
+
+# submissions/ is where LLM-generated task files are mounted at run time.
+# tasks/ is on PYTHONPATH as a fallback.
+ENV PYTHONPATH=/workspace/submissions:/workspace/tasks
+ENV MODEL=claude-opus-4-6
+
+ENTRYPOINT ["./run.sh"]
