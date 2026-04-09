@@ -6,11 +6,14 @@ Submissions are scored automatically against the test suite in `tests/`.
 
 ## Experiments
 
-### Experiment 1 — Baseline (no docs)
+### Experiment 1: Baseline (no docs)
 LLMs generate code from memory alone. No documentation is provided.
 
-### Experiment 2a — Documentation Ablation (additive)
+### Experiment 2a: Documentation Ablation (additive)
 Tests how progressively richer documentation affects LLM performance.
+Currently, I am only testing single-shot code generation (No agents), but in the future
+there are plans of implementing a thin yet practical agentic system for improved control by LLMs.
+
 Each level adds to the previous:
 
 | Level | Contents |
