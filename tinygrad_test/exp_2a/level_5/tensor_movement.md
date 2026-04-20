@@ -1,0 +1,767 @@
+## Movement (low level)
+
+#### view(shape, *args) -> Self
+
+`.view` is an alias for `.reshape`.
+
+
+#### reshape(shape, *args) -> Self
+
+Returns a tensor with the same data as the original tensor but with a different shape.
+`shape` can be passed as a tuple or as separate arguments.
+
+```python
+t = Tensor.arange(6)
+print(t.reshape(2, 3).numpy())
+```
+
+```
+[[0 1 2]
+ [3 4 5]]
+```
+
+
+#### expand(shape, *args) -> Self
+
+Returns a tensor that is expanded to the shape that is specified.
+Expand can also increase the number of dimensions that a tensor has.
+
+Passing a `-1` or `None` to a dimension means that its size will not be changed.
+
+```python
+t = Tensor([1, 2, 3])
+print(t.expand(4, -1).numpy())
+```
+
+```
+[[1 2 3]
+ [1 2 3]
+ [1 2 3]
+ [1 2 3]]
+```
+
+
+#### permute(order, *args) -> Self
+
+Returns a tensor that is a permutation of the original tensor.
+The new tensor has the same data as the original tensor but with the dimensions permuted according to the order specified.
+`order` can be passed as a tuple or as separate arguments.
+
+```python
+t = Tensor.empty(2, 3, 5)
+print(t.shape)
+```
+
+```
+(2, 3, 5)
+```
+
+```python
+print(t.permute(2, 0, 1).shape)
+```
+
+```
+(5, 2, 3)
+```
+
+
+#### flip(axis, *args) -> Self
+
+Returns a tensor that reverses the order of the original tensor along given `axis`.
+`axis` can be passed as a tuple or as separate arguments.
+
+```python
+t = Tensor.arange(6).reshape(2, 3)
+print(t.numpy())
+```
+
+```
+[[0 1 2]
+ [3 4 5]]
+```
+
+```python
+print(t.flip(0).numpy())
+```
+
+```
+[[3 4 5]
+ [0 1 2]]
+```
+
+```python
+print(t.flip((0, 1)).numpy())
+```
+
+```
+[[5 4 3]
+ [2 1 0]]
+```
+
+
+#### shrink(arg: tuple[tuple['UOp | int', 'UOp | int'] | None, ...]) -> Self
+
+Returns a tensor that shrinks the each axis based on input arg.
+`arg` must have the same length as `self.ndim`.
+For each axis, it can be `None`, which means no shrink, or a tuple `(start, end)` that works the same as Python slice.
+
+```python
+t = Tensor.arange(9).reshape(3, 3)
+print(t.numpy())
+```
+
+```
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+```
+
+```python
+print(t.shrink(((None, (1, 3)))).numpy())
+```
+
+```
+[[1 2]
+ [4 5]
+ [7 8]]
+```
+
+```python
+print(t.shrink((((0, 2), (0, 2)))).numpy())
+```
+
+```
+[[0 1]
+ [3 4]]
+```
+
+
+#### pad(padding: 'Sequence[sint] | Sequence[tuple[sint, sint] | None]', mode: 'str' = 'constant', value: 'float' = 0.0) -> Tensor
+
+Returns a tensor with padding applied based on the input `padding`.
+
+`padding` supports two padding structures:
+
+1. Flat padding: `(padding_left, padding_right, padding_top, padding_bottom, ...)`
+    - This structure matches PyTorch's pad.
+    - `padding` length must be even.
+
+2. Group padding: `(..., (padding_top, padding_bottom), (padding_left, padding_right))`
+    - This structure matches pad for JAX, NumPy, TensorFlow, and others.
+    - For each axis, padding can be `None`, meaning no padding, or a tuple `(start, end)`.
+    - `padding` must have the same length as `self.ndim`.
+
+Padding values can be negative, resulting in dimension shrinks that work similarly to Python negative slices.
+Padding modes is selected with `mode` which supports `constant`, `reflect` and `replicate`.
+
+```python
+t = Tensor.arange(9).reshape(1, 1, 3, 3)
+print(t.numpy())
+```
+
+```
+[[[[0 1 2]
+   [3 4 5]
+   [6 7 8]]]]
+```
+
+```python
+print(t.pad((1, 2, 0, -1)).numpy())
+```
+
+```
+[[[[0 0 1 2 0 0]
+   [0 3 4 5 0 0]]]]
+```
+
+```python
+print(t.pad(((None, None, (0, -1), (1, 2)))).numpy())
+```
+
+```
+[[[[0 0 1 2 0 0]
+   [0 3 4 5 0 0]]]]
+```
+
+```python
+print(t.pad((1, 2, 0, -1), value=-float('inf')).numpy())
+```
+
+```
+[[[[-inf   0.   1.   2. -inf -inf]
+   [-inf   3.   4.   5. -inf -inf]]]]
+```
+
+
+## Movement (high level)
+
+#### __getitem__(indices) -> Tensor
+
+Retrieves a sub-tensor using indexing.
+
+Supported Index Types: `int | slice | Tensor | None | list | tuple | Ellipsis`
+
+Examples:
+
+```python
+t = Tensor.arange(12).reshape(3, 4)
+print(t.numpy())
+```
+
+```
+[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+```
+
+```python
+  print(t[1, 2].numpy())
+```
+
+```
+[execution error: unexpected indent (<string>, line 1)]
+```
+
+```python
+  print(t[0:2, ::2].numpy())
+```
+
+```
+[execution error: unexpected indent (<string>, line 1)]
+```
+
+```python
+  print(t[Tensor([2, 0, 1]), Tensor([1, 2, 3])].numpy())
+```
+
+```
+[execution error: unexpected indent (<string>, line 1)]
+```
+
+```python
+  print(t[:, None].shape)
+```
+
+```
+[execution error: unexpected indent (<string>, line 1)]
+```
+
+```python
+t = Tensor([1, 2, 3])
+print(t[Tensor([4, 3, 2])].numpy())
+```
+
+```
+[0 0 3]
+```
+
+
+#### gather(dim: 'int', index: 'Tensor') -> Tensor
+
+Gathers values along an axis specified by `dim`.
+
+```python
+t = Tensor([[1, 2], [3, 4]])
+print(t.numpy())
+```
+
+```
+[[1 2]
+ [3 4]]
+```
+
+```python
+print(t.gather(1, Tensor([[0, 0], [1, 0]])).numpy())
+```
+
+```
+[[1 1]
+ [4 3]]
+```
+
+
+#### cat(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+
+Concatenates self with other `Tensor` in `args` along an axis specified by `dim`.
+All tensors must have the same shape except in the concatenating dimension.
+
+```python
+t0, t1, t2 = Tensor([[1, 2]]), Tensor([[3, 4]]), Tensor([[5, 6]])
+print(t0.cat(t1, t2, dim=0).numpy())
+```
+
+```
+[[1 2]
+ [3 4]
+ [5 6]]
+```
+
+```python
+print(t0.cat(t1, t2, dim=1).numpy())
+```
+
+```
+[[1 2 3 4 5 6]]
+```
+
+
+#### stack(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+
+Concatenates self with other `Tensor` in `args` along a new dimension specified by `dim`.
+
+```python
+t0, t1, t2 = Tensor([1, 2]), Tensor([3, 4]), Tensor([5, 6])
+print(t0.stack(t1, t2, dim=0).numpy())
+```
+
+```
+[[1 2]
+ [3 4]
+ [5 6]]
+```
+
+```python
+print(t0.stack(t1, t2, dim=1).numpy())
+```
+
+```
+[[1 3 5]
+ [2 4 6]]
+```
+
+
+#### repeat(repeats, *args) -> Self
+
+Repeats tensor number of times along each dimension specified by `repeats`.
+`repeats` can be passed as a tuple or as separate arguments.
+
+```python
+t = Tensor([1, 2, 3])
+print(t.repeat(4, 2).numpy())
+```
+
+```
+[[1 2 3 1 2 3]
+ [1 2 3 1 2 3]
+ [1 2 3 1 2 3]
+ [1 2 3 1 2 3]]
+```
+
+```python
+print(t.repeat(4, 2, 1).shape)
+```
+
+```
+(4, 2, 3)
+```
+
+
+#### repeat_interleave(repeats: int, dim: int | None = None) -> Self
+
+Repeats elements of a tensor.
+
+```python
+t = Tensor([1, 2, 3])
+print(t.repeat_interleave(2).numpy())
+```
+
+```
+[1 1 2 2 3 3]
+```
+
+
+#### split(sizes: 'int | Sequence[int]', dim: 'int' = 0) -> tuple[Tensor, ...]
+
+Splits the tensor into chunks along the dimension specified by `dim`.
+If `sizes` is an integer, it splits into equally sized chunks if possible, otherwise the last chunk will be smaller.
+If `sizes` is a list, it splits into `len(sizes)` chunks with size in `dim` according to `size`.
+
+```python
+t = Tensor.arange(10).reshape(5, 2)
+print(t.numpy())
+```
+
+```
+[[0 1]
+ [2 3]
+ [4 5]
+ [6 7]
+ [8 9]]
+```
+
+```python
+split = t.split(2)
+print("\n".join([repr(x.numpy()) for x in split]))
+```
+
+```
+array([[0, 1],
+       [2, 3]], dtype=int32)
+array([[4, 5],
+       [6, 7]], dtype=int32)
+array([[8, 9]], dtype=int32)
+```
+
+```python
+split = t.split([1, 4])
+print("\n".join([repr(x.numpy()) for x in split]))
+```
+
+```
+array([[0, 1]], dtype=int32)
+array([[2, 3],
+       [4, 5],
+       [6, 7],
+       [8, 9]], dtype=int32)
+```
+
+
+#### chunk(chunks: 'int', dim: 'int' = 0) -> list[Tensor]
+
+Splits the tensor into `chunks` number of chunks along the dimension `dim`.
+If the tensor size along `dim` is not divisible by `chunks`, all returned chunks will be the same size except the last one.
+The function may return fewer than the specified number of chunks.
+
+```python
+chunked = Tensor.arange(11).chunk(6)
+print("\n".join([repr(x.numpy()) for x in chunked]))
+```
+
+```
+array([0, 1], dtype=int32)
+array([2, 3], dtype=int32)
+array([4, 5], dtype=int32)
+array([6, 7], dtype=int32)
+array([8, 9], dtype=int32)
+array([10], dtype=int32)
+```
+
+```python
+chunked = Tensor.arange(12).chunk(6)
+print("\n".join([repr(x.numpy()) for x in chunked]))
+```
+
+```
+array([0, 1], dtype=int32)
+array([2, 3], dtype=int32)
+array([4, 5], dtype=int32)
+array([6, 7], dtype=int32)
+array([8, 9], dtype=int32)
+array([10, 11], dtype=int32)
+```
+
+```python
+chunked = Tensor.arange(13).chunk(6)
+print("\n".join([repr(x.numpy()) for x in chunked]))
+```
+
+```
+array([0, 1, 2], dtype=int32)
+array([3, 4, 5], dtype=int32)
+array([6, 7, 8], dtype=int32)
+array([ 9, 10, 11], dtype=int32)
+array([12], dtype=int32)
+```
+
+
+#### unfold(dim: 'int', size: 'sint', step: 'int') -> Tensor
+
+Unfolds the tensor along dimension `dim` into overlapping windows.
+
+Each window has length `size` and begins every `step` elements of `self`.
+Returns the input tensor with dimension `dim` replaced by dims `(n_windows, size)`
+where `n_windows = (self.shape[dim] - size) // step + 1`.
+
+```python
+unfolded = Tensor.arange(8).unfold(0,2,2)
+print("\n".join([repr(x.numpy()) for x in unfolded]))
+```
+
+```
+array([0, 1], dtype=int32)
+array([2, 3], dtype=int32)
+array([4, 5], dtype=int32)
+array([6, 7], dtype=int32)
+```
+
+```python
+unfolded = Tensor.arange(27).reshape(3,3,3).unfold(-1,2,3)
+print("\n".join([repr(x.numpy()) for x in unfolded]))
+```
+
+```
+array([[[0, 1]],
+
+       [[3, 4]],
+
+       [[6, 7]]], dtype=int32)
+array([[[ 9, 10]],
+
+       [[12, 13]],
+
+       [[15, 16]]], dtype=int32)
+array([[[18, 19]],
+
+       [[21, 22]],
+
+       [[24, 25]]], dtype=int32)
+```
+
+
+#### meshgrid(*args: 'Tensor', indexing: "Literal['ij', 'xy']" = 'ij') -> tuple[Tensor, ...]
+
+Generates coordinate matrices from coordinate vectors.
+Input tensors can be scalars or 1D tensors.
+
+`indexing` determines how the output grids are aligned.
+`ij` indexing follows matrix-style indexing and `xy` indexing follows Cartesian-style indexing.
+
+```python
+x, y = Tensor([1, 2, 3]), Tensor([4, 5, 6])
+grid_x, grid_y = x.meshgrid(y)
+print(grid_x.numpy())
+print(grid_y.numpy())
+```
+
+```
+[[1 1 1]
+ [2 2 2]
+ [3 3 3]]
+[[4 5 6]
+ [4 5 6]
+ [4 5 6]]
+```
+
+```python
+grid_x, grid_y = x.meshgrid(y, indexing="xy")
+print(grid_x.numpy())
+print(grid_y.numpy())
+```
+
+```
+[[1 2 3]
+ [1 2 3]
+ [1 2 3]]
+[[4 4 4]
+ [5 5 5]
+ [6 6 6]]
+```
+
+
+#### squeeze(dim: int | None = None) -> Self
+
+Returns a tensor with specified dimensions of input of size 1 removed.
+If `dim` is not specified, all dimensions with size 1 are removed.
+
+```python
+t = Tensor.zeros(2, 1, 2, 1, 2)
+print(t.squeeze().shape)
+```
+
+```
+(2, 2, 2)
+```
+
+```python
+print(t.squeeze(0).shape)
+```
+
+```
+(2, 1, 2, 1, 2)
+```
+
+```python
+print(t.squeeze(1).shape)
+```
+
+```
+(2, 2, 1, 2)
+```
+
+
+#### unsqueeze(dim: int) -> Self
+
+Returns a tensor with a new dimension of size 1 inserted at the specified `dim`.
+
+```python
+t = Tensor([1, 2, 3, 4])
+print(t.unsqueeze(0).numpy())
+```
+
+```
+[[1 2 3 4]]
+```
+
+```python
+print(t.unsqueeze(1).numpy())
+```
+
+```
+[[1]
+ [2]
+ [3]
+ [4]]
+```
+
+
+#### T -> typing.Self
+
+`.T` is an alias for `.transpose()`.
+
+
+#### transpose(dim0=1, dim1=0) -> Self
+
+Returns a tensor that is a transposed version of the original tensor.
+The given dimensions `dim0` and `dim1` are swapped.
+
+```python
+t = Tensor.arange(6).reshape(2, 3)
+print(t.numpy())
+```
+
+```
+[[0 1 2]
+ [3 4 5]]
+```
+
+```python
+print(t.transpose(0, 1).numpy())
+```
+
+```
+[[0 3]
+ [1 4]
+ [2 5]]
+```
+
+
+#### flatten(start_dim=0, end_dim=-1) -> Self
+
+Flattens the tensor by reshaping it into a one-dimensional tensor.
+If `start_dim` or `end_dim` are passed, only dimensions starting with `start_dim` and ending with `end_dim` are flattened.
+
+```python
+t = Tensor.arange(8).reshape(2, 2, 2)
+print(t.flatten().numpy())
+```
+
+```
+[0 1 2 3 4 5 6 7]
+```
+
+```python
+print(t.flatten(start_dim=1).numpy())
+```
+
+```
+[[0 1 2 3]
+ [4 5 6 7]]
+```
+
+
+#### unflatten(dim: int, sizes: tuple[int, ...]) -> Self
+
+Unflattens dimension `dim` of the tensor into multiple dimensions specified by `sizes`. `Tensor.flatten()` is the inverse of this function.
+
+```python
+print(Tensor.ones(3, 4, 1).unflatten(1, (2, 2)).shape)
+```
+
+```
+(3, 2, 2, 1)
+```
+
+```python
+print(Tensor.ones(3, 4, 1).unflatten(1, (-1, 2)).shape)
+```
+
+```
+(3, 2, 2, 1)
+```
+
+```python
+print(Tensor.ones(5, 12, 3).unflatten(-2, (2, 2, 3, 1, 1)).shape)
+```
+
+```
+(5, 2, 2, 3, 1, 1, 3)
+```
+
+
+#### diag() -> Tensor
+
+Returns a 2-D square tensor with the elements of input as the main diagonal.
+
+```python
+print(Tensor([1, 2, 3]).diag().numpy())
+```
+
+```
+[[1 0 0]
+ [0 2 0]
+ [0 0 3]]
+```
+
+
+#### diagonal() -> Tensor
+
+Returns a view of input tensor with its main diagonal elements.
+
+```python
+t = Tensor.arange(9).reshape(3, 3)
+print(t.numpy())
+```
+
+```
+[[0 1 2]
+ [3 4 5]
+ [6 7 8]]
+```
+
+```python
+print(t.diagonal().numpy())
+```
+
+```
+[0 4 8]
+```
+
+
+#### roll(shifts: 'int | tuple[int, ...]', dims: 'int | tuple[int, ...] | None' = None) -> Tensor
+
+Rolls the tensor along specified dimension(s).
+The rolling operation is circular, meaning that elements that go beyond the edge are wrapped around to the beginning of the dimension.
+
+```python
+t = Tensor.arange(4)
+print(t.roll(shifts=1, dims=0).numpy())
+```
+
+```
+[3 0 1 2]
+```
+
+```python
+print(t.roll(shifts=-1, dims=0).numpy())
+```
+
+```
+[1 2 3 0]
+```
+
+
+#### rearrange(formula: str, **sizes) -> Self
+
+Rearranges input according to formula
+
+See: https://einops.rocks/api/rearrange/
+
+```python
+x = Tensor([[1, 2], [3, 4]])
+print(Tensor.rearrange(x, "batch channel -> (batch channel)").numpy())
+```
+
+```
+[1 2 3 4]
+```
+
