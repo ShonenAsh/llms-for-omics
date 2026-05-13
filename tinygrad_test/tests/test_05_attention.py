@@ -1,13 +1,23 @@
 import numpy as np
 import pytest
 from tinygrad import Tensor
-from task_05_attention import scaled_dot_product_attention, causal_attention, MultiHeadAttention
+_import_error = None
+try:
+    from task_05_attention import scaled_dot_product_attention, causal_attention, MultiHeadAttention
+except Exception as _e:
+    _import_error = _e
+    scaled_dot_product_attention = causal_attention = MultiHeadAttention = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 rng = np.random.default_rng(7)
 
 
 def test_5a_sdpa_output_shape():
+    _check_import()
     B, T, S, d_k, d_v = 2, 5, 7, 8, 16
     Q = Tensor(rng.standard_normal((B, T, d_k)).astype(np.float32))
     K = Tensor(rng.standard_normal((B, S, d_k)).astype(np.float32))
@@ -18,6 +28,7 @@ def test_5a_sdpa_output_shape():
 
 
 def test_5a_weights_sum_to_one():
+    _check_import()
     B, T, S, dk = 2, 4, 6, 8
     Q = Tensor(rng.standard_normal((B, T, dk)).astype(np.float32))
     K = Tensor(rng.standard_normal((B, S, dk)).astype(np.float32))
@@ -27,6 +38,7 @@ def test_5a_weights_sum_to_one():
 
 
 def test_5b_causal_mask():
+    _check_import()
     B, T, d = 2, 6, 8
     Q = Tensor(rng.standard_normal((B, T, d)).astype(np.float32))
     K = Tensor(rng.standard_normal((B, T, d)).astype(np.float32))
@@ -40,6 +52,7 @@ def test_5b_causal_mask():
 
 
 def test_5b_causal_output_shape():
+    _check_import()
     B, T, d = 2, 5, 8
     Q = Tensor(rng.standard_normal((B, T, d)).astype(np.float32))
     K = Tensor(rng.standard_normal((B, T, d)).astype(np.float32))
@@ -49,6 +62,7 @@ def test_5b_causal_output_shape():
 
 
 def test_5c_mha_output_shape():
+    _check_import()
     B, T, d = 2, 5, 32
     mha = MultiHeadAttention(d, 4)
     x   = Tensor(rng.standard_normal((B, T, d)).astype(np.float32))

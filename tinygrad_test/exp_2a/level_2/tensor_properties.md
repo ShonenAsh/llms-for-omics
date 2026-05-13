@@ -1,143 +1,143 @@
 ## Basic
 
-#### shape -> tuple[sint, ...]
+#### Tensor.shape -> tuple[sint, ...]
 
 
-#### dtype -> DType
+#### Tensor.dtype -> DType
 
 
-#### device -> str | tuple[str, ...]
+#### Tensor.device -> str | tuple[str, ...]
 
 
-#### ndim -> <class 'int'>
+#### Tensor.ndim -> <class 'int'>
 
 Returns the number of dimensions in the tensor.
 
 
-#### numel() -> UOp | int
+#### Tensor.numel() -> UOp | int
 
 Returns the total number of elements in the tensor.
 
 
-#### element_size() -> int
+#### Tensor.element_size() -> int
 
 Returns the size in bytes of an individual element in the tensor.
 
 
-#### nbytes() -> int
+#### Tensor.nbytes() -> int
 
 Returns the total number of bytes of all elements in the tensor.
 
 
-#### is_floating_point() -> bool
+#### Tensor.is_floating_point() -> bool
 
 Returns `True` if the tensor contains floating point types, i.e. is one of `dtypes.float64`, `dtypes.float32`,
 `dtypes.float16`, `dtypes.bfloat16`.
 
 
-#### size(dim: 'int | None' = None) -> sint | tuple[sint, ...]
+#### Tensor.size(dim: 'int | None' = None) -> sint | tuple[sint, ...]
 
 Returns the size of the tensor. If `dim` is specified, return the length along dimension `dim`. Otherwise return the shape of the tensor.
 
 
 ## Data Access
 
-#### data() -> memoryview
+#### Tensor.data() -> memoryview
 
 Returns the data of this tensor as a memoryview.
 
 
-#### item() -> ConstType
+#### Tensor.item() -> ConstType
 
 Returns the value of this tensor as a standard Python number.
 
 
-#### tolist() -> Sequence[ConstType] | ConstType
+#### Tensor.tolist() -> Sequence[ConstType] | ConstType
 
 Returns the value of this tensor as a nested list.
 Returns single value for const tensor.
 
 
-#### numpy() -> 'numpy.ndarray'
+#### Tensor.numpy() -> 'numpy.ndarray'
 
 Returns the value of this tensor as a `numpy.ndarray`.
 
 
 ## tinygrad ops
 
-#### schedule_with_vars(*lst: 'Tensor') -> tuple[list[ExecItem], dict[str, int]]
+#### Tensor.schedule_with_vars(*lst: 'Tensor') -> tuple[list[ExecItem], dict[str, int]]
 
 Creates the schedule needed to realize these Tensor(s), with Variables.
 
 NOTE: A Tensor can only be scheduled once.
 
 
-#### schedule(*lst: 'Tensor') -> list[ExecItem]
+#### Tensor.schedule(*lst: 'Tensor') -> list[ExecItem]
 
 Creates the schedule needed to realize these Tensor(s).
 
 
-#### realize(*lst: 'Tensor', do_update_stats=True) -> Tensor
+#### Tensor.realize(*lst: 'Tensor', do_update_stats=True) -> Tensor
 
 Triggers the computation needed to create these Tensor(s).
 
 
-#### replace(x: 'Tensor', allow_shape_mismatch=False) -> Tensor
+#### Tensor.replace(x: 'Tensor', allow_shape_mismatch=False) -> Tensor
 
 Replaces the data of this tensor with the data of another tensor. Only the shape of the tensors must match.
 
 
-#### assign(x) -> Tensor
+#### Tensor.assign(x) -> Tensor
 
 
-#### detach() -> Tensor
+#### Tensor.detach() -> Tensor
 
 Returns a new tensor with the same data as this tensor, but detached from the autograd graph.
 
 
-#### clone() -> Tensor
+#### Tensor.clone() -> Tensor
 
 Creates a clone of this tensor allocating a separate buffer for the data.
 
 
-#### to(device: 'str | tuple[str, ...] | None') -> Tensor
+#### Tensor.to(device: 'str | tuple[str, ...] | None') -> Tensor
 
 Moves the tensor to the given device.
 
 
-#### to_(device: 'str | tuple[str, ...] | None') -> Tensor
+#### Tensor.to_(device: 'str | tuple[str, ...] | None') -> Tensor
 
 Moves the tensor to the given device in place.
 
 
-#### shard(devices: 'tuple[str, ...]', axis: 'int | None' = None) -> Tensor
+#### Tensor.shard(devices: 'tuple[str, ...]', axis: 'int | None' = None) -> Tensor
 
 Shards the tensor across the given devices. Optionally specify which axis to shard on.
 
 
-#### shard_(devices: 'tuple[str, ...]', axis: 'int | None' = None) -> Tensor
+#### Tensor.shard_(devices: 'tuple[str, ...]', axis: 'int | None' = None) -> Tensor
 
 Shards the tensor across the given devices in place.
 
 
-#### contiguous(*args, **kwargs) -> Tensor
+#### Tensor.contiguous(*args, **kwargs) -> Tensor
 
 Returns a contiguous tensor.
 
 
-#### contiguous_backward() -> Tensor
+#### Tensor.contiguous_backward() -> Tensor
 
 Inserts a contiguous operation in the backward pass.
 
 
 ## Gradient
 
-#### gradient(*targets: 'Tensor', gradient: 'Tensor | None' = None, materialize_grads=False) -> list[Tensor]
+#### Tensor.gradient(*targets: 'Tensor', gradient: 'Tensor | None' = None, materialize_grads=False) -> list[Tensor]
 
 Computes the gradient of the targets with respect to self.
 
 
-#### backward(gradient: 'Tensor | None' = None) -> Tensor
+#### Tensor.backward(gradient: 'Tensor | None' = None) -> Tensor
 
 Propagates the gradient of a tensor backwards through the computation graph.
 If the 'gradient' argument is not provided, the tensor must be a scalar, and the gradient is implicitly set to 1.0.

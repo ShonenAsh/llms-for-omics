@@ -2,10 +2,20 @@ import numpy as np
 import pytest
 from tinygrad import Tensor, nn
 from tinygrad.nn.optim import Adam
-from task_06_training_loop import TwoLayerNet, make_train_step, cosine_lr, training_loop
+_import_error = None
+try:
+    from task_06_training_loop import TwoLayerNet, make_train_step, cosine_lr, training_loop
+except Exception as _e:
+    _import_error = _e
+    TwoLayerNet = make_train_step = cosine_lr = training_loop = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 def test_6b_cosine_lr_endpoints():
+    _check_import()
     lr = cosine_lr(0, lr_max=1e-2, lr_min=1e-4, T_max=100)
     assert abs(lr - 1e-2) < 1e-7, f"t=0: {lr}"
     lr_end = cosine_lr(100, lr_max=1e-2, lr_min=1e-4, T_max=100)
@@ -13,17 +23,20 @@ def test_6b_cosine_lr_endpoints():
 
 
 def test_6b_cosine_lr_midpoint():
+    _check_import()
     lr_mid = cosine_lr(50, lr_max=1e-2, lr_min=1e-4, T_max=100)
     expected = (1e-2 + 1e-4) / 2
     assert abs(lr_mid - expected) < 1e-6, f"t=50: {lr_mid}"
 
 
 def test_6b_cosine_lr_monotone():
+    _check_import()
     lrs = [cosine_lr(t, 1e-2, 1e-4, 100) for t in range(101)]
     assert all(lrs[i] >= lrs[i+1] for i in range(len(lrs)-1)), "LR should be non-increasing"
 
 
 def test_6c_training_returns_correct_length():
+    _check_import()
     rng = np.random.default_rng(3)
     N, D, C = 200, 8, 4
     X = rng.standard_normal((N, D)).astype(np.float32)
@@ -35,6 +48,7 @@ def test_6c_training_returns_correct_length():
 
 
 def test_6c_training_decreases_loss():
+    _check_import()
     rng = np.random.default_rng(3)
     N, D, C = 400, 8, 4
     X = rng.standard_normal((N, D)).astype(np.float32)

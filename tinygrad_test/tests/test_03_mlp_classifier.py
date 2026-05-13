@@ -2,10 +2,20 @@ import numpy as np
 import pytest
 from tinygrad import Tensor, nn
 from tinygrad.nn.optim import Adam
-from task_03_mlp_classifier import MLP, cross_entropy, accuracy, train_step
+_import_error = None
+try:
+    from task_03_mlp_classifier import MLP, cross_entropy, accuracy, train_step
+except Exception as _e:
+    _import_error = _e
+    MLP = cross_entropy = accuracy = train_step = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 def test_3a_mlp_output_shape():
+    _check_import()
     model  = MLP(16, 64, 5)
     x      = Tensor(np.random.randn(8, 16).astype(np.float32))
     Tensor.training = False
@@ -14,6 +24,7 @@ def test_3a_mlp_output_shape():
 
 
 def test_3b_cross_entropy_positive():
+    _check_import()
     model  = MLP(8, 32, 4)
     x      = Tensor(np.random.randn(16, 8).astype(np.float32))
     y      = Tensor(np.random.randint(0, 4, 16))
@@ -25,6 +36,7 @@ def test_3b_cross_entropy_positive():
 
 
 def test_3c_accuracy_range():
+    _check_import()
     logits = Tensor(np.random.randn(100, 5).astype(np.float32))
     y      = Tensor(np.random.randint(0, 5, 100))
     acc    = accuracy(logits, y)
@@ -33,6 +45,7 @@ def test_3c_accuracy_range():
 
 
 def test_3d_training_reduces_loss():
+    _check_import()
     rng   = np.random.default_rng(0)
     N, D, C = 500, 16, 5
     X = rng.standard_normal((N, D)).astype(np.float32)

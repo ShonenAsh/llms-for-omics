@@ -2,7 +2,16 @@ import numpy as np
 import pytest
 from tinygrad import Tensor, nn, TinyJit
 from tinygrad.nn.optim import Adam
-from task_10_transformer import CausalMHA, FFN, TransformerBlock, MiniLM
+_import_error = None
+try:
+    from task_10_transformer import CausalMHA, FFN, TransformerBlock, MiniLM
+except Exception as _e:
+    _import_error = _e
+    CausalMHA = FFN = TransformerBlock = MiniLM = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 rng = np.random.default_rng(42)
@@ -14,6 +23,7 @@ def make_model():
 
 
 def test_10a_causal_mha_shape():
+    _check_import()
     mha = CausalMHA(D, HEADS)
     x   = Tensor(rng.standard_normal((B, SEQ, D)).astype(np.float32))
     out = mha(x)
@@ -21,18 +31,21 @@ def test_10a_causal_mha_shape():
 
 
 def test_10b_ffn_shape():
+    _check_import()
     ffn = FFN(D)
     x   = Tensor(rng.standard_normal((B, SEQ, D)).astype(np.float32))
     assert ffn(x).shape == (B, SEQ, D)
 
 
 def test_10c_block_shape():
+    _check_import()
     block = TransformerBlock(D, HEADS)
     x     = Tensor(rng.standard_normal((B, SEQ, D)).astype(np.float32))
     assert block(x).shape == (B, SEQ, D)
 
 
 def test_10c_minilm_logits_shape():
+    _check_import()
     model  = make_model()
     ids    = Tensor(rng.integers(0, VOCAB, (B, SEQ)))
     Tensor.training = False
@@ -41,6 +54,7 @@ def test_10c_minilm_logits_shape():
 
 
 def test_10d_generation_length():
+    _check_import()
     model   = make_model()
     Tensor.training = False
     prompt  = Tensor(rng.integers(0, VOCAB, (1, 4)))
@@ -49,6 +63,7 @@ def test_10d_generation_length():
 
 
 def test_10e_training_decreases_loss():
+    _check_import()
     model = make_model()
     optim = Adam(nn.state.get_parameters(model), lr=3e-3)
 

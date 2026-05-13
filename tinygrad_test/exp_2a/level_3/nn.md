@@ -1,6 +1,6 @@
 ## Neural Network classes
 
-#### BatchNorm(sz: 'int', eps=1e-05, affine=True, track_running_stats=True, momentum=0.1)
+#### nn.BatchNorm(sz: 'int', eps=1e-05, affine=True, track_running_stats=True, momentum=0.1)
 
 Applies Batch Normalization over a 2D or 3D input.
 
@@ -15,7 +15,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### Conv1d(in_channels: 'int', out_channels: 'int', kernel_size: 'int', stride=1, padding: 'int | str' = 0, dilation=1, groups=1, bias=True) -> Conv2d
+#### nn.Conv1d(in_channels: 'int', out_channels: 'int', kernel_size: 'int', stride=1, padding: 'int | str' = 0, dilation=1, groups=1, bias=True) -> Conv2d
 
 Applies a 1D convolution over an input signal composed of several input planes.
 
@@ -28,7 +28,7 @@ print(t.numpy())
 ```
 
 
-#### Conv2d(in_channels: 'int', out_channels: 'int', kernel_size: 'int | tuple[int, ...]', stride=1, padding: 'int | tuple[int, ...] | str' = 0, dilation=1, groups=1, bias=True)
+#### nn.Conv2d(in_channels: 'int', out_channels: 'int', kernel_size: 'int | tuple[int, ...]', stride=1, padding: 'int | tuple[int, ...] | str' = 0, dilation=1, groups=1, bias=True)
 
 Applies a 2D convolution over an input signal composed of several input planes.
 
@@ -41,7 +41,7 @@ print(t.numpy())
 ```
 
 
-#### ConvTranspose1d(in_channels: 'int', out_channels: 'int', kernel_size: 'int', stride=1, padding=0, output_padding=0, dilation=1, groups=1, bias=True) -> ConvTranspose2d
+#### nn.ConvTranspose1d(in_channels: 'int', out_channels: 'int', kernel_size: 'int', stride=1, padding=0, output_padding=0, dilation=1, groups=1, bias=True) -> ConvTranspose2d
 
 Applies a 1D transposed convolution operator over an input signal composed of several input planes.
 
@@ -54,7 +54,7 @@ print(t.numpy())
 ```
 
 
-#### ConvTranspose2d(in_channels: 'int', out_channels: 'int', kernel_size: 'int | tuple[int, ...]', stride=1, padding=0, output_padding=0, dilation=1, groups=1, bias=True)
+#### nn.ConvTranspose2d(in_channels: 'int', out_channels: 'int', kernel_size: 'int | tuple[int, ...]', stride=1, padding=0, output_padding=0, dilation=1, groups=1, bias=True)
 
 Applies a 2D transposed convolution operator over an input image.
 
@@ -67,7 +67,7 @@ print(t.numpy())
 ```
 
 
-#### Linear(in_features: 'int', out_features: 'int', bias=True)
+#### nn.Linear(in_features: 'int', out_features: 'int', bias=True)
 
 Applies a linear transformation to the incoming data.
 
@@ -80,7 +80,7 @@ print(t.numpy())
 ```
 
 
-#### GroupNorm(num_groups: 'int', num_channels: 'int', eps=1e-05, affine=True)
+#### nn.GroupNorm(num_groups: 'int', num_channels: 'int', eps=1e-05, affine=True)
 
 Applies Group Normalization over a mini-batch of inputs.
 
@@ -93,7 +93,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### InstanceNorm(num_features: 'int', eps: 'float' = 1e-05, affine: 'bool' = True)
+#### nn.InstanceNorm(num_features: 'int', eps: 'float' = 1e-05, affine: 'bool' = True)
 
 Applies Instance Normalization over a mini-batch of inputs.
 
@@ -106,7 +106,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### LayerNorm(normalized_shape: 'int | tuple[int, ...]', eps: 'float' = 1e-05, elementwise_affine: 'bool' = True)
+#### nn.LayerNorm(normalized_shape: 'int | tuple[int, ...]', eps: 'float' = 1e-05, elementwise_affine: 'bool' = True)
 
 Applies Layer Normalization over a mini-batch of inputs.
 
@@ -119,7 +119,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### LayerNorm2d(normalized_shape: 'int | tuple[int, ...]', eps: 'float' = 1e-05, elementwise_affine: 'bool' = True)
+#### nn.LayerNorm2d(normalized_shape: 'int | tuple[int, ...]', eps: 'float' = 1e-05, elementwise_affine: 'bool' = True)
 
 Applies Layer Normalization over a mini-batch of 2D inputs.
 
@@ -132,7 +132,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### RMSNorm(dim: 'int', eps=1e-06, elementwise_affine=True)
+#### nn.RMSNorm(dim: 'int', eps=1e-06, elementwise_affine=True)
 
 Applies Root Mean Square Normalization to input.
 
@@ -145,7 +145,7 @@ print(t.numpy())
 ```
 
 
-#### Embedding(vocab_size: 'int', embed_size: 'int')
+#### nn.Embedding(vocab_size: 'int', embed_size: 'int')
 
 A simple lookup table that stores embeddings of a fixed dictionary and size.
 
@@ -157,7 +157,7 @@ print(emb(Tensor([1, 2, 3, 1])).numpy())
 ```
 
 
-#### LSTMCell(input_size: 'int', hidden_size: 'int', bias: 'bool' = True)
+#### nn.LSTMCell(input_size: 'int', hidden_size: 'int', bias: 'bool' = True)
 
 A long short-term memory (LSTM) cell.
 
@@ -169,35 +169,35 @@ Args:
 
 ## Optimizers
 
-#### SGD(params: list[tinygrad.tensor.Tensor], lr=0.001, momentum=0.0, weight_decay=0.0, nesterov=False, classic=False, fused=<ContextVar>)
+#### nn.optim.SGD(params: list[tinygrad.tensor.Tensor], lr=0.001, momentum=0.0, weight_decay=0.0, nesterov=False, classic=False, fused=<ContextVar>)
 
 Stochastic Gradient Descent (SGD) optimizer with optional momentum and weight decay.
 
 `classic` is a boolean flag that determines whether to use the popular momentum update rule or the classic momentum update rule.
 
 
-#### LARS(params: list[tinygrad.tensor.Tensor], lr=0.001, momentum=0.9, weight_decay=0.0001, ns_steps=0, ns_coefficients=None, nesterov=False, classic=True, pre_wd=True, tcoef=0.001, fused=<ContextVar>)
+#### nn.optim.LARS(params: list[tinygrad.tensor.Tensor], lr=0.001, momentum=0.9, weight_decay=0.0001, ns_steps=0, ns_coefficients=None, nesterov=False, classic=True, pre_wd=True, tcoef=0.001, fused=<ContextVar>)
 
 Layer-wise Adaptive Rate Scaling (LARS) optimizer with optional momentum and weight decay.
 
 - Paper: https://arxiv.org/abs/1708.03888v3
 
 
-#### AdamW(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-08, weight_decay=0.01, fused=<ContextVar>)
+#### nn.optim.AdamW(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-08, weight_decay=0.01, fused=<ContextVar>)
 
 AdamW optimizer with optional weight decay.
 
 - Paper: https://arxiv.org/abs/1711.05101v3
 
 
-#### Adam(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-08, fused=<ContextVar>)
+#### nn.optim.Adam(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-08, fused=<ContextVar>)
 
 Adam optimizer.
 
 - Paper: https://arxiv.org/abs/1412.6980
 
 
-#### LAMB(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-06, weight_decay=0.0, adam=False, fused=<ContextVar>)
+#### nn.optim.LAMB(params: list[tinygrad.tensor.Tensor], lr=0.001, b1=0.9, b2=0.999, eps=1e-06, weight_decay=0.0, adam=False, fused=<ContextVar>)
 
 LAMB optimizer with optional weight decay.
 
@@ -206,17 +206,17 @@ LAMB optimizer with optional weight decay.
 
 ## Load/Save
 
-#### safe_load(fn: tinygrad.tensor.Tensor | str | pathlib._local.Path) -> dict[str, tinygrad.tensor.Tensor]
+#### nn.state.safe_load(fn: tinygrad.tensor.Tensor | str | pathlib.Path) -> dict[str, tinygrad.tensor.Tensor]
 
 Loads a .safetensor file, returning the `state_dict`.
 
 
-#### safe_save(tensors: dict[str, tinygrad.tensor.Tensor], fn: str, metadata: dict[str, typing.Any] | None = None)
+#### nn.state.safe_save(tensors: dict[str, tinygrad.tensor.Tensor], fn: str, metadata: dict[str, Any] | None = None)
 
 Saves a `state_dict` to disk in a .safetensor file with optional metadata.
 
 
-#### get_state_dict(obj, prefix: str = '', tensor_type=<class 'tinygrad.tensor.Tensor'>) -> dict[str, tinygrad.tensor.Tensor]
+#### nn.state.get_state_dict(obj, prefix: str = '', tensor_type=<class 'tinygrad.tensor.Tensor'>) -> dict[str, tinygrad.tensor.Tensor]
 
 Returns a `state_dict` of the object, with optional prefix.
 
@@ -231,7 +231,7 @@ print(nn.state.get_state_dict(net).keys())
 ```
 
 
-#### get_parameters(obj) -> list[tinygrad.tensor.Tensor]
+#### nn.state.get_parameters(obj) -> list[tinygrad.tensor.Tensor]
 
 ```python
 class Net:
@@ -244,18 +244,18 @@ print(len(nn.state.get_parameters(net)))
 ```
 
 
-#### load_state_dict(model, state_dict: dict[str, tinygrad.tensor.Tensor], strict=True, verbose=True, consume=False, realize=True) -> list[tinygrad.tensor.Tensor]
+#### nn.state.load_state_dict(model, state_dict: dict[str, tinygrad.tensor.Tensor], strict=True, verbose=True, consume=False, realize=True) -> list[tinygrad.tensor.Tensor]
 
 Loads a `state_dict` into a model. Return the loaded Tensors.
 
 
-#### tar_extract(t: tinygrad.tensor.Tensor) -> dict[str, tinygrad.tensor.Tensor]
+#### nn.state.tar_extract(t: tinygrad.tensor.Tensor) -> dict[str, tinygrad.tensor.Tensor]
 
 
-#### torch_load(t: tinygrad.tensor.Tensor) -> dict[str, tinygrad.tensor.Tensor]
+#### nn.state.torch_load(t: tinygrad.tensor.Tensor) -> dict[str, tinygrad.tensor.Tensor]
 
 
-#### gguf_load(tensor: tinygrad.tensor.Tensor) -> tuple[dict, dict[str, tinygrad.tensor.Tensor]]
+#### nn.state.gguf_load(tensor: tinygrad.tensor.Tensor) -> tuple[dict, dict[str, tinygrad.tensor.Tensor]]
 
 Loads a .gguf file, returning the `kv_data` and `state_dict`.
 

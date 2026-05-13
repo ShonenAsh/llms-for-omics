@@ -21,11 +21,12 @@ import pathlib
 import textwrap
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-VENV_SITE = "/home/shonenash/data/workspace/neu-ra/llms-for-omics/tinygrad_test/.venv/lib/python3.13/site-packages"
+VENV_SITE = "../.venv/lib/python3.13/site-packages"
 sys.path.insert(0, VENV_SITE)
 
-DOCS_DIR = pathlib.Path("/home/shonenash/data/workspace/neu-ra/llms-for-omics/tinygrad_test/exp_2a/docs")
-OUT_BASE = pathlib.Path("/home/shonenash/data/workspace/neu-ra/llms-for-omics/tinygrad_test/exp_2a")
+DOCS_DIR = pathlib.Path("docs")
+# level wise docs are generated in the same folder
+OUT_BASE = pathlib.Path("./")
 
 # Files that have ::: directives and should be processed
 DIRECTIVE_FILES = [
@@ -163,9 +164,13 @@ def resolve_object(dotted: str):
     return None, "unknown"
 
 
+def _short_path(dotted: str) -> str:
+    """Strip 'tinygrad.' prefix to show the relative import path."""
+    return dotted[len("tinygrad."):] if dotted.startswith("tinygrad.") else dotted
+
 def get_signature_str(dotted: str, obj, kind: str) -> str:
     """Return a formatted signature string for the object."""
-    name = dotted.split(".")[-1]
+    name = _short_path(dotted)
 
     if kind == "special_dtypes":
         return None  # handled separately

@@ -2,7 +2,12 @@ FROM python:3.13-slim
 
 WORKDIR /workspace
 
-# Install dependencies
+# Install system deps (clang required by tinygrad CPU compiler)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    clang \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
 RUN pip install --no-cache-dir \
     "tinygrad>=0.12.0" \
     "numpy>=2.4.4" \
@@ -21,5 +26,6 @@ RUN chmod +x run.sh
 # tasks/ is on PYTHONPATH as a fallback.
 ENV PYTHONPATH=/workspace/submissions:/workspace/tasks
 ENV MODEL=claude-opus-4-6
+ENV DEV=CPU
 
 ENTRYPOINT ["./run.sh"]

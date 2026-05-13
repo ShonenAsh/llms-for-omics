@@ -1,10 +1,20 @@
 import numpy as np
 import pytest
 from tinygrad import Tensor
-from task_02_linear_regression import init_params, predict, mse_loss, sgd_step, train
+_import_error = None
+try:
+    from task_02_linear_regression import init_params, predict, mse_loss, sgd_step, train
+except Exception as _e:
+    _import_error = _e
+    init_params = predict = mse_loss = sgd_step = train = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 def test_2a_init_params_shapes():
+    _check_import()
     w, b = init_params(5)
     assert w.shape == (5,)
     assert b.shape == ()
@@ -13,6 +23,7 @@ def test_2a_init_params_shapes():
 
 
 def test_2b_predict_shape():
+    _check_import()
     rng = np.random.default_rng(0)
     x = Tensor(rng.random((10, 5)).astype(np.float32))
     w, b = init_params(5)
@@ -21,6 +32,7 @@ def test_2b_predict_shape():
 
 
 def test_2c_mse_loss():
+    _check_import()
     y_hat = Tensor(np.array([1.0, 2.0, 3.0]))
     y     = Tensor(np.array([1.5, 2.5, 3.5]))
     loss  = mse_loss(y_hat, y)
@@ -29,6 +41,7 @@ def test_2c_mse_loss():
 
 
 def test_2e_train_recovers_weights():
+    _check_import()
     rng = np.random.default_rng(42)
     N, D = 200, 3
     true_w = np.array([1.5, -2.0, 0.5], dtype=np.float32)

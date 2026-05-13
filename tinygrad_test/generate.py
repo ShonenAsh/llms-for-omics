@@ -3,11 +3,12 @@ import re
 from pathlib import Path
 
 import instructor
+from instructor import Mode
 import litellm
 from pydantic import BaseModel
 
 
-# ── Prompt models ──────────────────────────────────────────────────────────────
+# Prompt models                                                      
 
 class SystemPrompt(BaseModel):
     content: str
@@ -22,14 +23,14 @@ class PriorAttempts(BaseModel):
     content: str
 
 
-# ── Output model ───────────────────────────────────────────────────────────────
+# Output model                                                                
 
 class Solution(BaseModel):
     reasoning: str
     code: str  # Python only
 
 
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# Helpers                                                                     
 
 def strip_fences(code: str) -> str:
     """Strip markdown python fences if the model included them."""
@@ -55,7 +56,7 @@ def load_docs(docs_dir: Path) -> Docs:
     return Docs(content="\n\n---\n\n".join(parts))
 
 
-# ── Generation ─────────────────────────────────────────────────────────────────
+# Generation                                  
 
 def generate(
     system: SystemPrompt,
@@ -63,15 +64,16 @@ def generate(
     docs: Docs,
     model: str = "claude-opus-4-6",
     prior: PriorAttempts | None = None,
+    api_base: str | None = None,
 ) -> Solution:
-    client = instructor.from_litellm(litellm.completion)
+    client = instructor.from_litellm(litellm.completion, mode=Mode.MD_JSON)
 
     user_content = f"## Documentation\n\n{docs.content}"
     if prior:
         user_content += f"\n\n---\n\n## Your Previous Implementations\n\n{prior.content}"
     user_content += f"\n\n---\n\n## Task\n\n{task.content}"
 
-    solution: Solution = client.chat.completions.create(
+    kwargs = dict(
         model=model,
         max_tokens=8096,
         messages=[
@@ -80,6 +82,10 @@ def generate(
         ],
         response_model=Solution,
     )
+    if api_base is not None:
+        kwargs["api_base"] = api_base
+
+    solution: Solution = client.chat.completions.create(**kwargs)
     solution.code = strip_fences(solution.code)
     return solution
 
@@ -87,7 +93,7 @@ def generate(
 
 
 
-# ── Entry point ────────────────────────────────────────────────────────────────
+# Entry point                                                                 
 
 if __name__ == "__main__":
     import argparse
@@ -100,6 +106,7 @@ if __name__ == "__main__":
     parser.add_argument("--output",      required=True, help="Where to write the solution .py")
     parser.add_argument("--model",       default=os.environ.get("MODEL", "claude-opus-4-6"))
     parser.add_argument("--context-dir", default=None,  help="Directory of prior task solutions to inject as context")
+    parser.add_argument("--api-base",    default=None,  help="Base URL for OpenAI-compatible API endpoint")
     args = parser.parse_args()
 
     system = SystemPrompt(content=Path(args.prompt).read_text())
@@ -107,6 +114,6 @@ if __name__ == "__main__":
     docs   = load_docs(Path(args.docs))
     prior  = load_prior_attempts(Path(args.context_dir)) if args.context_dir else None
 
-    solution = generate(system, task, docs, model=args.model, prior=prior)
+    solution = generate(system, task, docs, model=args.model, prior=prior, api_base=args.api_base)
     Path(args.output).write_text(solution.code)
     print(f"Written → {args.output}")

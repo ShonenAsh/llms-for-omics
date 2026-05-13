@@ -1,19 +1,30 @@
 import numpy as np
 import pytest
 from tinygrad import Tensor
-from task_07_custom_layers import LayerNorm, Embedding, ResidualBlock
+_import_error = None
+try:
+    from task_07_custom_layers import LayerNorm, Embedding, ResidualBlock
+except Exception as _e:
+    _import_error = _e
+    LayerNorm = Embedding = ResidualBlock = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 rng = np.random.default_rng(5)
 
 
 def test_7a_layernorm_shape():
+    _check_import()
     x  = Tensor(rng.standard_normal((2, 6, 16)).astype(np.float32))
     ln = LayerNorm(16)
     assert ln(x).shape == (2, 6, 16)
 
 
 def test_7a_layernorm_normalizes():
+    _check_import()
     x  = Tensor(rng.standard_normal((4, 8, 32)).astype(np.float32))
     ln = LayerNorm(32)
     out = ln(x).numpy()
@@ -25,6 +36,7 @@ def test_7a_layernorm_normalizes():
 
 
 def test_7a_layernorm_learnable_params():
+    _check_import()
     ln = LayerNorm(16)
     assert ln.weight.requires_grad
     assert ln.bias.requires_grad
@@ -33,6 +45,7 @@ def test_7a_layernorm_learnable_params():
 
 
 def test_7b_embedding_shape():
+    _check_import()
     emb = Embedding(50, 32)
     ids = Tensor(rng.integers(0, 50, (2, 6)))
     out = emb(ids)
@@ -40,6 +53,7 @@ def test_7b_embedding_shape():
 
 
 def test_7b_embedding_consistent():
+    _check_import()
     emb  = Embedding(50, 32)
     ids1 = Tensor([[3, 3]])
     out  = emb(ids1).numpy()
@@ -47,6 +61,7 @@ def test_7b_embedding_consistent():
 
 
 def test_7c_residual_block_shape():
+    _check_import()
     d = 64
     rb = ResidualBlock(d)
     x  = Tensor(rng.standard_normal((2, 6, d)).astype(np.float32))
@@ -54,6 +69,7 @@ def test_7c_residual_block_shape():
 
 
 def test_7c_residual_connection_present():
+    _check_import()
     """When fc weights are zeroed out the block should output the input unchanged."""
     d  = 8
     rb = ResidualBlock(d)

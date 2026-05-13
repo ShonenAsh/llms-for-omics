@@ -36,16 +36,42 @@ Build all images:
 bash build_images.sh
 ```
 
-Run a benchmark (generates solutions then runs pytest):
+### Running benchmarks
+
+The `MODEL` env var supports any [litellm model string](https://docs.litellm.ai/docs/providers).
+Use `API_BASE` to route to a custom OpenAI-compatible endpoint.
+
 ```bash
-# Claude
-docker run --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY -e MODEL=claude-opus-4-6 tinygrad-bench:exp_2a-level_3
+# Claude (direct)
+docker run --rm \
+  -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+  -e MODEL=claude-opus-4-6 \
+  tinygrad-bench:exp_2a-level_3
 
-# GPT-4o
-docker run --rm -e OPENAI_API_KEY=$OPENAI_API_KEY -e MODEL=gpt-4o tinygrad-bench:exp_2a-level_3
+# GPT-4o (direct)
+docker run --rm \
+  -e OPENAI_API_KEY=$OPENAI_API_KEY \
+  -e MODEL=gpt-4o \
+  tinygrad-bench:exp_2a-level_3
 
-# Gemini
-docker run --rm -e GEMINI_API_KEY=$GEMINI_API_KEY -e MODEL=gemini/gemini-2.0-flash tinygrad-bench:exp_2a-level_3
+# Gemini (direct)
+docker run --rm \
+  -e GEMINI_API_KEY=$GEMINI_API_KEY \
+  -e MODEL=gemini/gemini-2.0-flash \
+  tinygrad-bench:exp_2a-level_3
+
+# Hugging Face (free, rate-limited)
+docker run --rm \
+  -e HF_TOKEN=$HF_TOKEN \
+  -e MODEL=huggingface/Qwen/Qwen2.5-Coder-32B-Instruct \
+  tinygrad-bench:exp_2a-level_1
+
+# Custom OpenAI-compatible endpoint (e.g., local vLLM, OpenCode Zen)
+docker run --rm \
+  -e MODEL=openai/gpt-4 \
+  -e API_BASE=https://your-endpoint.com/v1 \
+  -e OPENAI_API_KEY=sk-your_key \
+  tinygrad-bench:exp_2a-level_3
 ```
 
 ## Local setup
@@ -60,7 +86,8 @@ python generate.py \
   --task tasks/task_01_tensor_basics.py \
   --docs exp_2a/level_3 \
   --prompt exp_2a/Prompt.md \
-  --output submissions/task_01_tensor_basics.py
+  --output submissions/task_01_tensor_basics.py \
+  --model claude-opus-4-6
 ```
 
 Once all submissions are gathered, score them:

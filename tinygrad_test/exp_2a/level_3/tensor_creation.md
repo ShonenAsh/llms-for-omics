@@ -1,6 +1,6 @@
 ## Creation (basic)
 
-#### empty(*shape, device: 'str | tuple[str, ...] | None' = None, dtype: 'DTypeLike | None' = None, **kwargs) -> Tensor
+#### Tensor.empty(*shape, device: 'str | tuple[str, ...] | None' = None, dtype: 'DTypeLike | None' = None, **kwargs) -> Tensor
 
 Creates an empty tensor with the given shape.
 
@@ -13,7 +13,7 @@ print(t.shape)
 ```
 
 
-#### zeros(*shape, **kwargs) -> Tensor
+#### Tensor.zeros(*shape, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with zeros.
 
@@ -25,7 +25,7 @@ print(Tensor.zeros(2, 3).numpy())
 ```
 
 
-#### ones(*shape, **kwargs) -> Tensor
+#### Tensor.ones(*shape, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with ones.
 
@@ -37,7 +37,7 @@ print(Tensor.ones(2, 3).numpy())
 ```
 
 
-#### full(shape: 'tuple[sint, ...]', fill_value: 'ConstType', **kwargs) -> Tensor
+#### Tensor.full(shape: 'tuple[sint, ...]', fill_value: 'ConstType', **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with the given value.
 
@@ -49,7 +49,7 @@ print(Tensor.full((2, 3), 42).numpy())
 ```
 
 
-#### arange(start, stop=None, step=1, **kwargs) -> Tensor
+#### Tensor.arange(start, stop=None, step=1, **kwargs) -> Tensor
 
 Returns a 1-D tensor of size `ceil((stop - start) / step)` with values from `[start, stop)`, with spacing between values given by `step`.
 
@@ -65,7 +65,7 @@ print(Tensor.arange(5).numpy())
 ```
 
 
-#### linspace(start: 'int | float', stop: 'int | float', steps: 'int', **kwargs) -> Tensor
+#### Tensor.linspace(start: 'int | float', stop: 'int | float', steps: 'int', **kwargs) -> Tensor
 
 Returns a 1-D tensor of `steps` evenly spaced values from `start` to `stop`, inclusive.
 
@@ -77,7 +77,7 @@ print(Tensor.linspace(0, 10, 5).numpy())
 ```
 
 
-#### eye(n: 'int', m: 'int | None' = None, dtype=None, device=None, requires_grad: 'bool | None' = None) -> Tensor
+#### Tensor.eye(n: 'int', m: 'int | None' = None, dtype=None, device=None, requires_grad: 'bool | None' = None) -> Tensor
 
 Returns a 2-D tensor with `n` rows and `m` columns, with ones on the diagonal and zeros elsewhere.
 
@@ -89,7 +89,7 @@ print(Tensor.eye(3).numpy())
 ```
 
 
-#### full_like(fill_value: 'ConstType', **kwargs) -> Tensor
+#### Tensor.full_like(fill_value: 'ConstType', **kwargs) -> Tensor
 
 Creates a tensor with the same shape as `self`, filled with the given value.
 If `dtype` is not specified, the dtype of `self` is used.
@@ -103,7 +103,7 @@ print(Tensor.full_like(t, 42).numpy())
 ```
 
 
-#### zeros_like(**kwargs) -> Tensor
+#### Tensor.zeros_like(**kwargs) -> Tensor
 
 Creates a tensor with the same shape as `self`, filled with zeros.
 
@@ -116,7 +116,7 @@ print(Tensor.zeros_like(t).numpy())
 ```
 
 
-#### ones_like(**kwargs) -> Tensor
+#### Tensor.ones_like(**kwargs) -> Tensor
 
 Creates a tensor with the same shape as `self`, filled with ones.
 
@@ -131,7 +131,7 @@ print(Tensor.ones_like(t).numpy())
 
 ## Creation (external)
 
-#### from_blob(ptr: 'int', shape: 'tuple[int, ...]', **kwargs) -> Tensor
+#### Tensor.from_blob(ptr: 'int', shape: 'tuple[int, ...]', **kwargs) -> Tensor
 
 Exposes the pointer as a Tensor without taking ownership of the original data.
 The pointer must remain valid for the entire lifetime of the created Tensor.
@@ -140,7 +140,7 @@ You can pass in `dtype` and `device` keyword arguments to control the data type 
 Additionally, all other keyword arguments are passed to the constructor of the tensor.
 
 
-#### from_url(url: 'str', gunzip: 'bool' = False, **kwargs) -> Tensor
+#### Tensor.from_url(url: 'str', gunzip: 'bool' = False, **kwargs) -> Tensor
 
 Creates a Tensor from a URL.
 
@@ -153,7 +153,7 @@ The `gunzip` flag will gzip extract the resource and return an extracted Tensor.
 
 ## Creation (random)
 
-#### manual_seed(seed=0) -> None
+#### Tensor.manual_seed(seed=0) -> None
 
 Sets the seed for random operations.
 
@@ -164,7 +164,7 @@ print(Tensor.rand(5).numpy())
 ```
 
 
-#### rand(*shape, device: 'str | None' = None, dtype: 'DTypeLike | None' = None, contiguous: 'bool' = True, **kwargs) -> Tensor
+#### Tensor.rand(*shape, device: 'str | None' = None, dtype: 'DTypeLike | None' = None, contiguous: 'bool' = True, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random values from a uniform distribution over the interval `[0, 1)`.
 
@@ -178,7 +178,7 @@ print(t.numpy())
 ```
 
 
-#### rand_like(**kwargs) -> Tensor
+#### Tensor.rand_like(**kwargs) -> Tensor
 
 Creates a tensor with the same shape and sharding as `self`, filled with random values from a uniform distribution over the interval `[0, 1)`.
 
@@ -191,7 +191,7 @@ print(Tensor.rand_like(t).numpy())
 ```
 
 
-#### randn(*shape, dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
+#### Tensor.randn(*shape, dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random values from a normal distribution with mean `0` and standard deviation `1`.
 If `dtype` is not specified, the default type is used.
@@ -205,7 +205,7 @@ print(Tensor.randn(2, 3).numpy())
 ```
 
 
-#### randn_like(dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
+#### Tensor.randn_like(dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
 
 Creates a tensor with the same shape and sharding as `self`, filled with random values from a normal distribution with mean 0 and variance 1.
 
@@ -218,7 +218,7 @@ print(Tensor.randn_like(t).numpy())
 ```
 
 
-#### randint(*shape, low=0, high=10, dtype=dtypes.int, **kwargs) -> Tensor
+#### Tensor.randint(*shape, low=0, high=10, dtype=dtypes.int, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random integer values generated uniformly from the interval `[low, high)`.
 If `dtype` is not specified, the default type is used.
@@ -232,7 +232,7 @@ print(Tensor.randint(2, 3, low=5, high=10).numpy())
 ```
 
 
-#### randperm(n: 'int', device=None, dtype=dtypes.int, **kwargs) -> Tensor
+#### Tensor.randperm(n: 'int', device=None, dtype=dtypes.int, **kwargs) -> Tensor
 
 Returns a tensor with a random permutation of integers from `0` to `n-1`.
 
@@ -242,7 +242,7 @@ print(Tensor.randperm(6).numpy())
 ```
 
 
-#### normal(*shape, mean=0.0, std=1.0, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
+#### Tensor.normal(*shape, mean=0.0, std=1.0, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random values from a normal distribution with the given `mean` and standard deviation `std`.
 
@@ -255,7 +255,7 @@ print(Tensor.normal(2, 3, mean=10, std=2).numpy())
 ```
 
 
-#### uniform(*shape, low=0.0, high=1.0, dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
+#### Tensor.uniform(*shape, low=0.0, high=1.0, dtype: 'DTypeLike | None' = None, requires_grad: 'bool | None' = None, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random values from a uniform distribution over the interval `[low, high)`.
 
@@ -268,7 +268,7 @@ print(Tensor.uniform(2, 3, low=2, high=10).numpy())
 ```
 
 
-#### scaled_uniform(*shape, **kwargs) -> Tensor
+#### Tensor.scaled_uniform(*shape, **kwargs) -> Tensor
 
 Creates a tensor with the given shape, filled with random values from a uniform distribution
 over the interval `[-prod(shape)**-0.5, prod(shape)**-0.5)`.
@@ -282,7 +282,7 @@ print(Tensor.scaled_uniform(2, 3).numpy())
 ```
 
 
-#### glorot_uniform(*shape, **kwargs) -> Tensor
+#### Tensor.glorot_uniform(*shape, **kwargs) -> Tensor
 
 <https://www.tensorflow.org/api_docs/python/tf/keras/initializers/GlorotUniform>
 
@@ -295,7 +295,7 @@ print(Tensor.glorot_uniform(2, 3).numpy())
 ```
 
 
-#### kaiming_uniform(*shape, a: 'float' = 0.01, **kwargs) -> Tensor
+#### Tensor.kaiming_uniform(*shape, a: 'float' = 0.01, **kwargs) -> Tensor
 
 <https://pytorch.org/docs/stable/_modules/torch/nn/init.html#kaiming_uniform_>
 
@@ -308,7 +308,7 @@ print(Tensor.kaiming_uniform(2, 3).numpy())
 ```
 
 
-#### kaiming_normal(*shape, a: 'float' = 0.01, **kwargs) -> Tensor
+#### Tensor.kaiming_normal(*shape, a: 'float' = 0.01, **kwargs) -> Tensor
 
 <https://pytorch.org/docs/stable/_modules/torch/nn/init.html#kaiming_normal_>
 

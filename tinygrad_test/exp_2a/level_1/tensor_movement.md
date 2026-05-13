@@ -1,84 +1,84 @@
 ## Movement (low level)
 
-#### view(shape, *args) -> Self
+#### Tensor.view(shape, *args) -> Self
 
 
-#### reshape(shape, *args) -> Self
+#### Tensor.reshape(shape, *args) -> Self
 
 
-#### expand(shape, *args) -> Self
+#### Tensor.expand(shape, *args) -> Self
 
 
-#### permute(order, *args) -> Self
+#### Tensor.permute(order, *args) -> Self
 
 
-#### flip(axis, *args) -> Self
+#### Tensor.flip(axis, *args) -> Self
 
 
-#### shrink(arg: tuple[tuple['UOp | int', 'UOp | int'] | None, ...]) -> Self
+#### Tensor.shrink(arg: tuple[tuple['UOp | int', 'UOp | int'] | None, ...]) -> Self
 
 
-#### pad(padding: 'Sequence[sint] | Sequence[tuple[sint, sint] | None]', mode: 'str' = 'constant', value: 'float' = 0.0) -> Tensor
+#### Tensor.pad(padding: 'Sequence[sint] | Sequence[tuple[sint, sint] | None]', mode: 'str' = 'constant', value: 'float' = 0.0) -> Tensor
 
 
 ## Movement (high level)
 
-#### __getitem__(indices) -> Tensor
+#### Tensor.__getitem__(indices) -> Tensor
 
 
-#### gather(dim: 'int', index: 'Tensor') -> Tensor
+#### Tensor.gather(dim: 'int', index: 'Tensor') -> Tensor
 
 
-#### cat(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+#### Tensor.cat(*args: 'Tensor', dim: 'int' = 0) -> Tensor
 
 
-#### stack(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+#### Tensor.stack(*args: 'Tensor', dim: 'int' = 0) -> Tensor
 
 
-#### repeat(repeats, *args) -> Self
+#### Tensor.repeat(repeats, *args) -> Self
 
 
-#### repeat_interleave(repeats: int, dim: int | None = None) -> Self
+#### Tensor.repeat_interleave(repeats: int, dim: int | None = None) -> Self
 
 
-#### split(sizes: 'int | Sequence[int]', dim: 'int' = 0) -> tuple[Tensor, ...]
+#### Tensor.split(sizes: 'int | Sequence[int]', dim: 'int' = 0) -> tuple[Tensor, ...]
 
 
-#### chunk(chunks: 'int', dim: 'int' = 0) -> list[Tensor]
+#### Tensor.chunk(chunks: 'int', dim: 'int' = 0) -> list[Tensor]
 
 
-#### unfold(dim: 'int', size: 'sint', step: 'int') -> Tensor
+#### Tensor.unfold(dim: 'int', size: 'sint', step: 'int') -> Tensor
 
 
-#### meshgrid(*args: 'Tensor', indexing: "Literal['ij', 'xy']" = 'ij') -> tuple[Tensor, ...]
+#### Tensor.meshgrid(*args: 'Tensor', indexing: "Literal['ij', 'xy']" = 'ij') -> tuple[Tensor, ...]
 
 
-#### squeeze(dim: int | None = None) -> Self
+#### Tensor.squeeze(dim: int | None = None) -> Self
 
 
-#### unsqueeze(dim: int) -> Self
+#### Tensor.unsqueeze(dim: int) -> Self
 
 
-#### T -> typing.Self
+#### Tensor.T -> typing.Self
 
 
-#### transpose(dim0=1, dim1=0) -> Self
+#### Tensor.transpose(dim0=1, dim1=0) -> Self
 
 
-#### flatten(start_dim=0, end_dim=-1) -> Self
+#### Tensor.flatten(start_dim=0, end_dim=-1) -> Self
 
 
-#### unflatten(dim: int, sizes: tuple[int, ...]) -> Self
+#### Tensor.unflatten(dim: int, sizes: tuple[int, ...]) -> Self
 
 
-#### diag() -> Tensor
+#### Tensor.diag() -> Tensor
 
 
-#### diagonal() -> Tensor
+#### Tensor.diagonal() -> Tensor
 
 
-#### roll(shifts: 'int | tuple[int, ...]', dims: 'int | tuple[int, ...] | None' = None) -> Tensor
+#### Tensor.roll(shifts: 'int | tuple[int, ...]', dims: 'int | tuple[int, ...] | None' = None) -> Tensor
 
 
-#### rearrange(formula: str, **sizes) -> Self
+#### Tensor.rearrange(formula: str, **sizes) -> Self
 

@@ -1,6 +1,6 @@
 ## Reduce
 
-#### sum(axis: 'int | Sequence[int] | None' = None, keepdim=False, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.sum(axis: 'int | Sequence[int] | None' = None, keepdim=False, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Returns the sum of the elements of the tensor along the specified axis or axes.
 
@@ -16,7 +16,7 @@ print(t.numpy())
 ```
 
 
-#### prod(axis: 'int | Sequence[int] | None' = None, keepdim=False, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.prod(axis: 'int | Sequence[int] | None' = None, keepdim=False, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Returns the product of the elements of the tensor along the specified axis or axes.
 
@@ -32,7 +32,7 @@ print(t.numpy())
 ```
 
 
-#### max(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
+#### Tensor.max(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
 
 Returns the maximum value of the tensor along the specified axis or axes.
 
@@ -45,7 +45,7 @@ print(t.numpy())
 ```
 
 
-#### min(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
+#### Tensor.min(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
 
 Returns the minimum value of the tensor along the specified axis or axes.
 
@@ -58,7 +58,7 @@ print(t.numpy())
 ```
 
 
-#### any(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
+#### Tensor.any(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
 
 Tests if any element evaluates to `True` along the specified axis or axes.
 
@@ -70,7 +70,7 @@ print(t.numpy())
 ```
 
 
-#### all(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
+#### Tensor.all(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
 
 Tests if all element evaluates to `True` along the specified axis or axes.
 
@@ -82,7 +82,7 @@ print(t.numpy())
 ```
 
 
-#### isclose(other: 'Tensor', rtol: 'float' = 1e-05, atol: 'float' = 1e-08, equal_nan=False) -> Tensor
+#### Tensor.isclose(other: 'Tensor', rtol: 'float' = 1e-05, atol: 'float' = 1e-08, equal_nan=False) -> Tensor
 
 Returns a new tensor with element-wise comparison of closeness to `other` within a tolerance.
 
@@ -95,12 +95,12 @@ print(Tensor([1e-7, 1e-8, 1e-9, float('nan')]).isclose(Tensor([0.0, 0.0, 0.0, fl
 ```
 
 
-#### allclose(other: 'Tensor', rtol: 'float' = 1e-05, atol: 'float' = 1e-08, equal_nan=False) -> bool
+#### Tensor.allclose(other: 'Tensor', rtol: 'float' = 1e-05, atol: 'float' = 1e-08, equal_nan=False) -> bool
 
 Check if all self and other are close. Return True or False.
 
 
-#### mean(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
+#### Tensor.mean(axis: 'int | Sequence[int] | None' = None, keepdim=False) -> Tensor
 
 Returns the mean value of the tensor along the specified axis or axes.
 
@@ -114,7 +114,7 @@ print(t.numpy())
 ```
 
 
-#### var(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> Tensor
+#### Tensor.var(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> Tensor
 
 Returns the variance of the tensor along the specified axis or axes.
 
@@ -128,7 +128,7 @@ print(t.numpy())
 ```
 
 
-#### var_mean(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> tuple[Tensor, Tensor]
+#### Tensor.var_mean(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> tuple[Tensor, Tensor]
 
 Calculates the variance and mean over the dimensions specified by dim.
 Syntactic sugar around `Tensor.var` and `Tensor.mean` to match `torch.var_mean`.
@@ -140,7 +140,7 @@ print(t.numpy())
 ```
 
 
-#### std(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> Tensor
+#### Tensor.std(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> Tensor
 
 Returns the standard deviation of the tensor along the specified axis or axes.
 
@@ -154,7 +154,7 @@ print(t.numpy())
 ```
 
 
-#### std_mean(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> tuple[Tensor, Tensor]
+#### Tensor.std_mean(axis: 'int | Sequence[int] | None' = None, keepdim=False, correction=1) -> tuple[Tensor, Tensor]
 
 Calculates the standard deviation and mean over the dimensions specified by dim.
 Syntactic sugar around `Tensor.std` and `Tensor.mean` to match `torch.std_mean`.
@@ -166,7 +166,7 @@ print(t.numpy())
 ```
 
 
-#### softmax(axis=-1, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.softmax(axis=-1, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Applies the softmax function to the tensor along the specified axis.
 
@@ -181,7 +181,7 @@ print(t.numpy())
 ```
 
 
-#### log_softmax(axis=-1, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.log_softmax(axis=-1, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Applies the log-softmax function to the tensor along the specified axis.
 
@@ -196,7 +196,7 @@ print(t.numpy())
 ```
 
 
-#### logsumexp(axis=None, keepdim=False) -> Tensor
+#### Tensor.logsumexp(axis=None, keepdim=False) -> Tensor
 
 Computes the log-sum-exp of the tensor along the specified axis or axes.
 
@@ -212,7 +212,7 @@ print(t.numpy())
 ```
 
 
-#### logcumsumexp(axis=0) -> Tensor
+#### Tensor.logcumsumexp(axis=0) -> Tensor
 
 Computes the log-cumsum-exp of the tensor along the specified axis or axes.
 
@@ -228,7 +228,7 @@ print(t.numpy())
 ```
 
 
-#### argmax(axis=None, keepdim=False) -> Tensor
+#### Tensor.argmax(axis=None, keepdim=False) -> Tensor
 
 Returns the indices of the maximum value of the tensor along the specified axis.
 
@@ -241,7 +241,7 @@ print(t.numpy())
 ```
 
 
-#### argmin(axis=None, keepdim=False) -> Tensor
+#### Tensor.argmin(axis=None, keepdim=False) -> Tensor
 
 Returns the indices of the minimum value of the tensor along the specified axis.
 
@@ -256,7 +256,7 @@ print(t.numpy())
 
 ## Processing
 
-#### avg_pool2d(kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, ceil_mode=False, count_include_pad=True) -> Tensor
+#### Tensor.avg_pool2d(kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, ceil_mode=False, count_include_pad=True) -> Tensor
 
 Applies average pooling over a tensor.
 
@@ -283,7 +283,7 @@ print(t.avg_pool2d().numpy())
 ```
 
 
-#### max_pool2d(kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, ceil_mode=False, return_indices=False) -> Tensor | tuple[Tensor, Tensor]
+#### Tensor.max_pool2d(kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, ceil_mode=False, return_indices=False) -> Tensor | tuple[Tensor, Tensor]
 
 Applies max pooling over a tensor.
 
@@ -310,7 +310,7 @@ print(t.max_pool2d().numpy())
 ```
 
 
-#### max_unpool2d(indices: 'Tensor', kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, output_size=None)
+#### Tensor.max_unpool2d(indices: 'Tensor', kernel_size: 'tuple[int, ...]' = (2, 2), stride=None, dilation=1, padding: 'int | tuple[int, ...]' = 0, output_size=None)
 
 Performs a partial inverse of `max_pool2d` using the indices from the argmax.
 
@@ -324,7 +324,7 @@ print(t.numpy())
 ```
 
 
-#### conv2d(weight: 'Tensor', bias: 'Tensor | None' = None, groups=1, stride=1, dilation=1, padding: 'int | tuple[int, ...]' = 0, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.conv2d(weight: 'Tensor', bias: 'Tensor | None' = None, groups=1, stride=1, dilation=1, padding: 'int | tuple[int, ...]' = 0, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Applies a convolution over a tensor with a given `weight` and optional `bias`.
 
@@ -351,7 +351,7 @@ print(t.conv2d(w).numpy())
 ```
 
 
-#### conv_transpose2d(weight: 'Tensor', bias: 'Tensor | None' = None, groups=1, stride=1, dilation=1, padding=0, output_padding=0) -> Tensor
+#### Tensor.conv_transpose2d(weight: 'Tensor', bias: 'Tensor | None' = None, groups=1, stride=1, dilation=1, padding=0, output_padding=0) -> Tensor
 
 Applies a transposed convolution over a tensor with a given `weight` and optional `bias`.
 
@@ -378,7 +378,7 @@ print(t.conv_transpose2d(w).numpy())
 ```
 
 
-#### dot(w: 'Tensor', dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.dot(w: 'Tensor', dtype: 'DTypeLike | None' = None) -> Tensor
 
 Performs dot product between two tensors.
 If `w` is 1-D, it's a sum product over the last axis of `self` and `w`.
@@ -393,7 +393,7 @@ print(a.dot(b).numpy())
 ```
 
 
-#### matmul(x: 'Tensor', reverse=False, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.matmul(x: 'Tensor', reverse=False, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Performs matrix multiplication between two tensors.
 
@@ -407,7 +407,7 @@ print(a.matmul(b).numpy())
 ```
 
 
-#### einsum(formula: 'str', *operands: 'Tensor | Sequence[Tensor]', dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.einsum(formula: 'str', *operands: 'Tensor | Sequence[Tensor]', dtype: 'DTypeLike | None' = None) -> Tensor
 
 Sums the product of the elements of the input tensors according to a formula based on the Einstein summation convention.
 
@@ -420,7 +420,7 @@ print(Tensor.einsum("ij,ij->", x, y).numpy())
 ```
 
 
-#### cumsum(axis: 'int' = 0) -> Tensor
+#### Tensor.cumsum(axis: 'int' = 0) -> Tensor
 
 Computes the cumulative sum of the tensor along the specified `axis`.
 
@@ -430,7 +430,7 @@ print(t.numpy())
 ```
 
 
-#### cumprod(axis: 'int') -> Tensor
+#### Tensor.cumprod(axis: 'int') -> Tensor
 
 Computes the cumulative product of the elements of the tensor along the specified `axis`.
 
@@ -440,7 +440,7 @@ print(t.numpy())
 ```
 
 
-#### cummax(axis: 'int' = 0) -> Tensor
+#### Tensor.cummax(axis: 'int' = 0) -> Tensor
 
 Computes the cumulative max of the tensor along the specified `axis`.
 
@@ -452,7 +452,7 @@ print(t.numpy())
 
 #### cummin *(resolution failed)*
 
-#### triu(diagonal: 'int' = 0) -> Tensor
+#### Tensor.triu(diagonal: 'int' = 0) -> Tensor
 
 Returns the upper triangular part of the tensor, the other elements are set to 0.
 
@@ -465,7 +465,7 @@ print(t.numpy())
 ```
 
 
-#### tril(diagonal: 'int' = 0) -> Tensor
+#### Tensor.tril(diagonal: 'int' = 0) -> Tensor
 
 Returns the lower triangular part of the tensor, the other elements are set to 0.
 
@@ -478,7 +478,7 @@ print(t.numpy())
 ```
 
 
-#### interpolate(size: 'tuple[int, ...]', mode: 'str' = 'linear', align_corners: 'bool' = False) -> Tensor
+#### Tensor.interpolate(size: 'tuple[int, ...]', mode: 'str' = 'linear', align_corners: 'bool' = False) -> Tensor
 
 Downsamples or Upsamples to the input `size`, accepts 0 to N batch dimensions.
 
@@ -491,7 +491,7 @@ print(t.numpy())
 ```
 
 
-#### scatter(dim: 'int', index: 'Tensor', src: 'Tensor | ConstType', reduce: "Literal['multiply', 'add'] | None" = None) -> Tensor
+#### Tensor.scatter(dim: 'int', index: 'Tensor', src: 'Tensor | ConstType', reduce: "Literal['multiply', 'add'] | None" = None) -> Tensor
 
 Scatters `src` values along an axis specified by `dim`.
 Apply `add` or `multiply` reduction operation with `reduce`.
@@ -504,7 +504,7 @@ print(src.numpy())
 ```
 
 
-#### scatter_reduce(dim: 'int', index: 'Tensor', src: 'Tensor', reduce: "Literal['sum', 'prod', 'mean', 'amax', 'amin']", include_self: 'bool' = True) -> Tensor
+#### Tensor.scatter_reduce(dim: 'int', index: 'Tensor', src: 'Tensor', reduce: "Literal['sum', 'prod', 'mean', 'amax', 'amin']", include_self: 'bool' = True) -> Tensor
 
 Scatters `src` values along an axis specified by `dim`.
 Apply `"sum"`, `"prod"`, `"mean"`, `"amax"`, or `"amin"` reduction operations with `reduce`.
@@ -519,7 +519,7 @@ print(index.numpy())
 ```
 
 
-#### masked_select(mask)
+#### Tensor.masked_select(mask)
 
 Selects elements from `self` based on the boolean `mask`.
 
@@ -531,7 +531,7 @@ print(mask.numpy())
 ```
 
 
-#### masked_fill(mask: 'Tensor', value: 'Tensor | ConstType') -> Tensor
+#### Tensor.masked_fill(mask: 'Tensor', value: 'Tensor | ConstType') -> Tensor
 
 Replaces `self` with `value` wherever the elements of `mask` are True.
 
@@ -544,7 +544,7 @@ print(t.masked_fill(mask, -12).numpy())
 
 #### nonzero *(resolution failed)*
 
-#### sort(dim: 'int' = -1, descending: 'bool' = False) -> tuple[Tensor, Tensor]
+#### Tensor.sort(dim: 'int' = -1, descending: 'bool' = False) -> tuple[Tensor, Tensor]
 
 Performs a bitonic sort on the tensor along the specified dimension.
 
@@ -558,7 +558,7 @@ print(t.numpy())
 ```
 
 
-#### argsort(dim: 'int' = -1, descending: 'bool' = False) -> Tensor
+#### Tensor.argsort(dim: 'int' = -1, descending: 'bool' = False) -> Tensor
 
 Returns the indices that sort input tensor along given `dimension` in given `descending` order by value.
 
@@ -568,7 +568,7 @@ print(t.argsort().numpy())
 ```
 
 
-#### topk(k: 'int', dim: 'int' = -1, largest: 'bool' = True, sorted_: 'bool' = True) -> tuple[Tensor, Tensor]
+#### Tensor.topk(k: 'int', dim: 'int' = -1, largest: 'bool' = True, sorted_: 'bool' = True) -> tuple[Tensor, Tensor]
 
 Computes the top-k elements of the tensor along the specified `dim`.
 
@@ -580,7 +580,7 @@ print(t.numpy())
 ```
 
 
-#### multinomial(num_samples: 'int' = 1, replacement: 'bool' = False) -> Tensor
+#### Tensor.multinomial(num_samples: 'int' = 1, replacement: 'bool' = False) -> Tensor
 
 Returns a tensor with `num_samples` indices sampled from a multinomial distribution weighted by `self`.
 
@@ -595,7 +595,7 @@ print(t.multinomial(20, replacement=True).numpy())
 
 ## Neural Network (functional)
 
-#### linear(weight: 'Tensor', bias: 'Tensor | None' = None, dtype: 'DTypeLike | None' = None) -> Tensor
+#### Tensor.linear(weight: 'Tensor', bias: 'Tensor | None' = None, dtype: 'DTypeLike | None' = None) -> Tensor
 
 Applies a linear transformation to `self` using `weight` and `bias`.
 
@@ -609,7 +609,7 @@ print(t.linear(weight, bias).numpy())
 ```
 
 
-#### sequential(ll: 'list[Callable[[Tensor], Tensor]]') -> Tensor
+#### Tensor.sequential(ll: 'list[Callable[[Tensor], Tensor]]') -> Tensor
 
 Applies a sequence of functions to `self` chaining the output of each function to the input of the next.
 
@@ -619,7 +619,7 @@ print(t.sequential([lambda x: x * 2, lambda x: x + 1]).numpy())
 ```
 
 
-#### layernorm(axis: 'int | tuple[int, ...]' = -1, eps: 'float' = 1e-05) -> Tensor
+#### Tensor.layernorm(axis: 'int | tuple[int, ...]' = -1, eps: 'float' = 1e-05) -> Tensor
 
 Applies Layer Normalization over a mini-batch of inputs.
 
@@ -631,7 +631,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### batchnorm(weight: 'Tensor | None', bias: 'Tensor | None', mean: 'Tensor', invstd: 'Tensor', axis: 'int | tuple[int, ...]' = 1) -> Tensor
+#### Tensor.batchnorm(weight: 'Tensor | None', bias: 'Tensor | None', mean: 'Tensor', invstd: 'Tensor', axis: 'int | tuple[int, ...]' = 1) -> Tensor
 
 Applies Batch Normalization over a mini-batch of inputs.
 
@@ -643,7 +643,7 @@ print(t.mean().item(), t.std().item())
 ```
 
 
-#### dropout(p=0.5) -> Tensor
+#### Tensor.dropout(p=0.5) -> Tensor
 
 Applies dropout to `self`.
 
@@ -659,7 +659,7 @@ with Tensor.train():
 ```
 
 
-#### one_hot(num_classes: 'int' = -1) -> Tensor
+#### Tensor.one_hot(num_classes: 'int' = -1) -> Tensor
 
 Converts `self` to a one-hot tensor.
 
@@ -671,7 +671,7 @@ print(t.one_hot(5).numpy())
 ```
 
 
-#### scaled_dot_product_attention(key: 'Tensor', value: 'Tensor', attn_mask: 'Tensor | None' = None, dropout_p: 'float' = 0.0, is_causal: 'bool' = False, enable_gqa: 'bool' = False) -> Tensor
+#### Tensor.scaled_dot_product_attention(key: 'Tensor', value: 'Tensor', attn_mask: 'Tensor | None' = None, dropout_p: 'float' = 0.0, is_causal: 'bool' = False, enable_gqa: 'bool' = False) -> Tensor
 
 Computes scaled dot-product attention.
 `self` is the query tensor, `key` is the key tensor, and `value` is the value tensor.
@@ -686,7 +686,7 @@ print(q.scaled_dot_product_attention(k, v).numpy())
 ```
 
 
-#### binary_crossentropy(Y: 'Tensor', reduction: 'ReductionStr' = 'mean') -> Tensor
+#### Tensor.binary_crossentropy(Y: 'Tensor', reduction: 'ReductionStr' = 'mean') -> Tensor
 
 Computes the binary cross-entropy loss between `self` and `Y`.
 
@@ -699,7 +699,7 @@ print(t.binary_crossentropy(Y).item())
 ```
 
 
-#### binary_crossentropy_logits(Y: 'Tensor', reduction: 'ReductionStr' = 'mean', pos_weight: 'Tensor | None' = None) -> Tensor
+#### Tensor.binary_crossentropy_logits(Y: 'Tensor', reduction: 'ReductionStr' = 'mean', pos_weight: 'Tensor | None' = None) -> Tensor
 
 Computes the binary cross-entropy loss between `self` and `Y` where `self` is logits.
 
@@ -712,7 +712,7 @@ print(t.binary_crossentropy_logits(Y).item())
 ```
 
 
-#### sparse_categorical_crossentropy(Y: 'Tensor', ignore_index: 'int' = -1, label_smoothing=0.0, reduction: 'ReductionStr' = 'mean') -> Tensor
+#### Tensor.sparse_categorical_crossentropy(Y: 'Tensor', ignore_index: 'int' = -1, label_smoothing=0.0, reduction: 'ReductionStr' = 'mean') -> Tensor
 
 Computes the sparse categorical cross-entropy loss between `self` and `Y`.
 
@@ -728,7 +728,7 @@ print(t.sparse_categorical_crossentropy(Y).item())
 ```
 
 
-#### cross_entropy(Y: 'Tensor', reduction: 'ReductionStr' = 'mean', label_smoothing: 'float' = 0.0) -> Tensor
+#### Tensor.cross_entropy(Y: 'Tensor', reduction: 'ReductionStr' = 'mean', label_smoothing: 'float' = 0.0) -> Tensor
 
 Computes the cross entropy loss between input logits and target.
 
@@ -743,7 +743,7 @@ print(t.cross_entropy(Y).item())
 ```
 
 
-#### nll_loss(Y: 'Tensor', weight: 'Tensor | None' = None, ignore_index: 'int | None' = None, reduction: 'ReductionStr' = 'mean') -> Tensor
+#### Tensor.nll_loss(Y: 'Tensor', weight: 'Tensor | None' = None, ignore_index: 'int | None' = None, reduction: 'ReductionStr' = 'mean') -> Tensor
 
 Computes the negative log likelihood loss between log-probabilities and target labels.
 
@@ -760,8 +760,8 @@ print(t.log_softmax().nll_loss(Y).item())
 
 ## Linear Algebra
 
-#### qr() -> tuple[Tensor, Tensor]
+#### Tensor.qr() -> tuple[Tensor, Tensor]
 
 
-#### svd(full_matrices=True) -> tuple[Tensor, Tensor, Tensor]
+#### Tensor.svd(full_matrices=True) -> tuple[Tensor, Tensor, Tensor]
 
