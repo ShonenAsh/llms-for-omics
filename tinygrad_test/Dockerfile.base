@@ -21,5 +21,6 @@ RUN chmod +x run.sh
 # tasks/ is on PYTHONPATH as a fallback.
 ENV PYTHONPATH=/workspace/submissions:/workspace/tasks
 ENV MODEL=claude-opus-4-6
+ENV DEV=CPU
 
 ENTRYPOINT ["./run.sh"]
