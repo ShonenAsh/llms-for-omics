@@ -7,7 +7,7 @@ import litellm
 from pydantic import BaseModel
 
 
-# ── Prompt models ──────────────────────────────────────────────────────────────
+# Prompt models                                                      
 
 class SystemPrompt(BaseModel):
     content: str
@@ -22,14 +22,14 @@ class PriorAttempts(BaseModel):
     content: str
 
 
-# ── Output model ───────────────────────────────────────────────────────────────
+# Output model                                                                
 
 class Solution(BaseModel):
     reasoning: str
     code: str  # Python only
 
 
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# Helpers                                                                     
 
 def strip_fences(code: str) -> str:
     """Strip markdown python fences if the model included them."""
@@ -55,7 +55,7 @@ def load_docs(docs_dir: Path) -> Docs:
     return Docs(content="\n\n---\n\n".join(parts))
 
 
-# ── Generation ─────────────────────────────────────────────────────────────────
+# Generation                                  
 
 def generate(
     system: SystemPrompt,
@@ -87,7 +87,7 @@ def generate(
 
 
 
-# ── Entry point ────────────────────────────────────────────────────────────────
+# Entry point                                                                 
 
 if __name__ == "__main__":
     import argparse

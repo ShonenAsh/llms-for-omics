@@ -53,7 +53,6 @@ venv.bak/
 # PyPI configuration file
 .pypirc
 
-# Marimo
-marimo/_static/
-marimo/_lsp/
-__marimo__/
+#backups
+*.bak/
+*.bak

@@ -2,253 +2,253 @@ Elementwise ops operate on a per element basis. They don't change the shape of t
 
 ## Unary Ops (math)
 
-#### logical_not() -> Tensor
+#### Tensor.logical_not() -> Tensor
 
 
-#### neg() -> Tensor
+#### Tensor.neg() -> Tensor
 
 
-#### log() -> Tensor
+#### Tensor.log() -> Tensor
 
 
-#### log2() -> Tensor
+#### Tensor.log2() -> Tensor
 
 
 #### log10 *(resolution failed)*
 
-#### exp() -> Tensor
+#### Tensor.exp() -> Tensor
 
 
-#### exp2() -> Tensor
+#### Tensor.exp2() -> Tensor
 
 
-#### sqrt() -> Tensor
+#### Tensor.sqrt() -> Tensor
 
 
-#### rsqrt()
+#### Tensor.rsqrt()
 
 
-#### sin() -> Tensor
+#### Tensor.sin() -> Tensor
 
 
-#### cos() -> Tensor
+#### Tensor.cos() -> Tensor
 
 
-#### tan() -> Tensor
+#### Tensor.tan() -> Tensor
 
 
-#### asin() -> Tensor
+#### Tensor.asin() -> Tensor
 
 
-#### acos() -> Tensor
+#### Tensor.acos() -> Tensor
 
 
-#### atan() -> Tensor
+#### Tensor.atan() -> Tensor
 
 
-#### trunc()
+#### Tensor.trunc()
 
 
-#### ceil()
+#### Tensor.ceil()
 
 
-#### floor()
+#### Tensor.floor()
 
 
-#### round() -> Tensor
+#### Tensor.round() -> Tensor
 
 
-#### isinf(detect_positive: bool = True, detect_negative: bool = True)
+#### Tensor.isinf(detect_positive: bool = True, detect_negative: bool = True)
 
 
-#### isnan()
+#### Tensor.isnan()
 
 
-#### isfinite()
+#### Tensor.isfinite()
 
 
-#### lerp(end: 'Tensor', weight: 'Tensor | float') -> Tensor
+#### Tensor.lerp(end: 'Tensor', weight: 'Tensor | float') -> Tensor
 
 
-#### square()
+#### Tensor.square()
 
 
-#### clamp(min_=None, max_=None)
+#### Tensor.clamp(min_=None, max_=None)
 
 
-#### clip(min_=None, max_=None)
+#### Tensor.clip(min_=None, max_=None)
 
 
-#### sign() -> Tensor
+#### Tensor.sign() -> Tensor
 
 
-#### abs() -> Tensor
+#### Tensor.abs() -> Tensor
 
 
-#### reciprocal() -> Tensor
+#### Tensor.reciprocal() -> Tensor
 
 
 ## Unary Ops (activation)
 
-#### relu()
+#### Tensor.relu()
 
 
-#### sigmoid()
+#### Tensor.sigmoid()
 
 
-#### logsigmoid() -> Tensor
+#### Tensor.logsigmoid() -> Tensor
 
 
-#### hardsigmoid(alpha: float = 0.16666666666666666, beta: float = 0.5)
+#### Tensor.hardsigmoid(alpha: float = 0.16666666666666666, beta: float = 0.5)
 
 
-#### elu(alpha=1.0) -> Tensor
+#### Tensor.elu(alpha=1.0) -> Tensor
 
 
-#### celu(alpha=1.0) -> Tensor
+#### Tensor.celu(alpha=1.0) -> Tensor
 
 
-#### selu(alpha=1.67326, gamma=1.0507) -> Tensor
+#### Tensor.selu(alpha=1.67326, gamma=1.0507) -> Tensor
 
 
-#### swish()
+#### Tensor.swish()
 
 
-#### silu()
+#### Tensor.silu()
 
 
-#### relu6()
+#### Tensor.relu6()
 
 
-#### hardswish()
+#### Tensor.hardswish()
 
 
-#### tanh()
+#### Tensor.tanh()
 
 
-#### sinh() -> Tensor
+#### Tensor.sinh() -> Tensor
 
 
-#### cosh() -> Tensor
+#### Tensor.cosh() -> Tensor
 
 
-#### atanh() -> Tensor
+#### Tensor.atanh() -> Tensor
 
 
-#### asinh() -> Tensor
+#### Tensor.asinh() -> Tensor
 
 
-#### acosh() -> Tensor
+#### Tensor.acosh() -> Tensor
 
 
-#### hardtanh(min_val=-1, max_val=1)
+#### Tensor.hardtanh(min_val=-1, max_val=1)
 
 
-#### erf() -> Tensor
+#### Tensor.erf() -> Tensor
 
 
-#### gelu()
+#### Tensor.gelu()
 
 
-#### quick_gelu()
+#### Tensor.quick_gelu()
 
 
-#### leaky_relu(neg_slope=0.01)
+#### Tensor.leaky_relu(neg_slope=0.01)
 
 
-#### mish() -> Tensor
+#### Tensor.mish() -> Tensor
 
 
-#### softplus(beta=1.0) -> Tensor
+#### Tensor.softplus(beta=1.0) -> Tensor
 
 
-#### softsign() -> Tensor
+#### Tensor.softsign() -> Tensor
 
 
 ## Elementwise Ops (broadcasted)
 
-#### add(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.add(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### sub(x: 'Tensor | ConstType', reverse=False) -> Tensor
+#### Tensor.sub(x: 'Tensor | ConstType', reverse=False) -> Tensor
 
 
-#### mul(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.mul(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### div(x: 'Tensor | ConstType', reverse=False, rounding_mode: "Literal['trunc', 'floor'] | None" = None) -> Tensor
+#### Tensor.div(x: 'Tensor | ConstType', reverse=False, rounding_mode: "Literal['trunc', 'floor'] | None" = None) -> Tensor
 
 
-#### idiv(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.idiv(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### mod(x: 'Tensor | ConstType', reverse=False) -> Tensor
+#### Tensor.mod(x: 'Tensor | ConstType', reverse=False) -> Tensor
 
 
-#### bitwise_xor(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.bitwise_xor(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### bitwise_and(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.bitwise_and(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### bitwise_or(x: Union[Self, float, int, bool], reverse: bool = False)
+#### Tensor.bitwise_or(x: Self | float | int | bool, reverse: bool = False)
 
 
-#### bitwise_not() -> Tensor
+#### Tensor.bitwise_not() -> Tensor
 
 
-#### lshift(x: 'Tensor | int', reverse=False) -> Tensor
+#### Tensor.lshift(x: 'Tensor | int', reverse=False) -> Tensor
 
 
-#### rshift(x: 'Tensor | int', reverse=False) -> Tensor
+#### Tensor.rshift(x: 'Tensor | int', reverse=False) -> Tensor
 
 
-#### pow(x: 'Tensor | ConstType', reverse=False) -> Tensor
+#### Tensor.pow(x: 'Tensor | ConstType', reverse=False) -> Tensor
 
 
-#### maximum(x: 'Tensor | ConstType') -> Tensor
+#### Tensor.maximum(x: 'Tensor | ConstType') -> Tensor
 
 
-#### minimum(x: 'Tensor | ConstType') -> Tensor
+#### Tensor.minimum(x: 'Tensor | ConstType') -> Tensor
 
 
-#### where(x: 'Tensor | ConstType | sint', y: 'Tensor | ConstType | sint') -> Tensor
+#### Tensor.where(x: 'Tensor | ConstType | sint', y: 'Tensor | ConstType | sint') -> Tensor
 
 
-#### copysign(other) -> Tensor
+#### Tensor.copysign(other) -> Tensor
 
 
-#### logaddexp(other) -> Tensor
+#### Tensor.logaddexp(other) -> Tensor
 
 
 ## Casting Ops
 
-#### cast(dtype: 'DTypeLike') -> Tensor
+#### Tensor.cast(dtype: 'DTypeLike') -> Tensor
 
 
-#### bitcast(dtype: 'DTypeLike') -> Tensor
+#### Tensor.bitcast(dtype: 'DTypeLike') -> Tensor
 
 
-#### float() -> Tensor
+#### Tensor.float() -> Tensor
 
 
-#### half() -> Tensor
+#### Tensor.half() -> Tensor
 
 
-#### int() -> Tensor
+#### Tensor.int() -> Tensor
 
 
-#### bool() -> Tensor
+#### Tensor.bool() -> Tensor
 
 
-#### bfloat16() -> Tensor
+#### Tensor.bfloat16() -> Tensor
 
 
-#### double() -> Tensor
+#### Tensor.double() -> Tensor
 
 
-#### long() -> Tensor
+#### Tensor.long() -> Tensor
 
 
-#### short() -> Tensor
+#### Tensor.short() -> Tensor
 

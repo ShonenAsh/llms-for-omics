@@ -1,16 +1,27 @@
 import numpy as np
 import pytest
 from tinygrad import Tensor
-from task_01_tensor_basics import ones_times_five, matmul, reduce_last_dim, manual_relu, manual_sigmoid, outer_sum
+_import_error = None
+try:
+    from task_01_tensor_basics import ones_times_five, matmul, reduce_last_dim, manual_relu, manual_sigmoid, outer_sum
+except Exception as _e:
+    _import_error = _e
+    ones_times_five = matmul = reduce_last_dim = manual_relu = manual_sigmoid = outer_sum = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 def test_1a_ones_times_five():
+    _check_import()
     t = ones_times_five()
     assert t.shape == (3, 4)
     assert np.allclose(t.numpy(), 5.0)
 
 
 def test_1b_matmul():
+    _check_import()
     rng = np.random.default_rng(0)
     A = rng.random((4, 3)).astype(np.float32)
     B = rng.random((3, 5)).astype(np.float32)
@@ -20,6 +31,7 @@ def test_1b_matmul():
 
 
 def test_1c_reduce_last_dim():
+    _check_import()
     rng = np.random.default_rng(0)
     x_np = rng.random((2, 6, 8)).astype(np.float32)
     x = Tensor(x_np)
@@ -31,16 +43,19 @@ def test_1c_reduce_last_dim():
 
 
 def test_1d_manual_relu():
+    _check_import()
     v = Tensor(np.array([-2.0, -1.0, 0.0, 1.0, 2.0]))
     assert np.allclose(manual_relu(v).numpy(), np.maximum(v.numpy(), 0))
 
 
 def test_1d_manual_sigmoid():
+    _check_import()
     v = Tensor(np.array([-2.0, -1.0, 0.0, 1.0, 2.0]))
     assert np.allclose(manual_sigmoid(v).numpy(), 1 / (1 + np.exp(-v.numpy())), atol=1e-6)
 
 
 def test_1e_outer_sum():
+    _check_import()
     x = Tensor(np.arange(8, dtype=np.float32))
     y = Tensor(np.arange(8, dtype=np.float32))
     out = outer_sum(x, y)

@@ -1,11 +1,11 @@
 ## Movement (low level)
 
-#### view(shape, *args) -> Self
+#### Tensor.view(shape, *args) -> Self
 
 `.view` is an alias for `.reshape`.
 
 
-#### reshape(shape, *args) -> Self
+#### Tensor.reshape(shape, *args) -> Self
 
 Returns a tensor with the same data as the original tensor but with a different shape.
 `shape` can be passed as a tuple or as separate arguments.
@@ -16,12 +16,39 @@ print(t.reshape(2, 3).numpy())
 ```
 
 ```
-[[0 1 2]
- [3 4 5]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### expand(shape, *args) -> Self
+#### Tensor.expand(shape, *args) -> Self
 
 Returns a tensor that is expanded to the shape that is specified.
 Expand can also increase the number of dimensions that a tensor has.
@@ -34,14 +61,39 @@ print(t.expand(4, -1).numpy())
 ```
 
 ```
-[[1 2 3]
- [1 2 3]
- [1 2 3]
- [1 2 3]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### permute(order, *args) -> Self
+#### Tensor.permute(order, *args) -> Self
 
 Returns a tensor that is a permutation of the original tensor.
 The new tensor has the same data as the original tensor but with the dimensions permuted according to the order specified.
@@ -65,7 +117,7 @@ print(t.permute(2, 0, 1).shape)
 ```
 
 
-#### flip(axis, *args) -> Self
+#### Tensor.flip(axis, *args) -> Self
 
 Returns a tensor that reverses the order of the original tensor along given `axis`.
 `axis` can be passed as a tuple or as separate arguments.
@@ -76,8 +128,35 @@ print(t.numpy())
 ```
 
 ```
-[[0 1 2]
- [3 4 5]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -85,8 +164,35 @@ print(t.flip(0).numpy())
 ```
 
 ```
-[[3 4 5]
- [0 1 2]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -94,12 +200,39 @@ print(t.flip((0, 1)).numpy())
 ```
 
 ```
-[[5 4 3]
- [2 1 0]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### shrink(arg: tuple[tuple['UOp | int', 'UOp | int'] | None, ...]) -> Self
+#### Tensor.shrink(arg: tuple[tuple['UOp | int', 'UOp | int'] | None, ...]) -> Self
 
 Returns a tensor that shrinks the each axis based on input arg.
 `arg` must have the same length as `self.ndim`.
@@ -111,9 +244,35 @@ print(t.numpy())
 ```
 
 ```
-[[0 1 2]
- [3 4 5]
- [6 7 8]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -121,9 +280,35 @@ print(t.shrink(((None, (1, 3)))).numpy())
 ```
 
 ```
-[[1 2]
- [4 5]
- [7 8]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -131,12 +316,39 @@ print(t.shrink((((0, 2), (0, 2)))).numpy())
 ```
 
 ```
-[[0 1]
- [3 4]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### pad(padding: 'Sequence[sint] | Sequence[tuple[sint, sint] | None]', mode: 'str' = 'constant', value: 'float' = 0.0) -> Tensor
+#### Tensor.pad(padding: 'Sequence[sint] | Sequence[tuple[sint, sint] | None]', mode: 'str' = 'constant', value: 'float' = 0.0) -> Tensor
 
 Returns a tensor with padding applied based on the input `padding`.
 
@@ -160,9 +372,35 @@ print(t.numpy())
 ```
 
 ```
-[[[[0 1 2]
-   [3 4 5]
-   [6 7 8]]]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -170,8 +408,35 @@ print(t.pad((1, 2, 0, -1)).numpy())
 ```
 
 ```
-[[[[0 0 1 2 0 0]
-   [0 3 4 5 0 0]]]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -179,8 +444,35 @@ print(t.pad(((None, None, (0, -1), (1, 2)))).numpy())
 ```
 
 ```
-[[[[0 0 1 2 0 0]
-   [0 3 4 5 0 0]]]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -188,14 +480,41 @@ print(t.pad((1, 2, 0, -1), value=-float('inf')).numpy())
 ```
 
 ```
-[[[[-inf   0.   1.   2. -inf -inf]
-   [-inf   3.   4.   5. -inf -inf]]]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
 ## Movement (high level)
 
-#### __getitem__(indices) -> Tensor
+#### Tensor.__getitem__(indices) -> Tensor
 
 Retrieves a sub-tensor using indexing.
 
@@ -209,9 +528,35 @@ print(t.numpy())
 ```
 
 ```
-[[ 0  1  2  3]
- [ 4  5  6  7]
- [ 8  9 10 11]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -252,11 +597,39 @@ print(t[Tensor([4, 3, 2])].numpy())
 ```
 
 ```
-[0 0 3]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### gather(dim: 'int', index: 'Tensor') -> Tensor
+#### Tensor.gather(dim: 'int', index: 'Tensor') -> Tensor
 
 Gathers values along an axis specified by `dim`.
 
@@ -266,8 +639,35 @@ print(t.numpy())
 ```
 
 ```
-[[1 2]
- [3 4]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -275,12 +675,39 @@ print(t.gather(1, Tensor([[0, 0], [1, 0]])).numpy())
 ```
 
 ```
-[[1 1]
- [4 3]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### cat(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+#### Tensor.cat(*args: 'Tensor', dim: 'int' = 0) -> Tensor
 
 Concatenates self with other `Tensor` in `args` along an axis specified by `dim`.
 All tensors must have the same shape except in the concatenating dimension.
@@ -291,9 +718,35 @@ print(t0.cat(t1, t2, dim=0).numpy())
 ```
 
 ```
-[[1 2]
- [3 4]
- [5 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -301,11 +754,39 @@ print(t0.cat(t1, t2, dim=1).numpy())
 ```
 
 ```
-[[1 2 3 4 5 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### stack(*args: 'Tensor', dim: 'int' = 0) -> Tensor
+#### Tensor.stack(*args: 'Tensor', dim: 'int' = 0) -> Tensor
 
 Concatenates self with other `Tensor` in `args` along a new dimension specified by `dim`.
 
@@ -315,9 +796,35 @@ print(t0.stack(t1, t2, dim=0).numpy())
 ```
 
 ```
-[[1 2]
- [3 4]
- [5 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -325,12 +832,39 @@ print(t0.stack(t1, t2, dim=1).numpy())
 ```
 
 ```
-[[1 3 5]
- [2 4 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### repeat(repeats, *args) -> Self
+#### Tensor.repeat(repeats, *args) -> Self
 
 Repeats tensor number of times along each dimension specified by `repeats`.
 `repeats` can be passed as a tuple or as separate arguments.
@@ -341,10 +875,35 @@ print(t.repeat(4, 2).numpy())
 ```
 
 ```
-[[1 2 3 1 2 3]
- [1 2 3 1 2 3]
- [1 2 3 1 2 3]
- [1 2 3 1 2 3]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -356,7 +915,7 @@ print(t.repeat(4, 2, 1).shape)
 ```
 
 
-#### repeat_interleave(repeats: int, dim: int | None = None) -> Self
+#### Tensor.repeat_interleave(repeats: int, dim: int | None = None) -> Self
 
 Repeats elements of a tensor.
 
@@ -366,11 +925,39 @@ print(t.repeat_interleave(2).numpy())
 ```
 
 ```
-[1 1 2 2 3 3]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### split(sizes: 'int | Sequence[int]', dim: 'int' = 0) -> tuple[Tensor, ...]
+#### Tensor.split(sizes: 'int | Sequence[int]', dim: 'int' = 0) -> tuple[Tensor, ...]
 
 Splits the tensor into chunks along the dimension specified by `dim`.
 If `sizes` is an integer, it splits into equally sized chunks if possible, otherwise the last chunk will be smaller.
@@ -382,11 +969,35 @@ print(t.numpy())
 ```
 
 ```
-[[0 1]
- [2 3]
- [4 5]
- [6 7]
- [8 9]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -395,11 +1006,35 @@ print("\n".join([repr(x.numpy()) for x in split]))
 ```
 
 ```
-array([[0, 1],
-       [2, 3]], dtype=int32)
-array([[4, 5],
-       [6, 7]], dtype=int32)
-array([[8, 9]], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -408,15 +1043,39 @@ print("\n".join([repr(x.numpy()) for x in split]))
 ```
 
 ```
-array([[0, 1]], dtype=int32)
-array([[2, 3],
-       [4, 5],
-       [6, 7],
-       [8, 9]], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### chunk(chunks: 'int', dim: 'int' = 0) -> list[Tensor]
+#### Tensor.chunk(chunks: 'int', dim: 'int' = 0) -> list[Tensor]
 
 Splits the tensor into `chunks` number of chunks along the dimension `dim`.
 If the tensor size along `dim` is not divisible by `chunks`, all returned chunks will be the same size except the last one.
@@ -428,12 +1087,35 @@ print("\n".join([repr(x.numpy()) for x in chunked]))
 ```
 
 ```
-array([0, 1], dtype=int32)
-array([2, 3], dtype=int32)
-array([4, 5], dtype=int32)
-array([6, 7], dtype=int32)
-array([8, 9], dtype=int32)
-array([10], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -442,12 +1124,35 @@ print("\n".join([repr(x.numpy()) for x in chunked]))
 ```
 
 ```
-array([0, 1], dtype=int32)
-array([2, 3], dtype=int32)
-array([4, 5], dtype=int32)
-array([6, 7], dtype=int32)
-array([8, 9], dtype=int32)
-array([10, 11], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -456,15 +1161,39 @@ print("\n".join([repr(x.numpy()) for x in chunked]))
 ```
 
 ```
-array([0, 1, 2], dtype=int32)
-array([3, 4, 5], dtype=int32)
-array([6, 7, 8], dtype=int32)
-array([ 9, 10, 11], dtype=int32)
-array([12], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### unfold(dim: 'int', size: 'sint', step: 'int') -> Tensor
+#### Tensor.unfold(dim: 'int', size: 'sint', step: 'int') -> Tensor
 
 Unfolds the tensor along dimension `dim` into overlapping windows.
 
@@ -478,10 +1207,35 @@ print("\n".join([repr(x.numpy()) for x in unfolded]))
 ```
 
 ```
-array([0, 1], dtype=int32)
-array([2, 3], dtype=int32)
-array([4, 5], dtype=int32)
-array([6, 7], dtype=int32)
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -490,25 +1244,39 @@ print("\n".join([repr(x.numpy()) for x in unfolded]))
 ```
 
 ```
-array([[[0, 1]],
+[execution error: 
 
-       [[3, 4]],
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
 
-       [[6, 7]]], dtype=int32)
-array([[[ 9, 10]],
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
 
-       [[12, 13]],
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
 
-       [[15, 16]]], dtype=int32)
-array([[[18, 19]],
+We have compiled some common reasons and troubleshooting tips at:
 
-       [[21, 22]],
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
 
-       [[24, 25]]], dtype=int32)
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### meshgrid(*args: 'Tensor', indexing: "Literal['ij', 'xy']" = 'ij') -> tuple[Tensor, ...]
+#### Tensor.meshgrid(*args: 'Tensor', indexing: "Literal['ij', 'xy']" = 'ij') -> tuple[Tensor, ...]
 
 Generates coordinate matrices from coordinate vectors.
 Input tensors can be scalars or 1D tensors.
@@ -524,12 +1292,35 @@ print(grid_y.numpy())
 ```
 
 ```
-[[1 1 1]
- [2 2 2]
- [3 3 3]]
-[[4 5 6]
- [4 5 6]
- [4 5 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -539,16 +1330,39 @@ print(grid_y.numpy())
 ```
 
 ```
-[[1 2 3]
- [1 2 3]
- [1 2 3]]
-[[4 4 4]
- [5 5 5]
- [6 6 6]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### squeeze(dim: int | None = None) -> Self
+#### Tensor.squeeze(dim: int | None = None) -> Self
 
 Returns a tensor with specified dimensions of input of size 1 removed.
 If `dim` is not specified, all dimensions with size 1 are removed.
@@ -579,7 +1393,7 @@ print(t.squeeze(1).shape)
 ```
 
 
-#### unsqueeze(dim: int) -> Self
+#### Tensor.unsqueeze(dim: int) -> Self
 
 Returns a tensor with a new dimension of size 1 inserted at the specified `dim`.
 
@@ -589,7 +1403,35 @@ print(t.unsqueeze(0).numpy())
 ```
 
 ```
-[[1 2 3 4]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -597,19 +1439,44 @@ print(t.unsqueeze(1).numpy())
 ```
 
 ```
-[[1]
- [2]
- [3]
- [4]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### T -> typing.Self
+#### Tensor.T -> typing.Self
 
 `.T` is an alias for `.transpose()`.
 
 
-#### transpose(dim0=1, dim1=0) -> Self
+#### Tensor.transpose(dim0=1, dim1=0) -> Self
 
 Returns a tensor that is a transposed version of the original tensor.
 The given dimensions `dim0` and `dim1` are swapped.
@@ -620,8 +1487,35 @@ print(t.numpy())
 ```
 
 ```
-[[0 1 2]
- [3 4 5]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -629,13 +1523,39 @@ print(t.transpose(0, 1).numpy())
 ```
 
 ```
-[[0 3]
- [1 4]
- [2 5]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### flatten(start_dim=0, end_dim=-1) -> Self
+#### Tensor.flatten(start_dim=0, end_dim=-1) -> Self
 
 Flattens the tensor by reshaping it into a one-dimensional tensor.
 If `start_dim` or `end_dim` are passed, only dimensions starting with `start_dim` and ending with `end_dim` are flattened.
@@ -646,7 +1566,35 @@ print(t.flatten().numpy())
 ```
 
 ```
-[0 1 2 3 4 5 6 7]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -654,12 +1602,39 @@ print(t.flatten(start_dim=1).numpy())
 ```
 
 ```
-[[0 1 2 3]
- [4 5 6 7]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### unflatten(dim: int, sizes: tuple[int, ...]) -> Self
+#### Tensor.unflatten(dim: int, sizes: tuple[int, ...]) -> Self
 
 Unflattens dimension `dim` of the tensor into multiple dimensions specified by `sizes`. `Tensor.flatten()` is the inverse of this function.
 
@@ -688,7 +1663,7 @@ print(Tensor.ones(5, 12, 3).unflatten(-2, (2, 2, 3, 1, 1)).shape)
 ```
 
 
-#### diag() -> Tensor
+#### Tensor.diag() -> Tensor
 
 Returns a 2-D square tensor with the elements of input as the main diagonal.
 
@@ -697,13 +1672,39 @@ print(Tensor([1, 2, 3]).diag().numpy())
 ```
 
 ```
-[[1 0 0]
- [0 2 0]
- [0 0 3]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### diagonal() -> Tensor
+#### Tensor.diagonal() -> Tensor
 
 Returns a view of input tensor with its main diagonal elements.
 
@@ -713,9 +1714,35 @@ print(t.numpy())
 ```
 
 ```
-[[0 1 2]
- [3 4 5]
- [6 7 8]]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -723,11 +1750,39 @@ print(t.diagonal().numpy())
 ```
 
 ```
-[0 4 8]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### roll(shifts: 'int | tuple[int, ...]', dims: 'int | tuple[int, ...] | None' = None) -> Tensor
+#### Tensor.roll(shifts: 'int | tuple[int, ...]', dims: 'int | tuple[int, ...] | None' = None) -> Tensor
 
 Rolls the tensor along specified dimension(s).
 The rolling operation is circular, meaning that elements that go beyond the edge are wrapped around to the beginning of the dimension.
@@ -738,7 +1793,35 @@ print(t.roll(shifts=1, dims=0).numpy())
 ```
 
 ```
-[3 0 1 2]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 ```python
@@ -746,11 +1829,39 @@ print(t.roll(shifts=-1, dims=0).numpy())
 ```
 
 ```
-[1 2 3 0]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 
 
-#### rearrange(formula: str, **sizes) -> Self
+#### Tensor.rearrange(formula: str, **sizes) -> Self
 
 Rearranges input according to formula
 
@@ -762,6 +1873,34 @@ print(Tensor.rearrange(x, "batch channel -> (batch channel)").numpy())
 ```
 
 ```
-[1 2 3 4]
+[execution error: 
+
+IMPORTANT: PLEASE READ THIS FOR ADVICE ON HOW TO SOLVE THIS ISSUE!
+
+Importing the numpy C-extensions failed. This error can happen for
+many reasons, often due to issues with your setup or how NumPy was
+installed.
+The following compiled module files exist, but seem incompatible
+with with either python 'cpython-314' or the platform 'linux':
+
+  * _multiarray_umath.cpython-313-x86_64-linux-gnu.so
+
+We have compiled some common reasons and troubleshooting tips at:
+
+    https://numpy.org/devdocs/user/troubleshooting-importerror.html
+
+Please note and check the following:
+
+  * The Python version is: Python 3.14 from "/usr/bin/python3"
+  * The NumPy version is: "2.4.4"
+
+and make sure that they are the versions you expect.
+
+Please carefully study the information and documentation linked above.
+This is unlikely to be a NumPy issue but will be caused by a bad install
+or environment on your machine.
+
+Original error was: No module named 'numpy._core._multiarray_umath'
+]
 ```
 

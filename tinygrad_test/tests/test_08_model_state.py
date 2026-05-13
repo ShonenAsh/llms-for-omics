@@ -2,19 +2,30 @@ import pathlib, tempfile
 import numpy as np
 import pytest
 from tinygrad import Tensor
-from task_08_model_state import TinyModel, get_state, save_and_load, copy_weights, freeze_fc1
+_import_error = None
+try:
+    from task_08_model_state import TinyModel, get_state, save_and_load, copy_weights, freeze_fc1
+except Exception as _e:
+    _import_error = _e
+    TinyModel = get_state = save_and_load = copy_weights = freeze_fc1 = None
+
+def _check_import():
+    if _import_error is not None:
+        pytest.fail(f"Could not import task module: {type(_import_error).__name__}: {_import_error}")
 
 
 EXPECTED_KEYS = {"fc1.weight", "fc1.bias", "fc2.weight", "fc2.bias"}
 
 
 def test_8a_state_dict_keys():
+    _check_import()
     model = TinyModel()
     sd = get_state(model)
     assert set(sd.keys()) == EXPECTED_KEYS
 
 
 def test_8a_state_dict_shapes():
+    _check_import()
     model = TinyModel()
     sd = get_state(model)
     assert sd["fc1.weight"].shape == (8, 4)
@@ -24,6 +35,7 @@ def test_8a_state_dict_shapes():
 
 
 def test_8b_save_and_load_roundtrip():
+    _check_import()
     model = TinyModel()
     sd    = get_state(model)
     with tempfile.TemporaryDirectory() as tmp:
@@ -35,6 +47,7 @@ def test_8b_save_and_load_roundtrip():
 
 
 def test_8c_copy_weights_equal_outputs():
+    _check_import()
     rng = np.random.default_rng(9)
     src, dst = TinyModel(), TinyModel()
     x = Tensor(rng.standard_normal((3, 4)).astype(np.float32))
@@ -44,6 +57,7 @@ def test_8c_copy_weights_equal_outputs():
 
 
 def test_8d_freeze_fc1_leaves_fc2_trainable():
+    _check_import()
     model = TinyModel()
     trainable = freeze_fc1(model)
     sd = get_state(model)

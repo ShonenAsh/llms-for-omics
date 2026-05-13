@@ -48,6 +48,16 @@ docker run --rm -e OPENAI_API_KEY=$OPENAI_API_KEY -e MODEL=gpt-4o tinygrad-bench
 docker run --rm -e GEMINI_API_KEY=$GEMINI_API_KEY -e MODEL=gemini/gemini-2.0-flash tinygrad-bench:exp_2a-level_3
 ```
 
+Since the llm calls are via `litellm`, Hugginface Inference is also support (free with rate limits)
+
+```bash
+# Example
+docker run --rm \
+-e HF_TOKEN=$(envchain huggingface sh -c 'echo $HF_TOKEN') \
+-e MODEL=huggingface/Qwen/Qwen2.5-Coder-32B-Instruct \
+tinygrad-bench:exp_2a-level_1
+```
+
 ## Local setup
 
 ```bash

@@ -1,4 +1,4 @@
-#### DType(priority: 'int', bitsize: 'int', name: 'str', fmt: 'FmtStr | None', count: 'int', _scalar: 'DType | None')
+#### dtype.DType(priority: 'int', bitsize: 'int', name: 'str', fmt: 'FmtStr | None', count: 'int', _scalar: 'DType | None')
 
 DType(*args, **kwargs)
 
@@ -22,9 +22,9 @@ DType(*args, **kwargs)
 | `dtypes.bool` | boolean |
 
 
-#### ConstType(*args, **kwargs)
+#### dtype.ConstType(*args, **kwargs)
 
-Represent a PEP 604 union type
+Represent a union type
 
 E.g. for int | str
 

@@ -24,4 +24,4 @@ for task_file in "$TASKS_DIR"/task_*.py; do
 done
 
 echo "==> Running tests"
-pytest tests/ -v
+python benchmark.py "$SUBMISSIONS_DIR"
