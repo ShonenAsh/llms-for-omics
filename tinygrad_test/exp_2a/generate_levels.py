@@ -171,6 +171,10 @@ def _short_path(dotted: str) -> str:
 def get_signature_str(dotted: str, obj, kind: str) -> str:
     """Return a formatted signature string for the object."""
     name = _short_path(dotted)
+    # For instance methods, classmethods, and properties, show just the name
+    # (e.g. "sqrt" not "Tensor.sqrt") to avoid implying class-level static call.
+    if kind in ("method", "classmethod", "property"):
+        name = name.split(".")[-1]
 
     if kind == "special_dtypes":
         return None  # handled separately
@@ -552,13 +556,6 @@ forward.reset()  # clears the captured graph, allowing re-capture
 
 ## Additional Tips
 
-- **`Tensor.no_grad()`** — context manager to disable gradient tracking
-  (analogous to `torch.no_grad()`).
-  ```python
-  with Tensor.no_grad():
-      out = model(x)
-  ```
-
 - **Device placement** — specify device at creation time:
   ```python
   x = Tensor([1.0, 2.0], device="GPU")
@@ -661,16 +658,6 @@ optimizer.step()
 opt.zero_grad()
 loss.backward()
 opt.step()
-```
-
-```python
-# PyTorch no_grad context
-with torch.no_grad():
-    out = model(x)
-
-# Tinygrad
-with Tensor.no_grad():
-    out = model(x)
 ```
 
 ---
