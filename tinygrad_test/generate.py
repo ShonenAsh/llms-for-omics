@@ -68,10 +68,13 @@ def generate(
 ) -> Solution:
     client = instructor.from_litellm(litellm.completion, mode=Mode.MD_JSON)
 
-    user_content = f"## Documentation\n\n{docs.content}"
+    parts = []
+    if docs.content:
+        parts.append(f"## Documentation\n\n{docs.content}")
     if prior:
-        user_content += f"\n\n---\n\n## Your Previous Implementations\n\n{prior.content}"
-    user_content += f"\n\n---\n\n## Task\n\n{task.content}"
+        parts.append(f"## Your Previous Implementations\n\n{prior.content}")
+    parts.append(f"## Task\n\n{task.content}")
+    user_content = "\n\n---\n\n".join(parts)
 
     kwargs = dict(
         model=model,
