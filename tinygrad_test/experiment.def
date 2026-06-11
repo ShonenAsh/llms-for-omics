@@ -1,0 +1,14 @@
+Bootstrap: localimage
+From: tinygrad-bench_base.sif
+
+%arguments
+    EXPERIMENT=exp_2a
+    LEVEL=level_1
+
+%files
+    {{ EXPERIMENT }}/{{ LEVEL }}/ /workspace/docs/
+    {{ EXPERIMENT }}/Prompt.md /workspace/Prompt.md
+
+%environment
+    export EXPERIMENT={{ EXPERIMENT }}
+    export LEVEL={{ LEVEL }}

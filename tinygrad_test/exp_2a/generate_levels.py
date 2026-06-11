@@ -20,8 +20,10 @@ import contextlib
 import pathlib
 import textwrap
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
-VENV_SITE = "../.venv/lib/python3.13/site-packages"
+# Paths
+# VENV_SITE = "../.venv/lib/python3.13/site-packages"
+VENV_SITE = f'{sys.prefix}/lib/python3.13/site-packages'
+
 sys.path.insert(0, VENV_SITE)
 
 DOCS_DIR = pathlib.Path("docs")
