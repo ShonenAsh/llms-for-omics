@@ -1,0 +1,1 @@
+# This folder is required to be present & empty for docker/apptainer build script consistency.

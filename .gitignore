@@ -56,3 +56,10 @@ venv.bak/
 #backups
 *.bak/
 *.bak
+
+# Apptainer images
+**/*.sif
+
+**/exp_2*/docs
+**/exp_2*/ablation_*/
+**/exp_2*/level_*/
