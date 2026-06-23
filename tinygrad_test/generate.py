@@ -1,5 +1,6 @@
 """Single-shot LLM code output parsing for benchmarks."""
 import re
+import json
 from pathlib import Path
 
 import instructor
@@ -8,7 +9,7 @@ import litellm
 from pydantic import BaseModel
 
 
-# Prompt models                                                      
+# Prompt models
 
 class SystemPrompt(BaseModel):
     content: str
@@ -23,18 +24,18 @@ class PriorAttempts(BaseModel):
     content: str
 
 
-# Output model                                                                
+# Output model
 
 class Solution(BaseModel):
     reasoning: str
-    code: str  # Python only
+    code: str
 
 
-# Helpers                                                                     
+# Helpers
 
 def strip_fences(code: str) -> str:
-    """Strip markdown python fences if the model included them."""
-    m = re.search(r"```python\s*(.*?)```", code, re.DOTALL)
+    """Strip markdown code fences if the model included them."""
+    m = re.search(r"```(?:python|r)?\s*(.*?)```", code, re.DOTALL)
     return m.group(1).strip() if m else code.strip()
 
 
@@ -56,7 +57,7 @@ def load_docs(docs_dir: Path) -> Docs:
     return Docs(content="\n\n---\n\n".join(parts))
 
 
-# Generation                                  
+# Generation
 
 def generate(
     system: SystemPrompt,
@@ -65,6 +66,8 @@ def generate(
     model: str = "claude-opus-4-6",
     prior: PriorAttempts | None = None,
     api_base: str | None = None,
+    max_tokens: int = 32000,
+    extra_body: dict | None = None,
 ) -> Solution:
     client = instructor.from_litellm(litellm.completion, mode=Mode.MD_JSON)
 
@@ -78,7 +81,7 @@ def generate(
 
     kwargs = dict(
         model=model,
-        max_tokens=8096,
+        max_tokens=max_tokens,
         messages=[
             {"role": "system", "content": system.content},
             {"role": "user",   "content": user_content},
@@ -87,29 +90,30 @@ def generate(
     )
     if api_base is not None:
         kwargs["api_base"] = api_base
+    if extra_body is not None:
+        kwargs["extra_body"] = extra_body
 
     solution: Solution = client.chat.completions.create(**kwargs)
     solution.code = strip_fences(solution.code)
     return solution
 
 
-
-
-
-# Entry point                                                                 
+# Entry point
 
 if __name__ == "__main__":
     import argparse
     import os
 
     parser = argparse.ArgumentParser(description="Generate a task solution via LLM.")
-    parser.add_argument("--task",   required=True, help="Path to task_*.py stub")
-    parser.add_argument("--docs",   required=True, help="Path to docs directory")
-    parser.add_argument("--prompt", required=True, help="Path to Prompt.md")
-    parser.add_argument("--output",      required=True, help="Where to write the solution .py")
+    parser.add_argument("--task",        required=True,   help="Path to task_*.py stub")
+    parser.add_argument("--docs",        required=True,   help="Path to docs directory")
+    parser.add_argument("--prompt",      required=True,   help="Path to Prompt.md")
+    parser.add_argument("--output",      required=True,   help="Where to write the solution .py")
     parser.add_argument("--model",       default=os.environ.get("MODEL", "claude-opus-4-6"))
-    parser.add_argument("--context-dir", default=None,  help="Directory of prior task solutions to inject as context")
-    parser.add_argument("--api-base",    default=None,  help="Base URL for OpenAI-compatible API endpoint")
+    parser.add_argument("--context-dir", default=None,    help="Directory of prior task solutions to inject as context")
+    parser.add_argument("--api-base",    default=None,    help="Base URL for OpenAI-compatible API endpoint")
+    parser.add_argument("--max-tokens",  type=int,        default=32000, help="Max tokens for generation (default: 32000)")
+    parser.add_argument("--extra-body",  type=json.loads, default=None,  help='JSON string e.g. \'{"chat_template_kwargs": {"thinking_budget": 8192}}\'')
     args = parser.parse_args()
 
     system = SystemPrompt(content=Path(args.prompt).read_text())
@@ -117,6 +121,13 @@ if __name__ == "__main__":
     docs   = load_docs(Path(args.docs))
     prior  = load_prior_attempts(Path(args.context_dir)) if args.context_dir else None
 
-    solution = generate(system, task, docs, model=args.model, prior=prior, api_base=args.api_base)
+    solution = generate(
+        system, task, docs,
+        model=args.model,
+        prior=prior,
+        api_base=args.api_base,
+        max_tokens=args.max_tokens,
+        extra_body=args.extra_body,
+    )
     Path(args.output).write_text(solution.code)
     print(f"Written → {args.output}")

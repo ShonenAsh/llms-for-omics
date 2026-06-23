@@ -2,8 +2,8 @@ Bootstrap: docker
 From: python:3.13-slim
 
 %files
-    tasks/ /workspace/tasks/
-    tests/ /workspace/tests/
+    tasks/ /workspace/
+    tests/ /workspace/
     generate.py /workspace/generate.py
     run.sh /workspace/run.sh
 
