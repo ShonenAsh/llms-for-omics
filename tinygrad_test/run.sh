@@ -10,10 +10,11 @@ exp_tag="${EXPERIMENT}${LEVEL:+_${LEVEL}}"
 
 echo "==> model: ${MODEL}  experiment: ${EXPERIMENT:-?}  level: ${LEVEL:-?}  runs: ${RUNS}"
 
-API_BASE_FLAG=""
-if [ -n "${API_BASE:-}" ]; then
-    API_BASE_FLAG="--api-base $API_BASE"
-fi
+# Optional args array
+GENERATE_ARGS=()
+[ -n "${API_BASE:-}"   ] && GENERATE_ARGS+=(--api-base   "$API_BASE")
+[ -n "${MAX_TOKENS:-}" ] && GENERATE_ARGS+=(--max-tokens "$MAX_TOKENS")
+[ -n "${EXTRA_BODY:-}" ] && GENERATE_ARGS+=(--extra-body "$EXTRA_BODY")
 
 for i in $(seq -w 0 $(( RUNS - 1 ))); do
     (
@@ -31,7 +32,7 @@ for i in $(seq -w 0 $(( RUNS - 1 ))); do
                 --output      "$run_dir/$task_name" \
                 --model       "$MODEL" \
                 --context-dir "$run_dir" \
-                $API_BASE_FLAG
+                "${GENERATE_ARGS[@]}"
         done
 
         echo "    [${exp_tag}/run_${i}] running tests"
