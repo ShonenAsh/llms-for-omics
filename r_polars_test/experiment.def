@@ -1,0 +1,15 @@
+Bootstrap: localimage
+From: r-polars-bench-base.sif
+
+%post
+    if [ "%%LEVEL%%" != "none" ]; then
+        Rscript /workspace/extract_docs.R %%LEVEL%% && \
+        cp /workspace/docs_conditions/%%LEVEL%%/* /workspace/tasks/
+    fi
+
+%files
+    %%EXPERIMENT_DIR%%/Prompt.md /workspace/Prompt.md
+
+%environment
+    export EXPERIMENT=%%EXPERIMENT%%
+    export LEVEL=%%LEVEL%%

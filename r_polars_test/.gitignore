@@ -1,0 +1,22 @@
+# R env
+renv/
+# LLM docs - generated at build with a script
+**/docs*/
+
+# Build artifacts
+docs_conditions/
+doc_snapshots/
+test_out/
+
+# Project benchmark
+submissions/
+data/
+results*.*
+
+# R dot files
+*.R?*
+
+# opencode sessions dumps
+*ses*.md
+
+
