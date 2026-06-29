@@ -1,0 +1,36 @@
+FROM python:3.13-slim
+
+WORKDIR /workspace
+
+# All network operations in one RUN so the resolv.conf override covers all of them
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    r-base \
+    r-base-dev \
+    curl \
+    libuv1-dev \
+    && rm -rf /var/lib/apt/lists/* && \
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    /root/.cargo/bin/cargo --version && \
+    pip install --no-cache-dir \
+        "litellm>=1.40.0" \
+        "instructor>=1.7.0" \
+        "pydantic>=2.0.0" && \
+    R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); pak::pkg_install(c("pola-rs/r-polars", "testthat", "callr"))'
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Copy task stubs, test suite, data, and scripts
+COPY tasks/ tasks/
+COPY tests/ tests/
+COPY data/ data/
+COPY extract_docs.R .
+COPY generate.py .
+COPY benchmark.R .
+COPY run.sh .
+RUN chmod +x run.sh
+
+ENV MODEL=claude-opus-4-6
+ENV RUNS=1
+ENV PYTHONUNBUFFERED=1
+
+ENTRYPOINT ["./run.sh"]
