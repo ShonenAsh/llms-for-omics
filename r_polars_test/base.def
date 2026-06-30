@@ -20,9 +20,9 @@ From: python:3.13-slim
         "pydantic>=2.0.0"
 
 %files
-    tasks/ /workspace/tasks/
-    tests/ /workspace/tests/
-    data/ /workspace/data/
+    tasks/ /workspace/tasks
+    tests/ /workspace/tests
+    data/ /workspace/data
     extract_docs.R /workspace/
     generate.py /workspace/
     benchmark.R /workspace/
