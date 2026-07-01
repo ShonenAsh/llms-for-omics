@@ -166,6 +166,11 @@ FULL <- mk(usage = TRUE, description = TRUE, arguments = TRUE, value = TRUE,
            examples = "all", output = TRUE)
 
 CONDITIONS <- list(
+  # 1  -- no docs baseline (baseline / control)
+  "none"                   = list(usage = FALSE, description = FALSE,
+                                  arguments = FALSE, value = FALSE,
+                                  examples = "none", output = FALSE,
+                                  strip_dtypes = FALSE),
   # 2a -- compounding ladder
   "2a_1_signatures"        = mk(usage = TRUE),
   "2a_2_sig_description"   = mk(usage = TRUE, description = TRUE),
@@ -193,27 +198,29 @@ first_example <- function(examples_txt) {
 # one function's doc -> character vector of comment lines
 compose_block <- function(fun, rec, alias, spec) {
   maybe_strip <- function(t) if (spec$strip_dtypes) strip_dtypes(t) else t
-  L <- c(paste0(COMMENT, "--- ", fun, " ---"))
+  parts <- character()
 
   if (spec$usage && nzchar(rec$usage))
-    L <- c(L, paste0(COMMENT, "Signature:"), .comment(rec$usage))
+    parts <- c(parts, paste0(COMMENT, "Signature:"), .comment(rec$usage))
   if (spec$description && nzchar(rec$description))
-    L <- c(L, paste0(COMMENT, "Description:"), .comment(maybe_strip(rec$description)))
+    parts <- c(parts, paste0(COMMENT, "Description:"), .comment(maybe_strip(rec$description)))
   if (spec$arguments && nzchar(rec$arguments))
-    L <- c(L, paste0(COMMENT, "Arguments:"), .comment(maybe_strip(rec$arguments)))
+    parts <- c(parts, paste0(COMMENT, "Arguments:"), .comment(maybe_strip(rec$arguments)))
   if (spec$value && nzchar(rec$value))
-    L <- c(L, paste0(COMMENT, "Returns:"), .comment(maybe_strip(rec$value)))
+    parts <- c(parts, paste0(COMMENT, "Returns:"), .comment(maybe_strip(rec$value)))
 
   if (spec$examples != "none" && nzchar(rec$examples)) {
     ex <- if (spec$examples == "one") first_example(rec$examples) else rec$examples
-    L <- c(L, paste0(COMMENT, "Examples:"), .comment(ex))
+    parts <- c(parts, paste0(COMMENT, "Examples:"), .comment(ex))
     if (spec$output) {
       out <- capture_example_output(alias, ex)
       out <- maybe_strip(out)
-      if (nzchar(out)) L <- c(L, paste0(COMMENT, "Output:"), .comment(out))
+      if (nzchar(out)) parts <- c(parts, paste0(COMMENT, "Output:"), .comment(out))
     }
   }
-  c(L, COMMENT)   # trailing spacer line
+
+  if (!length(parts)) return(character(0))
+  c(paste0(COMMENT, "--- ", fun, " ---"), parts, COMMENT)
 }
 
 # union of required functions -> full top-of-file doc block (comment lines)
@@ -245,6 +252,8 @@ compose_top_block <- function(required, spec, records) {
 # INJECTION + DRIVER
 inject_docs <- function(task_file, doc_lines, out_file) {
   lines <- readLines(task_file, warn = FALSE)
+  # Strip @requires directive line (matches same pattern as read_required)
+  lines <- lines[!grepl("@requires", lines)]
   idx <- grep("<<DOCS>>", lines)
   if (!length(idx)) stop("No <<DOCS>> marker in ", task_file, call. = FALSE)
   i <- idx[1]

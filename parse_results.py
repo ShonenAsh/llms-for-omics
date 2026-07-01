@@ -1,5 +1,7 @@
 """
-Aggregate pytest results across all experiments and runs into a single CSV.
+Aggregate per-test results across all experiments and runs into a single CSV.
+
+Supports both pytest (Python) and testthat (R) output formats.
 
 Expects layout:
     submissions/
@@ -32,6 +34,12 @@ PYTEST_LINE = re.compile(
     re.MULTILINE,
 )
 
+# Matches lines like: test_01_basic.R::create_mtcars_df PASSED
+R_LINE = re.compile(
+    r"^(?P<nodeid>\S+\.R::\w+)\s+(?P<outcome>PASSED|FAILED|ERROR|XFAIL|XPASS|SKIPPED)",
+    re.MULTILINE,
+)
+
 K_VALUES = (1, 5, 10)
 
 def calculate_pass_at_k(n: int, c: int, ks=(1, 5, 10)) -> dict[str, float]:
@@ -47,11 +55,13 @@ def calculate_pass_at_k(n: int, c: int, ks=(1, 5, 10)) -> dict[str, float]:
     return out
 
 def parse_results(results_md: Path) -> dict[str, bool]:
-    """Return {test_function_name: passed} from a pytest -v output file."""
+    """Return {test_function_name: passed} from pytest or testthat output."""
     text = results_md.read_text()
     raw: dict[str, bool] = {}
-    for m in PYTEST_LINE.finditer(text):
-        raw[m.group("nodeid")] = m.group("outcome") in ("PASSED", "XPASS")
+
+    for pattern in (PYTEST_LINE, R_LINE):
+        for m in pattern.finditer(text):
+            raw[m.group("nodeid")] = m.group("outcome") in ("PASSED", "XPASS")
 
     # Shorten to bare function name where unambiguous
     by_fname: dict[str, list[str]] = defaultdict(list)

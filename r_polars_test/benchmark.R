@@ -27,11 +27,6 @@ Sys.setenv(DATA_PATH = data_dir)
 stopifnot("test_dir not found" = dir.exists(test_dir_path))
 dir.create(submission_dir, showWarnings = FALSE, recursive = TRUE)
 
-cat("=== polars Benchmark ===\n")
-cat(sprintf("Submissions: %s\n", submission_dir))
-cat(sprintf("Tests:       %s\n", test_dir_path))
-cat(sprintf("Results:     %s\n\n", results_file))
-
 # Count expected expect_*() calls in test files statically
 expected_total <- 0L
 expected_per_file <- list()
@@ -43,7 +38,13 @@ for (tf in list.files(test_dir_path, pattern = "\\.R$", full.names = TRUE)) {
   expected_total <- expected_total + n
 }
 
+# Run tests (console output visible), also capture for results.md
+test_log <- tempfile()
+sink(test_log, split = TRUE)
 results <- test_dir(test_dir_path, reporter = "summary", stop_on_failure = FALSE)
+sink()
+test_output <- readLines(test_log, warn = FALSE)
+unlink(test_log)
 
 per_file <- list()
 for (tr in results) {
@@ -64,9 +65,45 @@ for (tr in results) {
   }
 }
 
+# Aggregate per-test_that results (group expectations by test name)
+per_test <- list()
+for (tr in results) {
+  fn <- basename(tr$file %||% "unknown")
+  for (expectation in tr$results) {
+    test_full <- expectation$test %||% "unknown"
+    test_short <- sub("\\s.*", "", test_full)  # first word = function name
+    if (is.null(per_test[[fn]])) {
+      per_test[[fn]] <- list()
+    }
+    if (is.null(per_test[[fn]][[test_short]])) {
+      per_test[[fn]][[test_short]] <- list(passed = 0, failed = 0)
+    }
+    if (inherits(expectation, "expectation_success")) {
+      per_test[[fn]][[test_short]]$passed <- per_test[[fn]][[test_short]]$passed + 1
+    } else {
+      per_test[[fn]][[test_short]]$failed <- per_test[[fn]][[test_short]]$failed + 1
+    }
+  }
+}
+
+test_lines <- character()
+for (fn in names(per_test)) {
+  for (tn in names(per_test[[fn]])) {
+    s <- per_test[[fn]][[tn]]
+    status <- if (s$failed > 0) "FAILED" else "PASSED"
+    test_lines <- c(test_lines, sprintf("%s::%s %s", fn, tn, status))
+  }
+}
+
 sink(results_file)
 cat("# Benchmark Results\n\n")
 cat("Date:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n\n")
+
+cat("## Test Output\n\n```\n")
+cat(test_output, sep = "\n")
+cat("\n```\n\n")
+
+cat("## Summary\n\n")
 cat("| File | Expected | Passed | Failed | Skipped |\n")
 cat("|------|----------|--------|--------|--------|\n")
 
@@ -88,7 +125,7 @@ if (expected_total > 0) {
 } else {
   cat("No tests found.\n")
 }
+cat("\n## Individual Results\n\n")
+cat(test_lines, sep = "\n")
+cat("\n")
 sink()
-
-cat(sprintf("\nDone. %d/%d passed (%.1f%%)\n",
-    total_passed, expected_total, if (expected_total > 0) total_passed / expected_total * 100 else 0))
