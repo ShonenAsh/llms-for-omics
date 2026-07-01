@@ -3,9 +3,20 @@ set -euo pipefail
 
 TEMPLATE="experiment.def"
 
-# Build base image first
-echo "==> Building base SIF..."
-apptainer build r-polars-bench-base.sif base.def
+# Parse --skip-base flag
+SKIP_BASE=false
+for arg in "$@"; do
+    if [ "$arg" = "--skip-base" ]; then
+        SKIP_BASE=true
+        break
+    fi
+done
+
+# Build base image (skip with --skip-base)
+if ! $SKIP_BASE; then
+    echo "==> Building base SIF..."
+    apptainer build r-polars-bench-base.sif base.def
+fi
 
 # Build exp_1 (no docs baseline)
 echo "==> Building r-polars-bench-exp_1.sif..."

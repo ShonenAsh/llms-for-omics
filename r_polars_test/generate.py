@@ -9,6 +9,7 @@ from pathlib import Path
 
 import instructor
 from instructor import Mode
+from instructor.core.exceptions import IncompleteOutputException
 import litellm
 from pydantic import BaseModel
 
@@ -36,7 +37,8 @@ class Solution(BaseModel):
 
 
 # Helpers
-
+# Strip fences is not needed when using guided_json that enforces json output
+# But for some vllm configs, guided_json might fail, hence this is a failsafe
 def strip_fences(code: str) -> str:
     """Strip markdown code fences (python or r) if the model included them."""
     m = re.search(r"```(?:python|r)?\s*(.*?)```", code, re.DOTALL)
@@ -61,6 +63,18 @@ def load_docs(docs_dir: Path) -> Docs:
     ]
     return Docs(content="\n\n---\n\n".join(parts))
 
+# ZTo investigate failures
+def log_usage(usage, tag: str = "OK") -> None:
+    if usage is None:
+        print(f"[{tag}] no usage available")
+        return
+    details = getattr(usage, "completion_tokens_details", None)
+    reasoning = getattr(details, "reasoning_tokens", None) if details else None
+    print(f"[{tag}] prompt={usage.prompt_tokens} "
+          f"completion={usage.completion_tokens} "
+          f"total={usage.total_tokens}"
+          + (f" reasoning={reasoning}" if reasoning else ""))
+
 
 # Generation
 
@@ -74,7 +88,7 @@ def generate(
     max_tokens: int = 32000,
     extra_body: dict | None = None,
 ) -> Solution:
-    client = instructor.from_litellm(litellm.completion, mode=Mode.MD_JSON)
+    client = instructor.from_litellm(litellm.completion, mode=Mode.JSON)
 
     parts = []
     if docs.content:
@@ -83,6 +97,12 @@ def generate(
         parts.append(f"## Your Previous Implementations\n\n{prior.content}")
     parts.append(f"## Task\n\n{task.content}")
     user_content = "\n\n---\n\n".join(parts)
+
+    guided = {"guided_json": Solution.model_json_schema()}
+    if extra_body:
+        extra_body = {**extra_body, **guided}
+    else:
+        extra_body = guided
 
     kwargs = dict(
         model=model,
@@ -98,7 +118,13 @@ def generate(
     if extra_body is not None:
         kwargs["extra_body"] = extra_body
 
-    solution: Solution = client.chat.completions.create(**kwargs)
+    try:
+        solution, completion = client.chat.completions.create_with_completion(**kwargs)
+        log_usage(completion.usage, tag="OK")
+    except IncompleteOutputException as e:
+        log_usage(getattr(e.last_completion, "usage", None), tag="INCOMPLETE")
+        raise
+
     solution.code = strip_fences(solution.code)
     return solution
 
@@ -108,7 +134,8 @@ def generate(
 if __name__ == "__main__":
     import argparse
     import os
-
+    litellm.num_retries = 2
+    litellm.request_timeout = 1200
     parser = argparse.ArgumentParser(description="Generate a task solution via LLM.")
     parser.add_argument("--task",        required=True,   help="Path to task_*.R stub")
     parser.add_argument("--docs",        required=True,   help="Path to docs directory")

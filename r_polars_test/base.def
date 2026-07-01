@@ -8,32 +8,17 @@ From: python:3.13-slim
         curl \
         libuv1-dev \
         && rm -rf /var/lib/apt/lists/*
-    # Install Rust (polars may need it for edge cases without pre-built binary)
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     export PATH="/root/.cargo/bin:${PATH}"
     cargo --version
-    # Install R packages via pak
-    R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); pak::pkg_install(c("pola-rs/r-polars", "testthat", "callr"))'
     pip install --no-cache-dir \
         "litellm>=1.40.0" \
         "instructor>=1.7.0" \
         "pydantic>=2.0.0"
-
-%files
-    tasks/ /workspace/tasks/
-    tests/ /workspace/tests/
-    data/ /workspace/data/
-    extract_docs.R /workspace/
-    generate.py /workspace/
-    benchmark.R /workspace/
-    run.sh /workspace/
+    R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); pak::pkg_install(c("pola-rs/r-polars", "testthat", "callr"))'
 
 %environment
     export MODEL=claude-opus-4-6
     export RUNS=1
     export PYTHONUNBUFFERED=1
     export PATH="/root/.cargo/bin:${PATH}"
-
-%runscript
-    cd /workspace
-    exec ./run.sh "$@"

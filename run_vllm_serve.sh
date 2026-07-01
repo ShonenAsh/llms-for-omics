@@ -9,7 +9,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --output=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.out
 #SBATCH --error=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.err
-#SBATCH --mail-user=magadum.a@northeastern.edu
 #SBATCH --mail-type=ALL
 
 #modules
@@ -33,38 +32,56 @@ echo "================== running vllm server =================="
 # Model (special args list below)
 MODEL="google/gemma-4-26B-A4B-it"
 
-# env vars passed to container, max tokens shhould be 16000 for others
+# env vars passed to container, max tokens should be 16000 for others
 export MAX_TOKENS=32000
-# only for Qwen3.6-27B
-# export EXTRA_BODY='{"chat_template_kwargs": {"thinking_budget": 8192}}'
 
+# Model-Specific config. 
+# Developer note: Please use model author's recommended settings
+# extra_args  : serve-time engine flags
+# gen_cfg     : sampling params  -> --override-generation-config
+# chat_kwargs : chat-template kwargs (e.g. thinking_budget) -> --default-chat-template-kwargs
+
+chat_kwargs=''   # default: none
 case "$MODEL" in
   "Qwen/Qwen3.6-27B")
-    # Thinking mode enabled by default, reasoning-parser handles <think> blocks
-    EXTRA_ARGS=(--reasoning-parser deepseek_r1 --max-model-len 65536)
+    # thinking on; coding profile; cap reasoning at 8192 tokens
+    extra_args=(--reasoning-parser deepseek_r1 --max-model-len 65536)
+    gen_cfg='{"temperature":0.6,"top_p":0.95,"top_k":20,"presence_penalty":0.0}'
+    chat_kwargs='{"thinking_budget": 8192}'
     ;;
   "Qwen/Qwen3-Coder-30B-A3B-Instruct")
-    # MoE 30B total / 3B active, no thinking mode on this model
-    EXTRA_ARGS=(--max-model-len 65536)
+    extra_args=(--max-model-len 65536)
+    gen_cfg='{"temperature":0.7,"top_p":0.8,"top_k":20,"presence_penalty":1.5}'
     ;;
   "google/gemma-4-26B-A4B-it")
-    # MoE 26B total / 4B active, needs trust-remote-code
-    EXTRA_ARGS=(--max-model-len 65536 --trust-remote-code)
+    extra_args=(--max-model-len 65536 --trust-remote-code)
+    gen_cfg='{"temperature":0.7,"top_p":0.8,"top_k":20,"presence_penalty":1.5}'
     ;;
   "Qwen/Qwen3.5-9B")
-    EXTRA_ARGS=(--reasoning-parser qwen3 --max-model-len 65536)
+    # coding profile; presence_penalty bumped to 1.0 since 9B loops
+    extra_args=(--reasoning-parser qwen3 --max-model-len 65536)
+    gen_cfg='{"temperature":0.6,"top_p":0.95,"top_k":20,"presence_penalty":1.0}'
     ;;
 esac
 
 echo "================== running vllm server: $MODEL =================="
 
-vllm serve "$MODEL" \
-  --host 0.0.0.0 \
-  --port 8089 \
-  --dtype bfloat16 \
-  --gpu-memory-utilization 0.90 \
-  --generation-config vllm \
-  "${EXTRA_ARGS[@]}"
+# assemble serve args; only add chat-template kwargs when set
+serve_args=(
+  --host 0.0.0.0
+  --port 8089
+  --dtype bfloat16
+  --gpu-memory-utilization 0.90
+  --generation-config auto
+  --override-generation-config "$gen_cfg"
+)
+if [[ -n "$chat_kwargs" ]]; then
+  serve_args+=(--default-chat-template-kwargs "$chat_kwargs")
+fi
+serve_args+=("${extra_args[@]}")
+
+vllm serve "$MODEL" "${serve_args[@]}"
+
 
 echo "completed"
 

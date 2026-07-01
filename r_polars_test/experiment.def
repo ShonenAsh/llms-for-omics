@@ -1,15 +1,27 @@
 Bootstrap: localimage
 From: r-polars-bench-base.sif
 
-%post
-    if [ "%%LEVEL%%" != "none" ]; then
-        Rscript /workspace/extract_docs.R %%LEVEL%% && \
-        cp /workspace/docs_conditions/%%LEVEL%%/* /workspace/tasks/
-    fi
-
 %files
+    tasks /workspace/tasks
+    tests /workspace/tests
+    data /workspace/data
+    extract_docs.R /workspace/extract_docs.R
+    generate.py /workspace/generate.py
+    benchmark.R /workspace/benchmark.R
+    run.sh /workspace/run.sh
     %%EXPERIMENT_DIR%%/Prompt.md /workspace/Prompt.md
+
+%post
+    chmod +x /workspace/run.sh
+    cd /workspace
+    if [ "%%LEVEL%%" != "none" ]; then
+        Rscript extract_docs.R %%LEVEL%% && \
+        cp docs_conditions/%%LEVEL%%/* tasks/
+    fi
 
 %environment
     export EXPERIMENT=%%EXPERIMENT%%
     export LEVEL=%%LEVEL%%
+
+%runscript
+    exec /workspace/run.sh "$@"

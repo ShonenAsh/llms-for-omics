@@ -1,9 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build the base image first
-echo "==> Building base image..."
-docker build -f Dockerfile.base -t r-polars-bench:base .
+# Parse --skip-base flag
+SKIP_BASE=false
+for arg in "$@"; do
+    if [ "$arg" = "--skip-base" ]; then
+        SKIP_BASE=true
+        break
+    fi
+done
+
+# Build the base image first (skip with --skip-base)
+if ! $SKIP_BASE; then
+    echo "==> Building base image..."
+    docker build -f Dockerfile.base -t r-polars-bench:base .
+fi
 
 # Build exp_1 (no docs baseline)
 echo "==> Building r-polars-bench:exp_1..."
