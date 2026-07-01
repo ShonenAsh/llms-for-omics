@@ -9,7 +9,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --output=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.out
 #SBATCH --error=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.err
-#SBATCH --mail-user=magadum.a@northeastern.edu
 #SBATCH --mail-type=ALL
 
 #modules
