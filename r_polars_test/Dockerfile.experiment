@@ -3,15 +3,23 @@ FROM r-polars-bench:base
 ARG EXPERIMENT=exp_2a
 ARG LEVEL=2a_1_signatures
 
-# Generate processed task files for this condition. For exp_1 (no docs baseline),
-# LEVEL is set to "none" and tasks are used raw (no doc injection).
+COPY tasks/ tasks/
+COPY tests/ tests/
+COPY data/ data/
+COPY extract_docs.R .
+COPY generate.py .
+COPY benchmark.R .
+COPY run.sh .
+RUN chmod +x run.sh
+
 RUN if [ "${LEVEL}" != "none" ]; then \
         Rscript extract_docs.R "${LEVEL}" && \
         cp docs_conditions/"${LEVEL}"/* tasks/; \
     fi
 
-# Copy experiment prompt
 COPY ${EXPERIMENT}/Prompt.md /workspace/Prompt.md
 
 ENV EXPERIMENT=${EXPERIMENT}
 ENV LEVEL=${LEVEL}
+
+ENTRYPOINT ["./run.sh"]
