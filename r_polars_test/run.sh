@@ -9,7 +9,17 @@ DATA_DIR=/workspace/data
 
 exp_tag="${EXPERIMENT}${LEVEL:+_${LEVEL}}"
 
-echo "==> model: ${MODEL}  experiment: ${EXPERIMENT:-?}  level: ${LEVEL:-?}  runs: ${RUNS}"
+# Cap the polars Rust thread pool per process. Without this each parallel run
+# spawns one polars thread per core, so RUNS runs oversubscribe the node and
+# thrash under cgroup limits. Test data is tiny; a small pool is faster + stable.
+export POLARS_MAX_THREADS="${POLARS_MAX_THREADS:-1}"
+# Per-test-file wall-clock timeout passed to benchmark.R (guards against a
+# generated submission that hangs).
+export TEST_TIMEOUT="${TEST_TIMEOUT:-120}"
+# Max runs to execute concurrently (default: all of them, preserving behavior).
+MAX_PARALLEL="${MAX_PARALLEL:-$RUNS}"
+
+echo "==> model: ${MODEL}  experiment: ${EXPERIMENT:-?}  level: ${LEVEL:-?}  runs: ${RUNS}  max_parallel: ${MAX_PARALLEL}  polars_threads: ${POLARS_MAX_THREADS}"
 
 # Optional args array
 GENERATE_ARGS=()
@@ -44,6 +54,11 @@ for i in $(seq -w 0 $(( RUNS - 1 ))); do
             --data-dir       "$DATA_DIR" || true
         echo "==== ${exp_tag} run ${i} done ===="
     ) &
+
+    # Throttle: keep at most MAX_PARALLEL runs in flight.
+    while [ "$(jobs -r | wc -l)" -ge "$MAX_PARALLEL" ]; do
+        wait -n 2>/dev/null || wait
+    done
 done
 
 wait

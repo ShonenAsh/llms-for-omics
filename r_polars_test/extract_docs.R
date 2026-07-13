@@ -71,19 +71,28 @@ read_required <- function(task_file) {
 
 resolve_alias <- function(fun, records) {
   if (!is.null(records[[fun]])) return(fun)
-  rec_names <- names(records)
+  # Exclude S3 dispatch aliases (e.g. as_polars_df.polars_group_by) --
+  # they share their topic's docs, which pollutes matches for short tokens.
+  keep <- !grepl("\\.", names(records))
+  rec_names <- names(records)[keep]
   rec_lower <- tolower(rec_names)
   fun_lower <- tolower(fun)
 
+  # Pattern accepts: start of string, `__` (double-underscore boundary), or
+  # `_<ns>_` where <ns> is a known expression namespace. This matches both
+  # `expr__mean` (double) and `expr_dt_hour` / `expr_str_contains` (single-
+  # underscore namespace aliases) without picking up unrelated compounds
+  # like `expr__cum_sum` when the token is `sum`.
+  ns_alt <- paste(NAMESPACE_TOKENS, collapse = "|")
+  boundary <- paste0("(^|__|_(", ns_alt, ")_)")
+
   if (!grepl("_", fun_lower)) {
-    # Bare token: match __fun or exact fun
-    pattern <- paste0("(^|__)", fun_lower, "$")
+    pattern <- paste0(boundary, fun_lower, "$")
     return(rec_names[grep(pattern, rec_lower, value = FALSE)])
   }
 
-  # Token contains underscore: could be qualified (Class_method) or bare
-  # (e.g. cum_sum). Distinguish by checking whether the prefix is a known
-  # class/namespace in the alias database.
+  # Token contains underscore: could be class-qualified (Class_method),
+  # bare multi-word (e.g. cum_sum), or namespace-qualified (e.g. dt_hour).
   parts <- strsplit(fun_lower, "_", fixed = TRUE)[[1]]
   prefix <- parts[1]
   suffix <- paste(parts[-1], collapse = "_")
@@ -91,12 +100,17 @@ resolve_alias <- function(fun, records) {
   is_known_prefix <- any(grepl(paste0("^", prefix, "__"), rec_lower))
 
   if (is_known_prefix) {
-    # Qualified: prefix__suffix
+    # Class-qualified: prefix__suffix (e.g. DataFrame_group_by -> dataframe__group_by)
     pattern <- paste0("^", prefix, "__", suffix, "$")
     return(rec_names[grep(pattern, rec_lower, value = FALSE)])
+  } else if (prefix %in% NAMESPACE_TOKENS) {
+    # Namespace-qualified: dt_hour -> expr_dt_hour, str_contains -> expr_str_contains
+    pattern <- paste0("_", prefix, "_", suffix, "$")
+    return(rec_names[grep(pattern, rec_lower, value = FALSE)])
   } else {
-    # Bare token with underscore in the name (e.g. cum_sum)
-    pattern <- paste0("(^|__)", fun_lower, "$")
+    # Fallback for multi-word bare tokens (e.g. `total_minutes`, `cum_sum`):
+    # match same boundaries as the pure-bare path.
+    pattern <- paste0(boundary, fun_lower, "$")
     return(rec_names[grep(pattern, rec_lower, value = FALSE)])
   }
 }
