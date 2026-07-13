@@ -8,7 +8,9 @@ From: python:3.13-slim
         curl \
         libuv1-dev \
         && rm -rf /var/lib/apt/lists/*
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    # Pin Rust < 1.97.0: ethnum 1.5.2 (pinned by r-polars) fails to build on
+    # 1.97.0+ due to a TryFromIntError layout change (E0512). See rust-lang/rust#157363.
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.96.0
     export PATH="/root/.cargo/bin:${PATH}"
     cargo --version
     pip install --no-cache-dir \
