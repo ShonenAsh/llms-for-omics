@@ -14,10 +14,8 @@ From: r-polars-bench-base.sif
 %post
     chmod +x /workspace/run.sh
     cd /workspace
-    if [ "%%LEVEL%%" != "none" ]; then
-        Rscript extract_docs.R %%LEVEL%% && \
-        cp docs_conditions/%%LEVEL%%/* tasks/
-    fi
+    Rscript extract_docs.R %%LEVEL%% && \
+    cp docs_conditions/%%LEVEL%%/* tasks/
 
 %environment
     export EXPERIMENT=%%EXPERIMENT%%

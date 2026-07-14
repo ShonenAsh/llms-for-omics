@@ -12,10 +12,8 @@ COPY benchmark.R .
 COPY run.sh .
 RUN chmod +x run.sh
 
-RUN if [ "${LEVEL}" != "none" ]; then \
-        Rscript extract_docs.R "${LEVEL}" && \
-        cp docs_conditions/"${LEVEL}"/* tasks/; \
-    fi
+RUN Rscript extract_docs.R "${LEVEL}" && \
+    cp docs_conditions/"${LEVEL}"/* tasks/
 
 COPY ${EXPERIMENT}/Prompt.md /workspace/Prompt.md
 

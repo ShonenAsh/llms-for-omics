@@ -1,5 +1,6 @@
 #!/usr/bin/env Rscript
 suppressPackageStartupMessages(library(testthat))
+suppressPackageStartupMessages(library(callr))
 
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
@@ -21,16 +22,23 @@ test_dir_path  <- normalizePath(args[["test-dir"]] %||% "tests", mustWork = FALS
 results_file   <- args[["results"]] %||% file.path(submission_dir, "results.md")
 data_dir       <- normalizePath(args[["data-dir"]] %||% "data", mustWork = FALSE)
 
+# Per-test-file wall-clock timeout (seconds). A generated submission with an
+# infinite loop or a blocking call would otherwise hang the whole benchmark
+# forever; each file runs in its own subprocess and is killed past this limit.
+test_timeout   <- suppressWarnings(as.numeric(
+  args[["timeout"]] %||% Sys.getenv("TEST_TIMEOUT", "120")))
+if (is.na(test_timeout) || test_timeout <= 0) test_timeout <- 120
+
+# Cap the polars Rust thread pool. The default is one thread per core, so N runs
+# executing in parallel spawn N*ncores threads and thrash under cgroup limits on
+# HPC. Test data is tiny, so a small pool is both faster and stable.
+polars_threads <- args[["polars-threads"]] %||% Sys.getenv("POLARS_MAX_THREADS", "1")
+
 Sys.setenv(SUBMISSION_DIR = submission_dir)
 Sys.setenv(DATA_PATH = data_dir)
 
 stopifnot("test_dir not found" = dir.exists(test_dir_path))
 dir.create(submission_dir, showWarnings = FALSE, recursive = TRUE)
-
-cat("=== polars Benchmark ===\n")
-cat(sprintf("Submissions: %s\n", submission_dir))
-cat(sprintf("Tests:       %s\n", test_dir_path))
-cat(sprintf("Results:     %s\n\n", results_file))
 
 # Count expected expect_*() calls in test files statically
 expected_total <- 0L
@@ -43,7 +51,57 @@ for (tf in list.files(test_dir_path, pattern = "\\.R$", full.names = TRUE)) {
   expected_total <- expected_total + n
 }
 
-results <- test_dir(test_dir_path, reporter = "summary", stop_on_failure = FALSE)
+# Run each test file in an isolated subprocess with a hard timeout. This keeps
+# console output visible, captures it for results.md, and guarantees a hung or
+# crashing submission can never stall the benchmark: kill_tree() also reaps the
+# polars Rust worker threads. The concatenated per-file results reproduce what
+# test_dir() returned, so the aggregation below is unchanged.
+child_libpath <- .libPaths()
+child_env     <- c(callr::rcmd_safe_env(),
+                   POLARS_MAX_THREADS = as.character(polars_threads),
+                   SUBMISSION_DIR = submission_dir,
+                   DATA_PATH = data_dir)
+
+run_test_file <- function(f) {
+  logf <- tempfile()
+  p <- callr::r_bg(
+    function(file) {
+      suppressPackageStartupMessages(library(testthat))
+      testthat::test_file(file, reporter = "summary", stop_on_failure = FALSE)
+    },
+    args = list(file = f),
+    libpath = child_libpath, env = child_env,
+    stdout = logf, stderr = "2>&1", poll_connection = FALSE
+  )
+  p$wait(timeout = test_timeout * 1000)
+  if (p$is_alive()) {
+    p$kill_tree()
+    out <- tryCatch(readLines(logf, warn = FALSE), error = function(e) character())
+    unlink(logf)
+    return(list(results = NULL, output = c(out,
+      sprintf("<<TIMEOUT: %s killed after %gs>>", basename(f), test_timeout))))
+  }
+  out <- tryCatch(readLines(logf, warn = FALSE), error = function(e) character())
+  unlink(logf)
+  res <- tryCatch(p$get_result(), error = function(e) e)
+  if (inherits(res, "error")) {
+    return(list(results = NULL, output = c(out,
+      sprintf("<<ERROR in %s: %s>>", basename(f), conditionMessage(res)))))
+  }
+  list(results = res, output = out)
+}
+
+test_files <- list.files(test_dir_path, pattern = "\\.R$", full.names = TRUE)
+results <- list()
+test_output <- character()
+failed_files <- character()  # files that timed out or errored before finishing
+for (tf in test_files) {
+  r <- run_test_file(tf)
+  cat(r$output, sep = "\n"); cat("\n")            # keep console output visible
+  test_output <- c(test_output, r$output, "")
+  if (is.null(r$results)) failed_files <- c(failed_files, basename(tf))
+  else results <- c(results, r$results)
+}
 
 per_file <- list()
 for (tr in results) {
@@ -64,9 +122,48 @@ for (tr in results) {
   }
 }
 
+# Aggregate per-test_that results (group expectations by test name)
+per_test <- list()
+for (tr in results) {
+  fn <- basename(tr$file %||% "unknown")
+  for (expectation in tr$results) {
+    test_full <- expectation$test %||% "unknown"
+    test_short <- sub("\\s.*", "", test_full)  # first word = function name
+    if (is.null(per_test[[fn]])) {
+      per_test[[fn]] <- list()
+    }
+    if (is.null(per_test[[fn]][[test_short]])) {
+      per_test[[fn]][[test_short]] <- list(passed = 0, failed = 0)
+    }
+    if (inherits(expectation, "expectation_success")) {
+      per_test[[fn]][[test_short]]$passed <- per_test[[fn]][[test_short]]$passed + 1
+    } else {
+      per_test[[fn]][[test_short]]$failed <- per_test[[fn]][[test_short]]$failed + 1
+    }
+  }
+}
+
+test_lines <- character()
+for (fn in names(per_test)) {
+  for (tn in names(per_test[[fn]])) {
+    s <- per_test[[fn]][[tn]]
+    status <- if (s$failed > 0) "FAILED" else "PASSED"
+    test_lines <- c(test_lines, sprintf("%s::%s %s", fn, tn, status))
+  }
+}
+for (fn in failed_files) {
+  test_lines <- c(test_lines, sprintf("%s TIMEOUT/ERROR (no results)", fn))
+}
+
 sink(results_file)
 cat("# Benchmark Results\n\n")
 cat("Date:", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), "\n\n")
+
+cat("## Test Output\n\n```\n")
+cat(test_output, sep = "\n")
+cat("\n```\n\n")
+
+cat("## Summary\n\n")
 cat("| File | Expected | Passed | Failed | Skipped |\n")
 cat("|------|----------|--------|--------|--------|\n")
 
@@ -88,7 +185,7 @@ if (expected_total > 0) {
 } else {
   cat("No tests found.\n")
 }
+cat("\n## Individual Results\n\n")
+cat(test_lines, sep = "\n")
+cat("\n")
 sink()
-
-cat(sprintf("\nDone. %d/%d passed (%.1f%%)\n",
-    total_passed, expected_total, if (expected_total > 0) total_passed / expected_total * 100 else 0))
