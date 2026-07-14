@@ -31,6 +31,7 @@ rm -f .def_tmp
 declare -A EXPERIMENTS=(
     [exp_2a]="2a_1_signatures 2a_2_sig_description 2a_3_one_example 2a_4_examples_io 2a_5_full"
     [exp_2b]="2b_1_no_dtypes 2b_2_no_examples"
+    [exp_2c]="2c_only_examples"
 )
 
 for EXPERIMENT in "${!EXPERIMENTS[@]}"; do

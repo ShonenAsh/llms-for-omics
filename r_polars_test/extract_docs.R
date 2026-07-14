@@ -194,7 +194,9 @@ CONDITIONS <- list(
   "2a_5_full"              = FULL,
   # 2b -- full minus one factor
   "2b_1_no_dtypes"         = modifyList(FULL, list(strip_dtypes = TRUE)),
-  "2b_2_no_examples"       = modifyList(FULL, list(examples = "none", output = FALSE))
+  "2b_2_no_examples"       = modifyList(FULL, list(examples = "none", output = FALSE)),
+  # 2c -- examples only (method-name header + example code, no other features)
+  "2c_only_examples"       = mk(examples = "all")
 )
 
 # COMPOSITION
