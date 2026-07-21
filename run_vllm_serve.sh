@@ -2,13 +2,13 @@
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:h200:1
-#SBATCH --time=01:30:00
+#SBATCH --time=03:00:00
 #SBATCH --job-name=ash_vllm_server
 #SBATCH --mem=32G
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
-#SBATCH --output=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.out
-#SBATCH --error=/home/a.magadum/ondemand/work/job_logs/ash_vllm_server_%j.err
+#SBATCH --output=/home/<USER>/ondemand/work/job_logs/ash_vllm_server_%j.out
+#SBATCH --error=/home/<USER>/ondemand/work/job_logs/ash_vllm_server_%j.err
 #SBATCH --mail-type=ALL
 
 #modules
@@ -18,11 +18,12 @@ module load cuda/12.8.0
 echo "modules loaded"
 
 # Comment out when downloading model for the first time
-# export HF_HUB_OFFLINE=1
+export HF_HUB_OFFLINE=1
 export VLLM_CACHE_ROOT="/scratch/$USER/vllm_cache"
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 export HF_HOME="/scratch/$USER/huggingface"
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 source /home/$USER/ondemand/work/.venv/bin/activate
 #python main.py
@@ -30,7 +31,7 @@ source /home/$USER/ondemand/work/.venv/bin/activate
 echo "================== running vllm server =================="
 
 # Model (special args list below)
-MODEL="google/gemma-4-26B-A4B-it"
+MODEL="Qwen/Qwen3.6-27B"
 
 # env vars passed to container, max tokens should be 16000 for others
 export MAX_TOKENS=32000
@@ -55,7 +56,13 @@ case "$MODEL" in
     ;;
   "google/gemma-4-26B-A4B-it")
     extra_args=(--max-model-len 65536 --trust-remote-code)
-    gen_cfg='{"temperature":0.7,"top_p":0.8,"top_k":20,"presence_penalty":1.5}'
+    gen_cfg='{"temperature":1.0,"top_p":0.95,"top_k":64}'
+    ;;
+  "zai-org/GLM-4.7-Flash")
+    extra_args=(--reasoning-parser glm45 \
+                --max-model-len 65536 \
+                --trust-remote-code)
+    gen_cfg='{"temperature":1.0,"top_p":0.95}'
     ;;
   "Qwen/Qwen3.5-9B")
     # coding profile; presence_penalty bumped to 1.0 since 9B loops
@@ -81,7 +88,6 @@ fi
 serve_args+=("${extra_args[@]}")
 
 vllm serve "$MODEL" "${serve_args[@]}"
-
 
 echo "completed"
 
