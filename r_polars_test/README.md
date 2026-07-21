@@ -35,8 +35,8 @@ integrated multi-source workflows.
   materializing, lazy join => group => sum revenue per borough, lazy pickups-per-hour,
   schema inspection via `collect_schema()`, and top-k fares with column pruning.
 
-Tasks 2-5 operate on the NYC Yellow Taxi dataset in `data/` (see below); task 1 uses
-small in-memory vectors.
+Tasks 2-5 operate on the [NYC Yellow Taxi dataset (Jan 2024)](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) in `data/` (see below); task 1 uses
+small in-memory vectors. The NYC Yellow Taxi dataset has two parts: A [Taxi Zone Lookup CSV](https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv) file and a [Yellow Trips parquet](https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet) file. This project uses Jan 2024 data.
 
 ## Documentation Processing Summarized
 
