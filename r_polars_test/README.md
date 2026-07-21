@@ -38,6 +38,10 @@ integrated multi-source workflows.
 Tasks 2-5 operate on the NYC Yellow Taxi dataset in `data/` (see below); task 1 uses
 small in-memory vectors.
 
+## Documentation Processing Summarized
+
+![Documentaiton Processing](Rdocs_extraction.png)
+
 ## Documentation conditions
 
 `extract_docs.R` composes documentation at a configurable **detail level** and writes
@@ -102,7 +106,7 @@ experiments plus controls, all driven by one spec table:
 ./build_sif.sh                    # base + all experiments
 ./build_sif.sh --skip-base        # reuse existing base image
 
-# Run one experiment (generate + score)
+# Run one experiment (generate + score), WORKING_DIR contains dirs: r-polars/<MODEL_NAME>
 working_dir="<WORKING_DIR>"
 cd $working_dir
 unset http_proxy # For HPC users
@@ -111,9 +115,9 @@ apptainer run \
     --pwd /workspace \
     --env MODEL=huggingface/zai-org/GLM-4.7-Flash \
     --env RUNS=25 \
-    --env API_BASE=http://d4053:8089/v1 \
-	--bind $working_dir/GLM-4_7-Flash:/workspace/submissions \
-    $working_dir/images/tinygrad-bench_exp_1.sif
+    --env API_BASE=http://d4054:8089/v1 \
+	--bind $working_dir/r-polars/GLM-4_7-Flash:/workspace/submissions \
+    $working_dir/images/r-polars-bench-exp_1.sif   
 ```
 
 ### Parse benchmark results, generate pass@k csv file
