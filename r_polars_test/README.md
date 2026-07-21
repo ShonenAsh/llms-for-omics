@@ -19,20 +19,20 @@ source of truth for doc extraction) and marks where docs are injected with `<<DO
 The 31 functions span three capability tiers:  basic ops, function chains, and
 integrated multi-source workflows.
 
-- **`task_01_basic.R`** — Basic DataFrame operations: create from R vectors, `select`,
+- **`task_01_basic.R`** - Basic DataFrame operations: create from R vectors, `select`,
   `filter`, `rename`, `cast`, `drop`, plus inner and left `join`. Single-operation
   fundamentals on in-memory data.
-- **`task_02_chains.R`** — Chained operations: drop high-null columns by threshold,
+- **`task_02_chains.R`** - Chained operations: drop high-null columns by threshold,
   join taxi trips to their pickup borough, conditional string relabeling
-  (`when`/`lit`), wide→long `unpivot`, and windowed `rank` with `over`.
-- **`task_03_groupby.R`** — GroupBy and aggregation: trips per borough, average fare by
+  (`when`/`lit`), wide => long `unpivot`, and windowed `rank` with `over`.
+- **`task_03_groupby.R`** - GroupBy and aggregation: trips per borough, average fare by
   passenger count, four stats in one `agg`, top-k zones by revenue, fare quantile per
   borough, and payment-type share of total.
-- **`task_04_strings_dates.R`** — String and datetime operations: extract pickup hour,
+- **`task_04_strings_dates.R`** - String and datetime operations: extract pickup hour,
   trip duration in minutes, weekend-only filter, hourly trip counts, airport-zone flag
   via substring match, split zone hierarchy on `/`, and ISO date formatting.
-- **`task_05_lazy.R`** — LazyFrame pipelines: filter-and-`sink_parquet` without
-  materializing, lazy join→group→sum revenue per borough, lazy pickups-per-hour,
+- **`task_05_lazy.R`** - LazyFrame pipelines: filter-and-`sink_parquet` without
+  materializing, lazy join => group => sum revenue per borough, lazy pickups-per-hour,
   schema inspection via `collect_schema()`, and top-k fares with column pruning.
 
 Tasks 2-5 operate on the NYC Yellow Taxi dataset in `data/` (see below); task 1 uses
@@ -62,36 +62,36 @@ experiments plus controls, all driven by one spec table:
 **Controls:**
 | Condition | Contents |
 |---|---|
-| `none` | no docs — `<<DOCS>>` removed entirely (baseline) |
+| `none` | no docs - `<<DOCS>>` removed entirely (baseline) |
 | `2c_only_examples` | method-name header + example code only (no signatures/descriptions/args/values) |
 
 ## Repository layout
 
 ### Task & test sources
-- `tasks/task_*.R` — task stubs with `@requires` and `<<DOCS>>` markers (inputs to the pipeline).
-- `tests/test_*.R` — `testthat` suites, one per task; source implementations from the `SUBMISSION_DIR` env var.
-- `data/` — NYC Yellow Taxi fixtures: `yellow_tripdata_2024-01.parquet` (~50 MB trips) and `taxi_zone_lookup.csv` (LocationID→Borough/Zone).
+- `tasks/task_*.R` - task stubs with `@requires` and `<<DOCS>>` markers (inputs to the pipeline).
+- `tests/test_*.R` - `testthat` suites, one per task; source implementations from the `SUBMISSION_DIR` env var.
+- `data/` - NYC Yellow Taxi fixtures: `yellow_tripdata_2024-01.parquet` (~50 MB trips) and `taxi_zone_lookup.csv` (LocationID => Borough/Zone).
 
 ### Pipeline
-- `extract_docs.R` — main pipeline: reads the installed `polars` Rd database, resolves each `@requires` token to its `dataframe__group_by`-style alias, composes the doc block for a condition, and injects it at `<<DOCS>>`. Run `Rscript extract_docs.R` for all conditions or `Rscript extract_docs.R <condition>` for one.
-- `docs_conditions/<condition>/` — generated task files, one directory per condition (build output).
-- `generate.py` — LLM generation harness (litellm/instructor): sends a prompt + doc-augmented task to the model and writes the completed file to a submission directory.
-- `benchmark.R` — `testthat` runner. Executes each test file in its own `callr` subprocess with a per-file wall-clock timeout (`--timeout`/`TEST_TIMEOUT`, default 120s) and a capped polars thread pool (`--polars-threads`/`POLARS_MAX_THREADS`) so hung or looping submissions fail cleanly and parallel runs don't oversubscribe the node. Emits `results.md`.
+- `extract_docs.R` - main pipeline: reads the installed `polars` Rd database, resolves each `@requires` token to its `dataframe__group_by`-style alias, composes the doc block for a condition, and injects it at `<<DOCS>>`. Run `Rscript extract_docs.R` for all conditions or `Rscript extract_docs.R <condition>` for one.
+- `docs_conditions/<condition>/` - generated task files, one directory per condition (build output).
+- `generate.py` - LLM generation harness (litellm/instructor): sends a prompt + doc-augmented task to the model and writes the completed file to a submission directory.
+- `benchmark.R` - `testthat` runner. Executes each test file in its own `callr` subprocess with a per-file wall-clock timeout (`--timeout`/`TEST_TIMEOUT`, default 120s) and a capped polars thread pool (`--polars-threads`/`POLARS_MAX_THREADS`) so hung or looping submissions fail cleanly and parallel runs don't oversubscribe the node. Emits `results.md`.
 
 ### Experiments
-- `exp_1/`, `exp_2a/`, `exp_2b/`, `exp_2c/` — one directory per experiment, each with a `Prompt.md` (system prompt for the LLM). `exp_1` is the no-docs baseline; `exp_2a`–`exp_2c` map to the conditions above.
-- `run.sh` — container entrypoint: loops `RUNS` times, generates a solution per task with `generate.py`, then scores it with `benchmark.R`. Reads `MODEL`, `RUNS`, `MAX_PARALLEL`, and optional `API_BASE`/`MAX_TOKENS`/`EXTRA_BODY`.
+- `exp_1/`, `exp_2a/`, `exp_2b/`, `exp_2c/` - one directory per experiment, each with a `Prompt.md` (system prompt for the LLM). `exp_1` is the no-docs baseline; `exp_2a`–`exp_2c` map to the conditions above.
+- `run.sh` - container entrypoint: loops `RUNS` times, generates a solution per task with `generate.py`, then scores it with `benchmark.R`. Reads `MODEL`, `RUNS`, `MAX_PARALLEL`, and optional `API_BASE`/`MAX_TOKENS`/`EXTRA_BODY`.
 
 ### Container images
-- `base.def` / `Dockerfile.base` — base image: Python 3.13 + R + `polars` (from GitHub, Rust pinned to 1.96.0) + litellm. `polars` is not on CRAN, so it is built from source.
-- `experiment.def` / `Dockerfile.experiment` — experiment overlay: copies tasks/tests/data/scripts, runs `extract_docs.R <LEVEL>`, and installs the chosen `Prompt.md`. Templated by `%%EXPERIMENT%%` / `%%LEVEL%%`.
-- `build_sif.sh` — build all Apptainer/Singularity images (base + every experiment×level); `--skip-base` reuses an existing base.
-- `build_exp2c_sif.sh` — build only the `2c_only_examples` image.
-- `build_images.sh` — Docker equivalent of `build_sif.sh`.
+- `base.def` / `Dockerfile.base` - base image: Python 3.13 + R + `polars` (from GitHub, Rust pinned to 1.96.0) + litellm. `polars` is not on CRAN, so it is built from source.
+- `experiment.def` / `Dockerfile.experiment` - experiment overlay: copies tasks/tests/data/scripts, runs `extract_docs.R <LEVEL>`, and installs the chosen `Prompt.md`. Templated by `%%EXPERIMENT%%` / `%%LEVEL%%`.
+- `build_sif.sh` - build all Apptainer/Singularity images (base + every experiment×level); `--skip-base` reuses an existing base.
+- `build_exp2c_sif.sh` - build only the `2c_only_examples` image.
+- `build_images.sh` - Docker equivalent of `build_sif.sh`.
 
 ### Environment
-- `renv.lock`, `renv/`, `.Rprofile` — `renv` project library pinning R package versions for local runs.
-- `AGENTS.md` — detailed engineering notes on the pipeline internals and known gotchas.
+- `renv.lock`, `renv/`, `.Rprofile` - `renv` project library pinning R package versions for local runs.
+- `AGENTS.md` - detailed engineering notes on the pipeline internals and known gotchas.
 
 ## Building & running
 
