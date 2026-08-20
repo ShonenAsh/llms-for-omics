@@ -1,0 +1,321 @@
+- The project is out-of-sync -- use `renv::status()` for details.
+
+
+==== MSstats package version ====
+4.20.0 
+
+
+==== Built-in datasets (data(package = "MSstats")) ====
+     Item                
+[1,] "DDARawData"        
+[2,] "DDARawData.Skyline"
+[3,] "DIARawData"        
+[4,] "SRMRawData"        
+[5,] "example_SDRF"      
+     Title                                                                                                     
+[1,] "Example dataset from a label-free DDA, a controlled spike-in experiment."                                
+[2,] "Example dataset from a label-free DDA, a controlled spike-in experiment, processed by Skyline."          
+[3,] "Example dataset from a label-free DIA, a group comparison study of S.Pyogenes."                          
+[4,] "Example dataset from a SRM experiment with stable isotope labeled reference of a time course yeast study"
+[5,] "Example SDRF."                                                                                           
+
+
+==== ls("package:MSstats") -- full exported symbol list ====
+ [1] "checkRepeatedDesign"                 "dataProcess"                        
+ [3] "dataProcessPlots"                    "DDARawData"                         
+ [5] "DDARawData.Skyline"                  "designSampleSize"                   
+ [7] "designSampleSizePlots"               "DIANNtoMSstatsFormat"               
+ [9] "DIARawData"                          "DIAUmpiretoMSstatsFormat"           
+[11] "example_SDRF"                        "extractSDRF"                        
+[13] "FragPipetoMSstatsFormat"             "getProcessed"                       
+[15] "getSamplesInfo"                      "getSelectedProteins"                
+[17] "groupComparison"                     "groupComparisonPlots"               
+[19] "groupComparisonQCPlots"              "makePeptidesDictionary"             
+[21] "MaxQtoMSstatsFormat"                 "modelBasedQCPlots"                  
+[23] "MSstatsContrastMatrix"               "MSstatsGroupComparison"             
+[25] "MSstatsGroupComparisonOutput"        "MSstatsGroupComparisonSingleProtein"
+[27] "MSstatsHandleMissing"                "MSstatsMergeFractions"              
+[29] "MSstatsNormalize"                    "MSstatsPrepareForDataProcess"       
+[31] "MSstatsPrepareForGroupComparison"    "MSstatsPrepareForSummarization"     
+[33] "MSstatsQualityMetricsPlot"           "MSstatsSelectFeatures"              
+[35] "MSstatsSummarizationOutput"          "MSstatsSummarizeSingleLinear"       
+[37] "MSstatsSummarizeSingleTMP"           "MSstatsSummarizeWithSingleCore"     
+[39] "OpenMStoMSstatsFormat"               "OpenSWATHtoMSstatsFormat"           
+[41] "PDtoMSstatsFormat"                   "ProgenesistoMSstatsFormat"          
+[43] "quantification"                      "savePlot"                           
+[45] "SDRFtoAnnotation"                    "SkylinetoMSstatsFormat"             
+[47] "SpectronauttoMSstatsFormat"          "SRMRawData"                         
+[49] "theme_msstats"                       "validateAnnotation"                 
+
+
+==== formals(dataProcess) ====
+$raw
+
+
+$logTrans
+[1] 2
+
+$normalization
+[1] "equalizeMedians"
+
+$nameStandards
+NULL
+
+$featureSubset
+[1] "topN"
+
+$remove_uninformative_feature_outlier
+[1] FALSE
+
+$min_feature_count
+[1] 2
+
+$n_top_feature
+[1] 100
+
+$summaryMethod
+[1] "TMP"
+
+$equalFeatureVar
+[1] TRUE
+
+$censoredInt
+[1] "NA"
+
+$MBimpute
+[1] TRUE
+
+$remove50missing
+[1] FALSE
+
+$fix_missing
+NULL
+
+$maxQuantileforCensored
+[1] 0.999
+
+$use_log_file
+[1] TRUE
+
+$append
+[1] FALSE
+
+$verbose
+[1] TRUE
+
+$log_file_path
+NULL
+
+$numberOfCores
+[1] 1
+
+$aft_iterations
+[1] 90
+
+
+
+==== formals(groupComparison) ====
+$contrast.matrix
+
+
+$data
+
+
+$save_fitted_models
+[1] TRUE
+
+$log_base
+[1] 2
+
+$use_log_file
+[1] TRUE
+
+$append
+[1] FALSE
+
+$verbose
+[1] TRUE
+
+$log_file_path
+NULL
+
+$numberOfCores
+[1] 1
+
+
+
+==== DIARawData: str() ====
+'data.frame':	980 obs. of  10 variables:
+ $ ProteinName     : Factor w/ 2 levels "FabG","RNA  helicase exp9": 2 2 2 2 2 2 2 2 2 2 ...
+ $ PeptideSequence : Factor w/ 32 levels "AGM[147]IGFTK",..: 3 3 3 3 3 3 3 3 3 3 ...
+ $ PrecursorCharge : int  2 2 2 2 2 2 3 3 3 3 ...
+ $ FragmentIon     : Factor w/ 27 levels "a4","b10","b22",..: 10 11 12 15 25 27 9 23 25 25 ...
+ $ ProductCharge   : int  77414 77411 77412 77410 77409 77413 77425 77423 77422 77421 ...
+ $ IsotopeLabelType: Factor w/ 1 level "L": 1 1 1 1 1 1 1 1 1 1 ...
+ $ Condition       : Factor w/ 2 levels "Strep 0%","Strep 10%": 1 1 1 1 1 1 1 1 1 1 ...
+ $ BioReplicate    : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ Run             : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ Intensity       : num  9747 1272 1295 2332 8178 ...
+
+
+==== DIARawData: colnames() ====
+ [1] "ProteinName"      "PeptideSequence"  "PrecursorCharge"  "FragmentIon"     
+ [5] "ProductCharge"    "IsotopeLabelType" "Condition"        "BioReplicate"    
+ [9] "Run"              "Intensity"       
+
+
+==== DIARawData: head() ====
+         ProteinName  PeptideSequence PrecursorCharge FragmentIon ProductCharge
+1 RNA  helicase exp9 ASPIQEMTIPLALEGK               2          b9         77414
+2 RNA  helicase exp9 ASPIQEMTIPLALEGK               2         y10         77411
+3 RNA  helicase exp9 ASPIQEMTIPLALEGK               2         y11         77412
+4 RNA  helicase exp9 ASPIQEMTIPLALEGK               2         y14         77410
+5 RNA  helicase exp9 ASPIQEMTIPLALEGK               2          y7         77409
+6 RNA  helicase exp9 ASPIQEMTIPLALEGK               2          y9         77413
+  IsotopeLabelType Condition BioReplicate Run Intensity
+1                L  Strep 0%            1   1      9747
+2                L  Strep 0%            1   1      1272
+3                L  Strep 0%            1   1      1295
+4                L  Strep 0%            1   1      2332
+5                L  Strep 0%            1   1      8178
+6                L  Strep 0%            1   1      1737
+
+
+==== dataProcess(DIARawData) with defaults -- running, this may take a moment ====
+  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+
+
+==== class(QuantData) ====
+[1] "list"
+
+
+==== names(QuantData) / structure ====
+[1] "FeatureLevelData" "ProteinLevelData" "SummaryMethod"   
+List of 3
+ $ FeatureLevelData:'data.frame':	980 obs. of  16 variables:
+  ..$ PROTEIN     : Factor w/ 2 levels "FabG","RNA  helicase exp9": 1 1 1 1 1 1 1 1 1 1 ...
+  ..$ PEPTIDE     : Factor w/ 41 levels "AGM[147]IGFTK_2",..: 1 1 1 1 1 1 1 1 1 1 ...
+  ..$ TRANSITION  : Factor w/ 245 levels "a4_87188","b10_92912",..: 121 121 121 121 145 145 145 145 173 173 ...
+  ..$ FEATURE     : Factor w/ 245 levels "AGM[147]IGFTK_2_y4_87189",..: 1 1 1 1 2 2 2 2 3 3 ...
+  ..$ LABEL       : Factor w/ 1 level "L": 1 1 1 1 1 1 1 1 1 1 ...
+  ..$ GROUP       : Factor w/ 2 levels "Strep 0%","Strep 10%": 1 1 2 2 1 1 2 2 1 1 ...
+  ..$ RUN         : Factor w/ 4 levels "1","2","3","4": 1 2 3 4 1 2 3 4 1 2 ...
+  ..$ SUBJECT     : Factor w/ 2 levels "1","2": 1 2 1 2 1 2 1 2 1 2 ...
+  ..$ FRACTION    : int [1:980] 1 1 1 1 1 1 1 1 1 1 ...
+  ..$ originalRUN : Factor w/ 4 levels "1","2","3","4": 1 2 3 4 1 2 3 4 1 2 ...
+  ..$ censored    : logi [1:980] FALSE FALSE FALSE FALSE FALSE FALSE ...
+  ..$ INTENSITY   : num [1:980] 73708 57653 13484 9513 58372 ...
+  ..$ ABUNDANCE   : num [1:980] 15.9 15.4 14.1 13.5 15.5 ...
+  ..$ newABUNDANCE: num [1:980] 15.9 15.4 14.1 13.5 15.5 ...
+  ..$ predicted   : logi [1:980] NA NA NA NA NA NA ...
+  ..$ remove      : logi [1:980] FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ ProteinLevelData:'data.frame':	8 obs. of  12 variables:
+  ..$ RUN                   : Factor w/ 4 levels "1","2","3","4": 1 2 3 4 1 2 3 4
+  ..$ Protein               : Factor w/ 2 levels "FabG","RNA  helicase exp9": 1 1 1 1 2 2 2 2
+  ..$ LABEL                 : Factor w/ 1 level "L": 1 1 1 1 1 1 1 1
+  ..$ LogIntensities        : num [1:8] 12.4 12.4 11.3 10.9 11.6 ...
+  ..$ originalRUN           : Factor w/ 4 levels "1","2","3","4": 1 2 3 4 1 2 3 4
+  ..$ GROUP                 : Factor w/ 2 levels "Strep 0%","Strep 10%": 1 1 2 2 1 1 2 2
+  ..$ SUBJECT               : int [1:8] 1 2 1 2 1 2 1 2
+  ..$ TotalGroupMeasurements: int [1:8] 192 192 192 192 200 200 200 200
+  ..$ NumMeasuredFeature    : int [1:8] 96 96 96 96 100 100 100 100
+  ..$ MissingPercentage     : num [1:8] 0 0 0 0 0 0 0 0
+  ..$ more50missing         : logi [1:8] FALSE FALSE FALSE FALSE FALSE FALSE ...
+  ..$ NumImputedFeature     : int [1:8] 0 0 0 0 0 0 0 0
+ $ SummaryMethod   : chr "TMP"
+
+
+==== names(QuantData$ProteinLevelData) ====
+ [1] "RUN"                    "Protein"                "LABEL"                 
+ [4] "LogIntensities"         "originalRUN"            "GROUP"                 
+ [7] "SUBJECT"                "TotalGroupMeasurements" "NumMeasuredFeature"    
+[10] "MissingPercentage"      "more50missing"          "NumImputedFeature"     
+
+
+==== head(QuantData$ProteinLevelData) ====
+  RUN            Protein LABEL LogIntensities originalRUN     GROUP SUBJECT
+1   1               FabG     L       12.44658           1  Strep 0%       1
+2   2               FabG     L       12.36571           2  Strep 0%       2
+3   3               FabG     L       11.32786           3 Strep 10%       1
+4   4               FabG     L       10.94458           4 Strep 10%       2
+5   1 RNA  helicase exp9     L       11.59732           1  Strep 0%       1
+6   2 RNA  helicase exp9     L       11.70119           2  Strep 0%       2
+  TotalGroupMeasurements NumMeasuredFeature MissingPercentage more50missing
+1                    192                 96                 0         FALSE
+2                    192                 96                 0         FALSE
+3                    192                 96                 0         FALSE
+4                    192                 96                 0         FALSE
+5                    200                100                 0         FALSE
+6                    200                100                 0         FALSE
+  NumImputedFeature
+1                 0
+2                 0
+3                 0
+4                 0
+5                 0
+6                 0
+
+
+==== names(QuantData$FeatureLevelData) ====
+ [1] "PROTEIN"      "PEPTIDE"      "TRANSITION"   "FEATURE"      "LABEL"       
+ [6] "GROUP"        "RUN"          "SUBJECT"      "FRACTION"     "originalRUN" 
+[11] "censored"     "INTENSITY"    "ABUNDANCE"    "newABUNDANCE" "predicted"   
+[16] "remove"      
+
+
+==== groupComparison(QuantData) with defaults -- running ====
+[1] "Strep 0%"  "Strep 10%"
+Groups found: Strep 0%, Strep 10% 
+                   Strep 0% Strep 10%
+Strep 0%-Strep 10%        1        -1
+  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+
+
+==== class(testResultOneComparison) ====
+[1] "list"
+
+
+==== names(testResultOneComparison) ====
+[1] "ComparisonResult" "ModelQC"          "FittedModel"     
+
+
+==== colnames(testResultOneComparison$ComparisonResult) -- THE key hallucination-target schema ====
+ [1] "Protein"              "Label"                "log2FC"              
+ [4] "SE"                   "Tvalue"               "DF"                  
+ [7] "pvalue"               "adj.pvalue"           "issue"               
+[10] "MissingPercentage"    "ImputationPercentage"
+
+
+==== head(testResultOneComparison$ComparisonResult) ====
+             Protein              Label     log2FC        SE    Tvalue DF
+1               FabG Strep 0%-Strep 10%  1.2699207 0.1512064  8.398594  1
+2 RNA  helicase exp9 Strep 0%-Strep 10% -0.6246467 0.1896654 -3.293414  1
+      pvalue adj.pvalue issue MissingPercentage ImputationPercentage
+1 0.07544556  0.1508911    NA                 0                    0
+2 0.18766880  0.1876688    NA                 0                    0
+
+
+==== str(testResultOneComparison$ComparisonResult) ====
+'data.frame':	2 obs. of  11 variables:
+ $ Protein             : Factor w/ 2 levels "FabG","RNA  helicase exp9": 1 2
+ $ Label               : chr  "Strep 0%-Strep 10%" "Strep 0%-Strep 10%"
+ $ log2FC              : num  1.27 -0.625
+ $ SE                  : num  0.151 0.19
+ $ Tvalue              : num  8.4 -3.29
+ $ DF                  : int  1 1
+ $ pvalue              : num  0.0754 0.1877
+ $ adj.pvalue          : num  0.151 0.188
+ $ issue               : logi  NA NA
+ $ MissingPercentage   : num  0 0
+ $ ImputationPercentage: num  0 0
+
+
+==== *toMSstatsFormat converters exported ====
+ [1] "DIANNtoMSstatsFormat"       "DIAUmpiretoMSstatsFormat"  
+ [3] "FragPipetoMSstatsFormat"    "MaxQtoMSstatsFormat"       
+ [5] "OpenMStoMSstatsFormat"      "OpenSWATHtoMSstatsFormat"  
+ [7] "PDtoMSstatsFormat"          "ProgenesistoMSstatsFormat" 
+ [9] "SkylinetoMSstatsFormat"     "SpectronauttoMSstatsFormat"
+
+
+==== probe complete ====
