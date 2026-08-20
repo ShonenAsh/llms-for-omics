@@ -33,12 +33,18 @@ runFullAnalysis <- function(normalization) {
   qd <- dataProcess(raw, use_log_file = FALSE, verbose = FALSE,
                      normalization = normalization, MBimpute = FALSE)
 
-  groups <- sort(levels(qd$ProteinLevelData$GROUP))
-  comparison <- matrix(c(1, -1, 0,
-                          0, -1, 1), nrow = 2, byrow = TRUE)
-  colnames(comparison) <- groups
-  row.names(comparison) <- c(paste(groups[1], groups[2], sep = "-"),
-                              paste(groups[3], groups[2], sep = "-"))
+  # Build the contrast matrix by matching group NAMES explicitly, not by
+  # sorted position -- sort() order for "DbET6"/"DMSO"/"PF477736" depends on
+  # the active locale (en_US.UTF-8 vs C/POSIX disagree), which would silently
+  # flip which condition is +1 vs -1 if indexed by position. See
+  # tests/test_05_choose_normalization_talus.R for the same fix.
+  groups <- levels(qd$ProteinLevelData$GROUP)
+  comparison <- matrix(0, nrow = 2, ncol = length(groups),
+                        dimnames = list(c("DbET6-DMSO", "PF477736-DMSO"), groups))
+  comparison["DbET6-DMSO", "DbET6"] <- 1
+  comparison["DbET6-DMSO", "DMSO"] <- -1
+  comparison["PF477736-DMSO", "PF477736"] <- 1
+  comparison["PF477736-DMSO", "DMSO"] <- -1
 
   cmp <- groupComparison(contrast.matrix = comparison, data = qd,
                           use_log_file = FALSE, verbose = FALSE)$ComparisonResult

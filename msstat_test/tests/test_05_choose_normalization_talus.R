@@ -55,12 +55,20 @@ test_that("task_05_choose_normalization_talus: SE on landmark proteins logged ag
   expect_type(result, "list")
   expect_true("ProteinLevelData" %in% names(result))
 
-  groups <- sort(levels(result$ProteinLevelData$GROUP))
-  comparison <- matrix(c(1, -1, 0,
-                          0, -1, 1), nrow = 2, byrow = TRUE)
-  colnames(comparison) <- groups
-  row.names(comparison) <- c(paste(groups[1], groups[2], sep = "-"),
-                              paste(groups[3], groups[2], sep = "-"))
+  # Build the contrast matrix by matching group NAMES explicitly, not by
+  # sorted position -- sort() order for mixed-case strings like "DbET6" vs
+  # "DMSO" depends on the active locale (confirmed: en_US.UTF-8 sorts
+  # DbET6 < DMSO < PF477736, but C/POSIX locale -- the likely container
+  # default -- sorts DMSO < DbET6 < PF477736). Indexing by position after
+  # sort() silently flips which condition is +1 vs -1 depending on locale;
+  # indexing by name is locale-independent.
+  groups <- levels(result$ProteinLevelData$GROUP)
+  comparison <- matrix(0, nrow = 2, ncol = length(groups),
+                        dimnames = list(c("DbET6-DMSO", "PF477736-DMSO"), groups))
+  comparison["DbET6-DMSO", "DbET6"] <- 1
+  comparison["DbET6-DMSO", "DMSO"] <- -1
+  comparison["PF477736-DMSO", "PF477736"] <- 1
+  comparison["PF477736-DMSO", "DMSO"] <- -1
 
   # Harness-side, fixed comparison step -- the submission does not control this call.
   cmp <- MSstats::groupComparison(contrast.matrix = comparison, data = result,
