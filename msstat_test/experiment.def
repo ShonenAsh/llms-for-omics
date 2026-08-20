@@ -9,7 +9,7 @@ From: msstats-bench-base.sif
     generate.py /workspace/generate.py
     benchmark.R /workspace/benchmark.R
     run.sh /workspace/run.sh
-    exp_2a/Prompt.md /workspace/Prompt.md
+    exp_2a/Prompt.md /workspace/exp_2a/Prompt.md
 
 %post
     chmod +x /workspace/run.sh
@@ -26,4 +26,9 @@ From: msstats-bench-base.sif
     export CONDITION=%%LEVEL%%
 
 %runscript
-    exec /workspace/run.sh "$@"
+    # Apptainer has no Docker-style WORKDIR -- without this `cd`, run.sh's
+    # relative paths (docs_conditions/, exp_2a/Prompt.md, submissions/, tests/)
+    # would resolve against whatever directory the caller happens to be in,
+    # not /workspace.
+    cd /workspace
+    exec ./run.sh "$@"
