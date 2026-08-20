@@ -21,6 +21,13 @@ From: python:3.13-slim
         "litellm>=1.40.0" \
         "instructor>=1.7.0" \
         "pydantic>=2.0.0"
+    # RcppArmadillo (a MSstats dependency) requires a C++14 compiler, but R
+    # falls back to -std=gnu++11 unless told otherwise, which fails with
+    # "*** C++14 compiler required" from armadillo_bits/compiler_check.hpp.
+    # Force C++14 as the default standard for all package builds, system-wide,
+    # before anything gets compiled.
+    mkdir -p /usr/lib/R/etc && \
+    printf 'CXX11STD = -std=gnu++14\nCXX14 = g++\nCXX14STD = -std=gnu++14\n' >> /usr/lib/R/etc/Makevars.site
     # MSstats is a Bioconductor package with a fairly heavy transitive
     # dependency tree (ggplot2, limma, preprocessCore, ...). BiocManager
     # auto-selects the Bioconductor release matching the installed R version,
