@@ -1,0 +1,34 @@
+Bootstrap: localimage
+From: msstats-bench-base.sif
+
+%files
+    tasks /workspace/tasks
+    tests /workspace/tests
+    reference /workspace/reference
+    extract_docs.R /workspace/extract_docs.R
+    generate.py /workspace/generate.py
+    benchmark.R /workspace/benchmark.R
+    run.sh /workspace/run.sh
+    exp_2a/Prompt.md /workspace/exp_2a/Prompt.md
+
+%post
+    chmod +x /workspace/run.sh
+    cd /workspace
+    # Unlike r_polars_test (which bakes a single doc condition into tasks/ at
+    # build time via `extract_docs.R %%LEVEL%%`), this builds ALL conditions --
+    # cheap, no network fetch, just the installed Rd db. run.sh already
+    # dynamically picks docs_conditions/$CONDITION/ at runtime, so %%LEVEL%%
+    # below only sets this image's default CONDITION, not what gets built here.
+    Rscript extract_docs.R
+
+%environment
+    export EXPERIMENT=%%EXPERIMENT%%
+    export CONDITION=%%LEVEL%%
+
+%runscript
+    # Apptainer has no Docker-style WORKDIR -- without this `cd`, run.sh's
+    # relative paths (docs_conditions/, exp_2a/Prompt.md, submissions/, tests/)
+    # would resolve against whatever directory the caller happens to be in,
+    # not /workspace.
+    cd /workspace
+    exec ./run.sh "$@"

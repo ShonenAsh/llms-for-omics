@@ -1,0 +1,31 @@
+FROM python:3.13-slim
+
+WORKDIR /workspace
+
+RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    r-base \
+    r-base-dev \
+    curl \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
+    && rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir \
+        "litellm>=1.40.0" \
+        "instructor>=1.7.0" \
+        "pydantic>=2.0.0" && \
+    mkdir -p /usr/lib/R/etc && \
+    printf 'CXX11STD = -std=gnu++14\nCXX14 = g++\nCXX14STD = -std=gnu++14\n' >> /usr/lib/R/etc/Makevars.site && \
+    R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); pak::pkg_install(c("bioc::MSstats", "bioc::MSstatsConvert", "testthat", "callr"))'
+
+ENV MODEL=claude-opus-4-6
+ENV RUNS=1
+ENV PYTHONUNBUFFERED=1

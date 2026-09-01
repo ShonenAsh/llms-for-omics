@@ -1,0 +1,27 @@
+FROM msstats-bench:base
+
+ARG EXPERIMENT=exp_2a
+ARG LEVEL=one_example
+
+COPY tasks/ tasks/
+COPY tests/ tests/
+COPY reference/ reference/
+COPY extract_docs.R .
+COPY generate.py .
+COPY benchmark.R .
+COPY run.sh .
+RUN chmod +x run.sh
+
+# Unlike r_polars_test (which bakes a single doc condition into tasks/ at
+# build time via `extract_docs.R "${LEVEL}"` + copying it over tasks/), this
+# builds ALL conditions -- cheap, no network fetch, just the installed Rd db.
+# run.sh already dynamically picks docs_conditions/$CONDITION/ at runtime, so
+# LEVEL below only sets this image's default CONDITION, not what gets built.
+RUN Rscript extract_docs.R
+
+COPY exp_2a/Prompt.md exp_2a/Prompt.md
+
+ENV EXPERIMENT=${EXPERIMENT}
+ENV CONDITION=${LEVEL}
+
+ENTRYPOINT ["./run.sh"]
